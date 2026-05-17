@@ -2,3 +2,5 @@
 .DS_Store
 **/.DS_Store
 .env*.local
+.next
+node_modules
