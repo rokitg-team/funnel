@@ -1,16 +1,9 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { getHeroActionsHtml } from '@/components/hero-actions';
-import { mainCtaFlag, marketingFlags } from '@/flags';
 
-type PageProps = {
-  params: Promise<{ code: string }>;
-};
-
-export default async function Page({ params }: PageProps) {
-  const { code } = await params;
-  const mainCta = await mainCtaFlag(code, marketingFlags);
-  const heroHtml = getHeroActionsHtml(mainCta);
+export default function HomePage() {
+  const heroHtml = getHeroActionsHtml();
 
   let body = readFileSync(
     join(process.cwd(), 'content/page-body.html'),

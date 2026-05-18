@@ -240,6 +240,18 @@
       transition: all 0.2s;
     }
     .btn-ghost:hover { border-color: var(--green); color: var(--green); }
+
+    .btn-cta-blue {
+      background: linear-gradient(135deg, #4f8cff 0%, #2563eb 100%);
+      color: #fff;
+      box-shadow: 0 0 32px rgba(37, 99, 235, 0.45);
+    }
+    .btn-cta-blue:hover {
+      background: linear-gradient(135deg, #6ba1ff 0%, #3b82f6 100%);
+      color: #fff;
+      box-shadow: 0 0 48px rgba(59, 130, 246, 0.55);
+      transform: translateY(-2px);
+    }
   
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
@@ -655,7 +667,8 @@
       <a href="#signals">Signals</a>
       <a href="#features">Features</a>
       <a href="#pricing">Pricing</a>
-      <a href="https://buy.stripe.com/test_8x24gy9sy0M67Ru6H6g3604" target="_blank" class="nav-cta" onclick="va('event',{name:'CTA Click',data:{location:'nav'}})">JOIN NOW →</a>
+      <a href="/reviews">Reviews</a>
+      <a href="https://whop.com/the-circle-vip" target="_blank" rel="noopener noreferrer" class="nav-cta" onclick="va('event',{name:'CTA Click',data:{location:'nav'}})">JOIN NOW →</a>
     </div>
   </nav>
   
@@ -677,16 +690,9 @@
         Real-time memecoin & altcoin signals from <strong>@rokitdotgg</strong>.
         Stop guessing. Start following the chart.
       </p>
-      <div class="hero-actions">
-        <script async
-        src="https://js.stripe.com/v3/buy-button.js">
-      </script>
-      
-      <stripe-buy-button
-        buy-button-id="buy_btn_1TY87JIOsZzxHQfmg0gT4Vpg"
-        publishable-key="pk_live_51MgDRcIOsZzxHQfmnoEljudJkffbemfSjxXNhmsmtHnM30bNTNp0i8EbqsG6JTevw0WTagoN7ZbHPpl83OK98T60003xk51Vq7"
-      >
-      </stripe-buy-button>
+            <div class="hero-actions">
+        <a href="https://whop.com/the-circle-vip" target="_blank" rel="noopener noreferrer" class="btn-primary btn-cta-blue" onclick="va('event',{name:'CTA Click',data:{location:'hero'}})">JOIN THE CIRCLE →</a>
+        <a href="#signals" class="btn-ghost" onclick="va('event',{name:'CTA Click',data:{location:'hero-secondary'}})">SEE SIGNALS ↓</a>
       </div>
     </div>
   </div>
@@ -861,6 +867,9 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="testimonials-cta-row">
+        <a href="/reviews">READ ALL REVIEWS →</a>
       </div>
     </div>
   </div>
