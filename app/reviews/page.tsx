@@ -18,57 +18,7 @@ export default function ReviewsPage() {
       <SiteNav active="reviews" />
 
       <main className="reviews-page">
-        <section className="reviews-hero">
-          <div className="section-tag">{'// MEMBER REVIEWS'}</div>
-          <h1>
-            TRADERS WHO
-            <br />
-            <span className="green">ACTUALLY PRINT</span>
-          </h1>
-          <p className="reviews-hero-sub">
-            {reviews.length} verified member stories ·{' '}
-            <strong>{average.toFixed(1)}</strong> average rating
-          </p>
-          <div className="hero-actions">
-            <a
-              href="https://whop.com/the-circle-vip"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary btn-cta-blue"
-            >
-              JOIN THE CIRCLE →
-            </a>
-            <Link href="/#pricing" className="btn-ghost">
-              VIEW PRICING
-            </Link>
-          </div>
-        </section>
 
-        <section className="reviews-grid-section">
-          <div className="reviews-grid">
-            {reviews.map((review) => (
-              <article key={review.id} className="testi-card review-card">
-                <div
-                  className="stars"
-                  aria-label={`${review.rating} out of 5 stars`}
-                >
-                  {'★'.repeat(review.rating)}
-                </div>
-                {review.plan ? (
-                  <span className="review-plan">{review.plan}</span>
-                ) : null}
-                <p className="testi-text">{review.text}</p>
-                <div className="testi-author">
-                  <div className="testi-avatar">{review.initials}</div>
-                  <div>
-                    <div className="testi-name">{review.name}</div>
-                    <div className="testi-handle">{review.handle}</div>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
 
         <section className="cta-section reviews-cta">
           <div style={{ position: 'relative', zIndex: 2 }}>

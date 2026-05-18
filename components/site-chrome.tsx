@@ -43,7 +43,7 @@ export function SiteFooter() {
         <Link href="/#pricing">PRICING</Link>
         <Link href="/reviews">REVIEWS</Link>
         <a
-          href="https://whop.com/the-circle-vip"
+          href="/#pricing"
           target="_blank"
           rel="noopener noreferrer"
           className="nav-cta"
