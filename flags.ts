@@ -1,7 +1,7 @@
 import { vercelAdapter } from '@flags-sdk/vercel';
 import { flag } from 'flags/next';
 
-export const WHOP_URL = 'https://whop.com/the-circle-vip';
+export const WHOP_URL = 'https://whop.com/joined/the-circle-vip/products/the-circle-monthly/';
 export const WHOP_BASE_PLAN_URL = 'https://whop.com/checkout/plan_W42reYbE8ViaR';
 export const WHOP_ELITE_PLAN_URL = 'https://whop.com/checkout/plan_QFUNiFOeal3xK';
 

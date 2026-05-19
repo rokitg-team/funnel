@@ -194,8 +194,7 @@ export const marketingCopy: Record<FunnelLocale, MarketingCopy> = {
     sectionPricingTag: '// JOIN TODAY',
     pricingTitle: 'CHOOSE YOUR',
     pricingAccent: 'ACCESS LEVEL',
-    pricingSub:
-      'All plans give you access to The Circle. Secure your spot and start receiving signals immediately.',
+    pricingSub: 'All plans give you access to The Circle.',
     basicPeriod: 'per month',
     basicFeature1: 'All live signals',
     basicFeature2: 'Entry + stop loss levels',
@@ -279,8 +278,7 @@ export const marketingCopy: Record<FunnelLocale, MarketingCopy> = {
     sectionPricingTag: '// ENTRA HOY',
     pricingTitle: 'ELIGE TU',
     pricingAccent: 'NIVEL DE ACCESO',
-    pricingSub:
-      'Todos los planes te dan acceso a The Circle. Asegura tu plaza y empieza a recibir señales al instante.',
+    pricingSub: 'Todos los planes te dan acceso a The Circle.',
     basicPeriod: 'por mes',
     basicFeature1: 'Todas las señales en vivo',
     basicFeature2: 'Niveles de entrada + stop loss',
