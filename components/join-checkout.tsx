@@ -150,7 +150,7 @@ export function JoinCheckout() {
 
               <div className="direct-offer-grid">
                 <div className="direct-offer-stat">
-                  <strong>$999</strong>
+                  <strong>$99</strong>
                   <span>one-time</span>
                 </div>
                 <div className="direct-offer-stat">

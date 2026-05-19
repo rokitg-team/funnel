@@ -32,6 +32,258 @@
       --glow: 0 0 40px rgba(91,169,255,0.18);
     }
 
+    .waitlist-page-shell {
+      min-height: 100vh;
+      padding: 120px 24px 56px;
+    }
+    .soft-close-banner {
+      max-width: 1200px;
+      margin: 18px auto 0;
+      padding: 22px 24px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,120,72,0.18);
+      background:
+        radial-gradient(circle at top left, rgba(255,120,72,0.16), transparent 38%),
+        linear-gradient(180deg, rgba(17,12,11,0.94) 0%, rgba(12,10,10,0.9) 100%);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.26);
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+    }
+    .soft-close-copy {
+      display: grid;
+      gap: 8px;
+    }
+    .soft-close-copy strong {
+      color: #fff;
+      font-size: 26px;
+      line-height: 1;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 1px;
+    }
+    .soft-close-copy p {
+      margin: 0;
+      max-width: 62ch;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .soft-close-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 26px;
+      min-width: 220px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ff6f3d 0%, #ff9a52 100%);
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      box-shadow: 0 14px 32px rgba(255,111,61,0.28);
+    }
+    .proof-block {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 90px 48px 42px;
+    }
+    .proof-block-head {
+      display: grid;
+      gap: 18px;
+      max-width: 760px;
+    }
+    .proof-block-grid {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .proof-card {
+      padding: 24px 22px;
+      border-radius: 20px;
+      border: 1px solid rgba(91,169,255,0.12);
+      background:
+        radial-gradient(circle at top left, rgba(91,169,255,0.08), transparent 36%),
+        rgba(255,255,255,0.03);
+      box-shadow: 0 18px 48px rgba(0,0,0,0.2);
+    }
+    .proof-card strong {
+      display: block;
+      color: #fff;
+      font-size: 25px;
+      line-height: 1.08;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.6px;
+    }
+    .proof-card p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .proof-block-actions {
+      margin-top: 24px;
+      display: flex;
+      justify-content: flex-start;
+    }
+    .proof-block-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 24px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #345fae 0%, #5ba9ff 100%);
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      box-shadow: 0 16px 34px rgba(91,169,255,0.24);
+    }
+    .waitlist-gate {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 96px 48px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
+      gap: 26px;
+      align-items: start;
+    }
+    .waitlist-gate.is-compact {
+      padding: 56px 22px;
+    }
+    .waitlist-copy,
+    .waitlist-form-shell {
+      border-radius: 24px;
+      border: 1px solid rgba(91,169,255,0.14);
+      background:
+        radial-gradient(circle at top left, rgba(91,169,255,0.1), transparent 40%),
+        linear-gradient(180deg, rgba(8,12,20,0.98) 0%, rgba(8,12,20,0.92) 100%);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.34);
+    }
+    .waitlist-copy {
+      padding: 30px;
+      display: grid;
+      gap: 22px;
+    }
+    .waitlist-form-shell {
+      padding: 22px;
+      position: sticky;
+      top: 108px;
+      display: grid;
+      gap: 16px;
+    }
+    .waitlist-proof-row {
+      display: grid;
+      gap: 14px;
+    }
+    .waitlist-proof-card {
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+    }
+    .waitlist-proof-card strong {
+      display: block;
+      color: #fff;
+      font-size: 18px;
+    }
+    .waitlist-proof-card span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .waitlist-form-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .waitlist-form-label {
+      color: #9bc8ff;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+    .waitlist-form-title {
+      margin-top: 8px;
+      color: #fff;
+      font-size: 30px;
+      line-height: 1;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 1px;
+    }
+    .waitlist-form-pill {
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(91,169,255,0.2);
+      background: rgba(91,169,255,0.08);
+      color: #d3e7ff;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .waitlist-iframe {
+      width: 100%;
+      min-height: 680px;
+      border: 0;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.02);
+    }
+    .waitlist-fallback-card {
+      padding: 22px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      display: grid;
+      gap: 14px;
+    }
+    .waitlist-fallback-card strong {
+      color: #fff;
+      font-size: 18px;
+    }
+    .waitlist-fallback-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .waitlist-fallback-card code {
+      color: #fff;
+      font-family: 'Space Mono', monospace;
+    }
+
+    @media (max-width: 980px) {
+      .soft-close-banner {
+        margin: 18px 20px 0;
+        padding: 20px;
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .soft-close-cta {
+        width: 100%;
+      }
+      .proof-block {
+        padding: 62px 20px 28px;
+      }
+      .proof-block-grid {
+        grid-template-columns: 1fr;
+      }
+      .waitlist-gate {
+        grid-template-columns: 1fr;
+        padding: 64px 20px;
+      }
+      .waitlist-form-shell {
+        position: static;
+        top: auto;
+      }
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     html { scroll-behavior: smooth; }

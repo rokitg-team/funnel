@@ -346,7 +346,7 @@ export function LifetimeCheckout({ ens }: LifetimeCheckoutProps) {
                         onChange={(event) =>
                           setForm((current) => ({ ...current, amount: event.target.value }))
                         }
-                        placeholder="999 USDC"
+                        placeholder="99 USDC"
                       />
                     </label>
                   </div>

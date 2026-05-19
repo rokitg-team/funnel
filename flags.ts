@@ -6,10 +6,14 @@ import {
   getLifetimePrimaryHref,
   type PlanKey,
 } from '@/lib/access-plans';
+import { getWaitlistHref } from '@/lib/waitlist';
 
 export const WHOP_URL = 'https://whop.com/joined/the-circle-vip/products/the-circle-monthly/';
 
 export type WhopCtaExperimentVariant = 'control' | 'embed-base-scroll';
+export type HomepagePrimaryOfferVariant = 'lifetime-direct' | 'free-trial' | 'waitlist-apply';
+export type ProofBlockVariant = 'platform-proof' | 'community-proof' | 'results-proof';
+export type ClosedDoorModeVariant = 'open' | 'soft-close' | 'hard-close';
 
 export type WhopCtaLocation =
   | 'hero'
@@ -43,6 +47,53 @@ export const whopCtaExperiment = flag<WhopCtaExperimentVariant>({
       value: 'embed-base-scroll',
       label: 'Route scrolled CTA clicks to embedded base monthly checkout',
     },
+  ],
+  adapter: vercelAdapter(),
+});
+
+export const groupClosedFlag = flag<boolean>({
+  key: 'group-closed',
+  description: 'Close the group and route funnel traffic into the waitlist flow',
+  defaultValue: false,
+  options: [
+    { value: false, label: 'Open' },
+    { value: true, label: 'Closed / waitlist only' },
+  ],
+  adapter: vercelAdapter(),
+});
+
+export const homepagePrimaryOfferFlag = flag<HomepagePrimaryOfferVariant>({
+  key: 'homepage-primary-offer',
+  description: 'Tests which primary offer should lead the homepage funnel',
+  defaultValue: 'lifetime-direct',
+  options: [
+    { value: 'lifetime-direct', label: 'Push direct lifetime first' },
+    { value: 'free-trial', label: 'Lead with free trial' },
+    { value: 'waitlist-apply', label: 'Lead with waitlist / apply' },
+  ],
+  adapter: vercelAdapter(),
+});
+
+export const proofBlockVariantFlag = flag<ProofBlockVariant>({
+  key: 'proof-block-variant',
+  description: 'Tests which proof section earns the strongest homepage conversion lift',
+  defaultValue: 'platform-proof',
+  options: [
+    { value: 'platform-proof', label: 'Whop / members / verified X proof' },
+    { value: 'community-proof', label: 'Community structure and Discord feel' },
+    { value: 'results-proof', label: 'Results and operator review proof' },
+  ],
+  adapter: vercelAdapter(),
+});
+
+export const closedDoorModeFlag = flag<ClosedDoorModeVariant>({
+  key: 'closed-door-mode',
+  description: 'Tests scarcity intensity from fully open to full waitlist takeover',
+  defaultValue: 'open',
+  options: [
+    { value: 'open', label: 'Normal open funnel' },
+    { value: 'soft-close', label: 'Almost full banner while checkout stays open' },
+    { value: 'hard-close', label: 'Waitlist-only takeover mode' },
   ],
   adapter: vercelAdapter(),
 });
@@ -89,9 +140,51 @@ export function getWhopCtaAnchorAttrs(
   return href.startsWith('https://') ? 'target="_blank" rel="noopener noreferrer"' : '';
 }
 
+export function getMarketingCtaHref(
+  location: WhopCtaLocation,
+  variant: WhopCtaExperimentVariant,
+  groupClosed: boolean,
+) {
+  if (groupClosed) {
+    return getWaitlistHref({ cta: location, variant, mode: 'closed' });
+  }
+
+  return getWhopCtaHref(location, variant);
+}
+
+export function getMarketingCtaAnchorAttrs(
+  location: WhopCtaLocation,
+  variant: WhopCtaExperimentVariant,
+  groupClosed: boolean,
+) {
+  if (groupClosed) {
+    return '';
+  }
+
+  return getWhopCtaAnchorAttrs(location, variant);
+}
+
+export function getEffectiveClosedDoorMode(
+  closedDoorMode: ClosedDoorModeVariant,
+  groupClosed: boolean,
+) {
+  return groupClosed ? 'hard-close' : closedDoorMode;
+}
+
 export const flagDefinitions = {
   mainCtaFlag,
   whopCtaExperiment,
+  groupClosedFlag,
+  homepagePrimaryOfferFlag,
+  proofBlockVariantFlag,
+  closedDoorModeFlag,
 } as const;
 
-export const marketingFlags = [mainCtaFlag, whopCtaExperiment] as const;
+export const marketingFlags = [
+  mainCtaFlag,
+  whopCtaExperiment,
+  groupClosedFlag,
+  homepagePrimaryOfferFlag,
+  proofBlockVariantFlag,
+  closedDoorModeFlag,
+] as const;

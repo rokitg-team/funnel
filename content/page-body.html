@@ -10,7 +10,7 @@
         <span class="promo-code-code">ALPHA</span>
       </span>
     </span>
-    <a href="__PROMO_BANNER_CTA_URL__" __PROMO_BANNER_CTA_ATTRS__ class="promo-cta" onclick="window.rokitTrack && window.rokitTrack('cta-promo-banner',{location:'promo-banner',destination:'lifetime',plan:'lifetime'})">
+    <a href="__PROMO_BANNER_CTA_URL__" __PROMO_BANNER_CTA_ATTRS__ class="promo-cta" onclick="window.rokitTrack && window.rokitTrack('cta-promo-banner',{location:'promo-banner',destination:'__PROMO_TRACK_DESTINATION__',plan:'__PROMO_TRACK_DESTINATION__'})">
       __PROMO_CTA__
     </a>
   </div>
@@ -24,7 +24,7 @@
       <a href="/kick">Kick</a>
       <a href="/sponsors">Reflinks</a>
       <a href="/reviews">Reviews</a>
-      <a href="__NAV_CTA_URL__" __NAV_CTA_ATTRS__ class="nav-cta" onclick="window.rokitTrack && window.rokitTrack('cta-nav-lifetime',{location:'nav-lifetime',destination:'lifetime',plan:'lifetime'})">BUY LIFETIME →</a>
+      <a href="__NAV_CTA_URL__" __NAV_CTA_ATTRS__ class="nav-cta" onclick="window.rokitTrack && window.rokitTrack('cta-nav-lifetime',{location:'nav-lifetime',destination:'__NAV_CTA_TRACK_DESTINATION__',plan:'__NAV_CTA_TRACK_DESTINATION__'})">__NAV_CTA_LABEL__</a>
     </div>
   </nav>
   
@@ -127,46 +127,10 @@
       <div class="stat-label">Average Rating</div>
     </div>
   </div>
+
+  __SOFT_CLOSE_NOTICE__
   
-  <!-- FEATURES -->
-  <section id="features" data-va-section="features">
-    <div class="section-tag">__SECTION_FEATURES_TAG__</div>
-    <h2>__FEATURES_TITLE__<br>__FEATURES_PREFIX__<span class="green">__FEATURES_ACCENT__</span></h2>
-    <p class="section-sub">__FEATURES_SUB__</p>
-  
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feat-icon">⚡</div>
-        <div class="feat-title">__FEATURE_REALTIME_TITLE__</div>
-        <p class="feat-desc">__FEATURE_REALTIME_DESC__</p>
-      </div>
-      <div class="feature-card">
-        <div class="feat-icon">🎯</div>
-        <div class="feat-title">__FEATURE_ENTRY_TITLE__</div>
-        <p class="feat-desc">__FEATURE_ENTRY_DESC__</p>
-      </div>
-      <div class="feature-card">
-        <div class="feat-icon">🔍</div>
-        <div class="feat-title">__FEATURE_ANALYSIS_TITLE__</div>
-        <p class="feat-desc">__FEATURE_ANALYSIS_DESC__</p>
-      </div>
-      <div class="feature-card">
-        <div class="feat-icon">👥</div>
-        <div class="feat-title">__FEATURE_COMMUNITY_TITLE__</div>
-        <p class="feat-desc">__FEATURE_COMMUNITY_DESC__</p>
-      </div>
-      <div class="feature-card">
-        <div class="feat-icon">📈</div>
-        <div class="feat-title">__FEATURE_MEME_TITLE__</div>
-        <p class="feat-desc">__FEATURE_MEME_DESC__</p>
-      </div>
-      <div class="feature-card">
-        <div class="feat-icon">🧠</div>
-        <div class="feat-title">__FEATURE_EDUCATION_TITLE__</div>
-        <p class="feat-desc">__FEATURE_EDUCATION_DESC__</p>
-      </div>
-    </div>
-  </section>
+  __PROOF_BLOCK__
   
   <!-- SIGNAL SHOWCASE — banger edit + format reference -->
   <div class="signal-section" id="signals" data-va-section="signals">
@@ -211,7 +175,7 @@
         href="__DISCORD_PREVIEW_CTA_URL__"
         __DISCORD_PREVIEW_CTA_ATTRS__
         class="discord-preview-cta"
-        onclick="window.rokitTrack && window.rokitTrack('cta-discord-preview',{location:'discord-preview',plan:'lifetime',destination:'lifetime'})"
+        onclick="window.rokitTrack && window.rokitTrack('cta-discord-preview',{location:'discord-preview',plan:'__NAV_CTA_TRACK_DESTINATION__',destination:'__NAV_CTA_TRACK_DESTINATION__'})"
       >
         GET INSIDE →
       </a>
@@ -350,7 +314,7 @@
       <div class="section-tag" style="text-align:center;">__FINAL_TAG__</div>
       <h2>__FINAL_TITLE_BEFORE__<br><span class="green">__FINAL_TITLE_ACCENT__</span></h2>
       <p>__FINAL_SUB__</p>
-      <a href="__FINAL_CTA_URL__" __FINAL_CTA_ATTRS__ class="btn-primary" style="font-size:15px;padding:20px 48px;" onclick="window.rokitTrack && window.rokitTrack('cta-final',{location:'final-cta',plan:'lifetime',destination:'lifetime'})">
+      <a href="__FINAL_CTA_URL__" __FINAL_CTA_ATTRS__ class="btn-primary" style="font-size:15px;padding:20px 48px;" onclick="window.rokitTrack && window.rokitTrack('cta-final',{location:'final-cta',plan:'__FINAL_CTA_TRACK_DESTINATION__',destination:'__FINAL_CTA_TRACK_DESTINATION__'})">
         __FINAL_CTA__
       </a>
     </div>
@@ -360,7 +324,7 @@
   <footer>
     <div class="logo">ROKIT<span>G</span>.FUN</div>
     <div class="footer-links">
-      <a href="__FOOTER_LIFETIME_URL__" __FOOTER_LIFETIME_ATTRS__>BUY LIFETIME</a>
+      <a href="__FOOTER_LIFETIME_URL__" __FOOTER_LIFETIME_ATTRS__>__FOOTER_CTA_LABEL__</a>
       <a href="/sponsors">REFLINKS</a>
       <a href="https://x.com/rokitdotgg" target="_blank" rel="noopener noreferrer">__FOOTER_X_LABEL__</a>
       <a href="/links">ALL LINKS</a>
