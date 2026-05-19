@@ -1,9 +1,13 @@
 import { vercelAdapter } from '@flags-sdk/vercel';
 import { flag } from 'flags/next';
+import {
+  getJoinPlanHref,
+  getLifetimePrimaryAnchorAttrs,
+  getLifetimePrimaryHref,
+  type PlanKey,
+} from '@/lib/access-plans';
 
 export const WHOP_URL = 'https://whop.com/joined/the-circle-vip/products/the-circle-monthly/';
-export const WHOP_BASE_PLAN_URL = 'https://whop.com/checkout/plan_W42reYbE8ViaR';
-export const WHOP_ELITE_PLAN_URL = 'https://whop.com/checkout/plan_QFUNiFOeal3xK';
 
 export type WhopCtaExperimentVariant = 'control' | 'embed-base-scroll';
 
@@ -11,8 +15,9 @@ export type WhopCtaLocation =
   | 'hero'
   | 'promo-banner'
   | 'nav'
-  | 'pricing-basic'
-  | 'pricing-elite'
+  | 'pricing-free_trial'
+  | 'pricing-monthly'
+  | 'pricing-lifetime'
   | 'final-cta';
 
 export const mainCtaFlag = flag<boolean>({
@@ -41,40 +46,25 @@ export const whopCtaExperiment = flag<WhopCtaExperimentVariant>({
   adapter: vercelAdapter(),
 });
 
-const highIntentCtaLocations = new Set<WhopCtaLocation>([
-  'pricing-basic',
-  'pricing-elite',
-  'final-cta',
-]);
-
-function buildEmbeddedWhopUrl(
-  location: WhopCtaLocation,
-  variant: WhopCtaExperimentVariant,
-  plan: 'base' | 'elite',
-) {
-  const url = new URL('/whop', 'https://rokitg.fun');
-  url.searchParams.set('cta', location);
-  url.searchParams.set('plan', plan);
-  url.searchParams.set('variant', variant);
-  return url.toString();
+function buildJoinUrl(location: WhopCtaLocation, variant: WhopCtaExperimentVariant, plan: PlanKey) {
+  return getJoinPlanHref(plan, { cta: location, variant });
 }
 
 export function getWhopCtaHref(location: WhopCtaLocation, variant: WhopCtaExperimentVariant) {
-  if (location === 'final-cta') {
-    return buildEmbeddedWhopUrl(location, variant, 'base');
-  }
-
-  if (variant === 'embed-base-scroll' && highIntentCtaLocations.has(location)) {
-    return buildEmbeddedWhopUrl(location, variant, 'base');
-  }
-
   switch (location) {
-    case 'pricing-basic':
-      return WHOP_BASE_PLAN_URL;
-    case 'pricing-elite':
-      return WHOP_ELITE_PLAN_URL;
+    case 'pricing-free_trial':
+      return buildJoinUrl(location, variant, 'free_trial');
+    case 'pricing-monthly':
+      return buildJoinUrl(location, variant, 'monthly');
+    case 'pricing-lifetime':
+      return getLifetimePrimaryHref({ cta: location, variant });
+    case 'nav':
+    case 'hero':
+    case 'promo-banner':
+    case 'final-cta':
+      return getLifetimePrimaryHref({ cta: location, variant });
     default:
-      return WHOP_URL;
+      return getLifetimePrimaryHref({ cta: location, variant });
   }
 }
 
@@ -82,13 +72,18 @@ export function getWhopCtaAnchorAttrs(
   location: WhopCtaLocation,
   variant: WhopCtaExperimentVariant,
 ) {
-  const href = getWhopCtaHref(location, variant);
-
-  if (href.startsWith('https://rokitg.fun/')) {
-    return '';
+  if (
+    location === 'hero' ||
+    location === 'nav' ||
+    location === 'promo-banner' ||
+    location === 'pricing-lifetime' ||
+    location === 'final-cta'
+  ) {
+    return getLifetimePrimaryAnchorAttrs();
   }
 
-  return 'target="_blank" rel="noopener noreferrer"';
+  const href = getWhopCtaHref(location, variant);
+  return href.startsWith('https://') ? 'target="_blank" rel="noopener noreferrer"' : '';
 }
 
 export const flagDefinitions = {

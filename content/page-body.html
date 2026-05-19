@@ -10,7 +10,7 @@
         <span class="promo-code-code">ALPHA</span>
       </span>
     </span>
-    <a href="__PROMO_BANNER_CTA_URL__" __PROMO_BANNER_CTA_ATTRS__ class="promo-cta" onclick="window.rokitTrack && window.rokitTrack('cta-promo-banner',{location:'promo-banner',destination:'whop'})">
+    <a href="__PROMO_BANNER_CTA_URL__" __PROMO_BANNER_CTA_ATTRS__ class="promo-cta" onclick="window.rokitTrack && window.rokitTrack('cta-promo-banner',{location:'promo-banner',destination:'lifetime',plan:'lifetime'})">
       __PROMO_CTA__
     </a>
   </div>
@@ -22,9 +22,9 @@
       <a href="/whop">Whop</a>
       <a href="/newsletter">Newsletter</a>
       <a href="/kick">Kick</a>
-      <a href="/sponsors">Sponsors</a>
+      <a href="/sponsors">Reflinks</a>
       <a href="/reviews">Reviews</a>
-      <a href="#signals" class="nav-cta" onclick="window.rokitTrack && window.rokitTrack('cta-nav-signals',{location:'nav-signals',destination:'signals'})">__NAV_SIGNALS__</a>
+      <a href="__NAV_CTA_URL__" __NAV_CTA_ATTRS__ class="nav-cta" onclick="window.rokitTrack && window.rokitTrack('cta-nav-lifetime',{location:'nav-lifetime',destination:'lifetime',plan:'lifetime'})">BUY LIFETIME →</a>
     </div>
   </nav>
   
@@ -170,28 +170,14 @@
   
   <!-- SIGNAL SHOWCASE — banger edit + format reference -->
   <div class="signal-section" id="signals" data-va-section="signals">
-    <div>
+    <div class="signal-copy">
       <div class="section-tag">__SECTION_SIGNAL_TAG__</div>
       <h2>__SIGNAL_TITLE_BEFORE__<br><span class="green">__SIGNAL_TITLE_ACCENT__</span><br>__SIGNAL_TITLE_AFTER__</h2>
       <p class="section-sub" style="margin-top:20px;">
         __SIGNAL_SUB__
       </p>
-      <div class="signal-card" style="margin-top:28px;">
-        <div class="signal-header">
-          <span class="signal-pair">TON / USDT</span>
-          <span class="signal-type">LONG ▲</span>
-        </div>
-        <div class="signal-row"><span class="key">ENTRY ZONE</span><span class="val">~$2.40</span></div>
-        <div class="signal-row"><span class="key">RESULT</span><span class="val up">2x · doubled <small>+100%</small></span></div>
-        <div class="signal-row"><span class="key">TIMEFRAME</span><span class="val">Days</span></div>
-        <div class="signal-row"><span class="key">CONFIDENCE</span><span class="val up">HIGH ●●●●○</span></div>
-        <div class="signal-footer">
-          <div class="dot"></div>
-          LIVE CALL — ROKITG · THE CIRCLE
-        </div>
-      </div>
     </div>
-    <div>
+    <div class="signal-video-stage">
       <div class="banger-wrap">
         <div class="banger-glow" aria-hidden="true"></div>
         <span class="banger-pill"><span class="dot"></span> $TON · LIVE TAPE</span>
@@ -259,58 +245,7 @@
   __NEWSLETTER_TEASER__
   
   <!-- PRICING -->
-  <div class="pricing-section" id="pricing" data-va-section="pricing">
-    <div class="section-tag">__SECTION_PRICING_TAG__</div>
-    <h2>__PRICING_TITLE__<br><span class="green">__PRICING_ACCENT__</span></h2>
-    <p class="section-sub">__PRICING_SUB__</p>
-  
-    <div class="pricing-cards">
-      <!-- MONTHLY $29 -->
-      <div class="price-card">
-        <div class="price-tier">BASIC</div>
-        <div class="price-amount"><span>$</span>29</div>
-        <div class="price-period">__BASIC_PERIOD__</div>
-        <ul class="price-features">
-          <li>__BASIC_FEATURE_1__</li>
-          <li>__BASIC_FEATURE_2__</li>
-          <li>__BASIC_FEATURE_3__</li>
-          <li>__BASIC_FEATURE_4__</li>
-        </ul>
-        <a href="__PRICING_BASIC_CTA_URL__" __PRICING_BASIC_CTA_ATTRS__ class="btn-plan" onclick="window.rokitTrack && window.rokitTrack('cta-pricing-basic',{location:'pricing-basic',plan:'base'})">__BASIC_CTA__</a>
-      </div>
-  
-      <!-- ANNUAL $99.99 - FEATURED -->
-      <div class="price-card featured">
-        <div class="featured-badge">__FEATURED_BADGE__</div>
-        <div class="price-tier">PRO</div>
-        <div class="price-amount"><span>$</span>99<span style="font-size:20px;">.99</span></div>
-        <div class="price-period">__PRO_PERIOD__</div>
-        <ul class="price-features">
-          <li>__PRO_FEATURE_1__</li>
-          <li>__PRO_FEATURE_2__</li>
-          <li>__PRO_FEATURE_3__</li>
-          <li>__PRO_FEATURE_4__</li>
-          <li>__PRO_FEATURE_5__</li>
-        </ul>
-        <a href="https://buy.stripe.com/eVq6oIg3m0O27eX2SR28800" target="_blank" class="btn-plan featured-btn" onclick="window.rokitTrack && window.rokitTrack('cta-pricing-pro',{location:'pricing-pro',plan:'pro',destination:'stripe'})">__PRO_CTA__</a>
-      </div>
-  
-      <!-- FOUNDING MEMBER $500 -->
-      <div class="price-card">
-        <div class="price-tier">ELITE</div>
-        <div class="price-amount"><span>$</span>500</div>
-        <div class="price-period">__ELITE_PERIOD__</div>
-        <ul class="price-features">
-          <li>__ELITE_FEATURE_1__</li>
-          <li>__ELITE_FEATURE_2__</li>
-          <li>__ELITE_FEATURE_3__</li>
-          <li>__ELITE_FEATURE_4__</li>
-          <li>__ELITE_FEATURE_5__</li>
-        </ul>
-        <a href="__PRICING_ELITE_CTA_URL__" __PRICING_ELITE_CTA_ATTRS__ class="btn-plan" onclick="window.rokitTrack && window.rokitTrack('cta-pricing-elite',{location:'pricing-elite',plan:'elite'})">__ELITE_CTA__</a>
-      </div>
-    </div>
-  </div>
+  __PRICING_SECTION__
   
   <!-- CTA -->
   <div class="cta-section" data-va-section="final-cta">
@@ -318,7 +253,7 @@
       <div class="section-tag" style="text-align:center;">__FINAL_TAG__</div>
       <h2>__FINAL_TITLE_BEFORE__<br><span class="green">__FINAL_TITLE_ACCENT__</span></h2>
       <p>__FINAL_SUB__</p>
-      <a href="__FINAL_CTA_URL__" __FINAL_CTA_ATTRS__ class="btn-primary" style="font-size:15px;padding:20px 48px;" onclick="window.rokitTrack && window.rokitTrack('cta-final',{location:'final-cta',plan:'base'})">
+      <a href="__FINAL_CTA_URL__" __FINAL_CTA_ATTRS__ class="btn-primary" style="font-size:15px;padding:20px 48px;" onclick="window.rokitTrack && window.rokitTrack('cta-final',{location:'final-cta',plan:'lifetime',destination:'lifetime'})">
         __FINAL_CTA__
       </a>
     </div>
@@ -328,6 +263,8 @@
   <footer>
     <div class="logo">ROKIT<span>G</span>.FUN</div>
     <div class="footer-links">
+      <a href="__FOOTER_LIFETIME_URL__" __FOOTER_LIFETIME_ATTRS__>BUY LIFETIME</a>
+      <a href="/sponsors">REFLINKS</a>
       <a href="https://x.com/rokitdotgg" target="_blank" rel="noopener noreferrer">__FOOTER_X_LABEL__</a>
       <a href="/links">ALL LINKS</a>
       <a href="/whop">WHOP</a>

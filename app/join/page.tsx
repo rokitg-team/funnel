@@ -4,7 +4,7 @@ import { JoinCheckout } from '@/components/join-checkout';
 export const metadata: Metadata = {
   title: 'Join — The Circle',
   description:
-    'Full-screen embedded checkout for The Circle. Pay on rokitg.fun and land on the welcome guide after purchase.',
+    'On-site-first checkout hub for The Circle. Buy lifetime direct with crypto or use Whop as the fallback for trial and monthly access.',
 };
 
 export default function JoinPage() {
