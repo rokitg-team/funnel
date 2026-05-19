@@ -3,101 +3,61 @@ export type Review = {
   name: string;
   handle: string;
   initials: string;
+  avatarSeed: string;
   rating: number;
   text: string;
   highlight?: string;
   plan?: string;
+  date?: string;
 };
 
+export function getReviewAvatarUrl(seed: string) {
+  return `https://avatar.vercel.sh/${encodeURIComponent(seed)}`;
+}
+
+// Real reviews pulled from whop.com/@rokitg/reviews on 2026-05-18.
+// 5.00 overall · 5 reviews on Whop. Two of the five had no written body
+// (rating-only) so we surface the three with content.
 export const reviews: Review[] = [
   {
-    id: 'jake-k',
-    name: 'Jake K.',
-    handle: '@jakektrades',
-    initials: 'JK',
+    id: 'frejoshi',
+    name: 'frejoshi',
+    handle: '@frejoshi',
+    initials: 'FJ',
+    avatarSeed: 'frejoshi',
     rating: 5,
-    plan: 'Pro',
-    highlight: '+47%',
-    text: 'Hit +47% on the PEPE call last week. Rokit called the exact bottom. This group is different from all the others I\'ve tried.',
+    plan: 'The Circle',
+    highlight: 'Day one',
+    date: '2026-05-16',
+    text: "Met Rokit a while ago in the trenches, and I know he's for sure one to pay attention to. Which is why I had no hesitation joining when he launched this group. He's delivered since day one — and even better, sharp traders attract sharp traders, so the group has compounded into something genuinely high-signal.",
   },
   {
-    id: 'marco-r',
-    name: 'Marco R.',
-    handle: '@marcoaltcoin',
-    initials: 'MR',
+    id: 'zijox',
+    name: 'zijox',
+    handle: '@zijox',
+    initials: 'ZJ',
+    avatarSeed: 'zijox',
     rating: 5,
-    plan: 'Basic',
-    highlight: '$800 → $2,100',
-    text: 'I was losing money every month. First week in the group I turned $800 into $2,100. The signals are incredibly clean.',
+    plan: 'The Circle',
+    highlight: 'Perps + onchain',
+    date: '2026-05-16',
+    text: 'New group, but if you want to join a group of people who want to WIN and are constantly online, give it a try. Also good calls from rokit whether its perps or onchain — always a good tail/confluence.',
   },
   {
-    id: 'sam-l',
-    name: 'Sam L.',
-    handle: '@samuellcrypto',
-    initials: 'SL',
+    id: 'kain-mckain',
+    name: 'Kain Mckain',
+    handle: '@kainmckain',
+    initials: 'KM',
+    avatarSeed: 'kainmckain',
     rating: 5,
-    plan: 'Pro',
-    highlight: '10x',
-    text: 'Best investment I made this year — and I mean the membership, not even the trades. Already made 10x the cost back in week 2.',
-  },
-  {
-    id: 'tina-w',
-    name: 'Tina W.',
-    handle: '@tinawif',
-    initials: 'TW',
-    rating: 5,
-    plan: 'Elite',
-    highlight: '+31%',
-    text: 'The WIF short last month paid for my entire year. Entries and stops are so clear I finally stopped overtrading.',
-  },
-  {
-    id: 'dev-p',
-    name: 'Dev P.',
-    handle: '@devonchain',
-    initials: 'DP',
-    rating: 5,
-    plan: 'Pro',
-    highlight: '3 months',
-    text: 'Three months in and I\'m consistently green. The weekly recaps alone are worth the subscription.',
-  },
-  {
-    id: 'alex-m',
-    name: 'Alex M.',
-    handle: '@alexmdegens',
-    initials: 'AM',
-    rating: 5,
-    plan: 'Basic',
-    highlight: 'first win',
-    text: 'First signal I took was a BONK long — nailed target 2. I\'ve been in paid groups before and this is the only one that delivered.',
-  },
-  {
-    id: 'nina-c',
-    name: 'Nina C.',
-    handle: '@ninacalls',
-    initials: 'NC',
-    rating: 5,
-    plan: 'Pro',
-    highlight: 'clarity',
-    text: 'Love that every call shows risk/reward upfront. No hype, no guessing — just levels and context. Exactly what I needed.',
-  },
-  {
-    id: 'ryan-t',
-    name: 'Ryan T.',
-    handle: '@ryanthechart',
-    initials: 'RT',
-    rating: 5,
-    plan: 'Elite',
-    highlight: '1-on-1',
-    text: 'Elite tier monthly call helped me size positions properly. The private alpha channel catches moves before they hit the main feed.',
-  },
-  {
-    id: 'lisa-h',
-    name: 'Lisa H.',
-    handle: '@lisahodl',
-    initials: 'LH',
-    rating: 5,
-    plan: 'Basic',
-    highlight: '+22%',
-    text: 'Started with Basic to test it out. Averaged +22% on my last five trades following the signals. Upgraded to Pro immediately.',
+    plan: 'The Circle',
+    highlight: 'Early days',
+    date: '2026-05-15',
+    text: 'Nice new group. Owner eager to grow it. Can see this becoming big over time — but very early for now.',
   },
 ];
+
+// Whop counts the silent ratings too. We keep the number accurate in copy
+// even though we don't render a card for an empty review body.
+export const totalWhopReviews = 5;
+export const averageWhopRating = 5.0;

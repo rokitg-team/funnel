@@ -1,40 +1,82 @@
 
-  
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-trail" id="cursorTrail"></div>
-  
+  <!-- PROMO BANNER — top of landing -->
+  <!-- Narrative is placeholder, swap with exact tweet copy when ready. -->
+  <div class="promo-banner" id="promoBanner" role="region" aria-label="__PROMO_ARIA__" data-va-section="promo-banner">
+    <span class="promo-pulse" aria-hidden="true"></span>
+    <span class="promo-text">
+      <span>__PROMO_LEAD__</span>
+      <span class="promo-code">
+        <span class="promo-code-label">USE CODE</span>
+        <span class="promo-code-code">ALPHA</span>
+      </span>
+    </span>
+    <a href="__PROMO_BANNER_CTA_URL__" __PROMO_BANNER_CTA_ATTRS__ class="promo-cta" onclick="window.rokitTrack && window.rokitTrack('cta-promo-banner',{location:'promo-banner',destination:'whop'})">
+      __PROMO_CTA__
+    </a>
+  </div>
+
   <!-- NAV -->
-  <nav>
-    <div class="logo">ROKIT<span>G</span></div>
+  <nav data-va-section="nav">
+    <a href="/" class="logo">ROKIT<span>G</span></a>
     <div class="links">
-      <a href="#signals">Signals</a>
-      <a href="#features">Features</a>
-      <a href="#pricing">Pricing</a>
+      <a href="/whop">Whop</a>
+      <a href="/newsletter">Newsletter</a>
+      <a href="/kick">Kick</a>
+      <a href="/sponsors">Sponsors</a>
       <a href="/reviews">Reviews</a>
-      <a href="https://whop.com/the-circle-vip" target="_blank" rel="noopener noreferrer" class="nav-cta" onclick="va('event',{name:'CTA Click',data:{location:'nav'}})">JOIN NOW →</a>
+      <a href="#signals" class="nav-cta" onclick="window.rokitTrack && window.rokitTrack('cta-nav-signals',{location:'nav-signals',destination:'signals'})">__NAV_SIGNALS__</a>
     </div>
   </nav>
   
   <!-- HERO -->
-  <div class="hero">
+  <div class="hero" data-va-section="hero">
     <div class="hero-bg"></div>
     <div class="hero-grid"></div>
     <div class="hero-content">
       <div class="hero-badge">
         <div class="badge-dot"></div>
-        LIVE SIGNALS ACTIVE — CIRCLE CRYPTO GROUP
+        __HERO_BADGE__
       </div>
       <h1>
-        <span class="dim">CRYPTO CALLS</span><br>
-        THAT <span class="green">ACTUALLY</span><br>
-        PRINT
+        <span class="dim">__HERO_TITLE_DIM__</span><br>
+        __HERO_TITLE_PREFIX__<span class="green">__HERO_TITLE_ACCENT__</span><br>
+        __HERO_TITLE_LAST__
       </h1>
       <p class="hero-sub">
-        Real-time memecoin & altcoin signals from <strong>@rokitdotgg</strong>.
-        Stop guessing. Start following the chart.
+        __HERO_SUB__
       </p>
-      <div class="hero-actions">
-        __HERO_ACTIONS__
+      <div class="hero-cta-row">
+        <a
+          href="https://x.com/rokitdotgg"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hero-handle-pill"
+          onclick="window.rokitTrack && window.rokitTrack('cta-hero-profile',{location:'hero-x-pill',destination:'x'})"
+          aria-label="Open rokitg on X"
+        >
+          <span class="hero-handle-pill-logo" aria-hidden="true">
+            <img src="/brand/laser-pfp.jpg" alt="" loading="lazy">
+          </span>
+          <span class="hero-handle-pill-text">rokitg</span>
+          <span class="hero-handle-pill-check" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" role="presentation">
+              <path
+                d="M12 2.75 14.47 4l2.73-.37 1.17 2.49 2.49 1.17-.37 2.73L21.25 12 20 14.47l.37 2.73-2.49 1.17-1.17 2.49-2.73-.37L12 21.25 9.53 20l-2.73.37-1.17-2.49-2.49-1.17.37-2.73L2.75 12 4 9.53l-.37-2.73 2.49-1.17L7.29 3.14 10.02 3.5 12 2.75Z"
+                fill="currentColor"
+              />
+              <path
+                d="m8.7 12.15 2.1 2.1 4.5-4.7"
+                stroke="#fff"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+        </a>
+        <div class="hero-actions">
+          __HERO_ACTIONS__
+        </div>
       </div>
     </div>
   </div>
@@ -69,215 +111,215 @@
   <!-- STATS -->
   <div class="stats">
     <div class="stat-cell">
-      <div class="stat-num" data-target="84">0</div>
-      <div class="stat-label">% Win Rate</div>
+      <div class="stat-num" data-target="0">0%</div>
+      <div class="stat-label">Churn Rate</div>
     </div>
     <div class="stat-cell">
-      <div class="stat-num" data-target="312">0</div>
-      <div class="stat-label">Signals Sent</div>
+      <div class="stat-num" data-target="+50">+50</div>
+      <div class="stat-label">Seasoned Traders</div>
     </div>
     <div class="stat-cell">
-      <div class="stat-num" data-target="5" data-prefix="$" data-suffix="K+">$0</div>
+      <div class="stat-num" data-target="$100,000" data-prefix="$" data-suffix="K+">$100,000</div>
       <div class="stat-label">Members Profited</div>
     </div>
     <div class="stat-cell">
-      <div class="stat-num">5.0★</div>
+      <div class="stat-num">5.0</div>
       <div class="stat-label">Average Rating</div>
     </div>
   </div>
   
   <!-- FEATURES -->
-  <section id="features">
-    <div class="section-tag">// WHAT YOU GET</div>
-    <h2>EVERYTHING YOU NEED<br>TO <span class="green">TRADE SMARTER</span></h2>
-    <p class="section-sub">No noise. No BS. Just clean signals with entries, targets, and stops — delivered when it matters.</p>
+  <section id="features" data-va-section="features">
+    <div class="section-tag">__SECTION_FEATURES_TAG__</div>
+    <h2>__FEATURES_TITLE__<br>__FEATURES_PREFIX__<span class="green">__FEATURES_ACCENT__</span></h2>
+    <p class="section-sub">__FEATURES_SUB__</p>
   
     <div class="features-grid">
       <div class="feature-card">
         <div class="feat-icon">⚡</div>
-        <div class="feat-title">REAL-TIME SIGNALS</div>
-        <p class="feat-desc">Instant alerts for memecoins and alts with precise entry zones. Never miss a setup again.</p>
+        <div class="feat-title">__FEATURE_REALTIME_TITLE__</div>
+        <p class="feat-desc">__FEATURE_REALTIME_DESC__</p>
       </div>
       <div class="feature-card">
         <div class="feat-icon">🎯</div>
-        <div class="feat-title">ENTRY + TARGETS</div>
-        <p class="feat-desc">Every call comes with clear entry price, multiple take-profit targets, and stop-loss levels.</p>
+        <div class="feat-title">__FEATURE_ENTRY_TITLE__</div>
+        <p class="feat-desc">__FEATURE_ENTRY_DESC__</p>
       </div>
       <div class="feature-card">
         <div class="feat-icon">🔍</div>
-        <div class="feat-title">MARKET ANALYSIS</div>
-        <p class="feat-desc">Daily breakdowns of market structure, macro sentiment, and which sectors are pumping.</p>
+        <div class="feat-title">__FEATURE_ANALYSIS_TITLE__</div>
+        <p class="feat-desc">__FEATURE_ANALYSIS_DESC__</p>
       </div>
       <div class="feature-card">
         <div class="feat-icon">👥</div>
-        <div class="feat-title">PRIVATE COMMUNITY</div>
-        <p class="feat-desc">A tight-knit group of serious traders. Share setups, ask questions, learn faster together.</p>
+        <div class="feat-title">__FEATURE_COMMUNITY_TITLE__</div>
+        <p class="feat-desc">__FEATURE_COMMUNITY_DESC__</p>
       </div>
       <div class="feature-card">
         <div class="feat-icon">📈</div>
-        <div class="feat-title">MEMECOIN EDGE</div>
-        <p class="feat-desc">Specialized plays in the highest-volatility assets where 5x–50x moves happen weekly.</p>
+        <div class="feat-title">__FEATURE_MEME_TITLE__</div>
+        <p class="feat-desc">__FEATURE_MEME_DESC__</p>
       </div>
       <div class="feature-card">
         <div class="feat-icon">🧠</div>
-        <div class="feat-title">EDUCATION</div>
-        <p class="feat-desc">Learn to read charts, understand momentum, and eventually run your own trades confidently.</p>
+        <div class="feat-title">__FEATURE_EDUCATION_TITLE__</div>
+        <p class="feat-desc">__FEATURE_EDUCATION_DESC__</p>
       </div>
     </div>
   </section>
   
-  <!-- SIGNAL SHOWCASE -->
-  <div class="signal-section" id="signals">
+  <!-- SIGNAL SHOWCASE — banger edit + format reference -->
+  <div class="signal-section" id="signals" data-va-section="signals">
     <div>
-      <div class="section-tag">// SAMPLE SIGNAL</div>
-      <h2>THIS IS WHAT<br><span class="green">A CALL</span><br>LOOKS LIKE</h2>
+      <div class="section-tag">__SECTION_SIGNAL_TAG__</div>
+      <h2>__SIGNAL_TITLE_BEFORE__<br><span class="green">__SIGNAL_TITLE_ACCENT__</span><br>__SIGNAL_TITLE_AFTER__</h2>
       <p class="section-sub" style="margin-top:20px;">
-        Clean. Precise. Actionable. Every signal includes full context so you know exactly what to do.
+        __SIGNAL_SUB__
       </p>
-    </div>
-    <div>
-      <div class="signal-card">
+      <div class="signal-card" style="margin-top:28px;">
         <div class="signal-header">
-          <span class="signal-pair">PEPE / USDT</span>
+          <span class="signal-pair">TON / USDT</span>
           <span class="signal-type">LONG ▲</span>
         </div>
-        <div class="signal-row"><span class="key">ENTRY ZONE</span><span class="val">$0.00001240 – $0.00001280</span></div>
-        <div class="signal-row"><span class="key">TARGET 1</span><span class="val up">$0.00001450 <small>+13.3%</small></span></div>
-        <div class="signal-row"><span class="key">TARGET 2</span><span class="val up">$0.00001680 <small>+31.2%</small></span></div>
-        <div class="signal-row"><span class="key">TARGET 3</span><span class="val up">$0.00002100 <small>+64.0%</small></span></div>
-        <div class="signal-row"><span class="key">STOP LOSS</span><span class="val dn">$0.00001140 <small>-10.9%</small></span></div>
-        <div class="signal-row"><span class="key">TIMEFRAME</span><span class="val">4H — 1D</span></div>
+        <div class="signal-row"><span class="key">ENTRY ZONE</span><span class="val">~$2.40</span></div>
+        <div class="signal-row"><span class="key">RESULT</span><span class="val up">2x · doubled <small>+100%</small></span></div>
+        <div class="signal-row"><span class="key">TIMEFRAME</span><span class="val">Days</span></div>
         <div class="signal-row"><span class="key">CONFIDENCE</span><span class="val up">HIGH ●●●●○</span></div>
         <div class="signal-footer">
           <div class="dot"></div>
-          LIVE SIGNAL — ROKITG CIRCLE CRYPTO GROUP
-        </div>
-      </div>
-      <div class="signal-card" style="margin-top:16px;">
-        <div class="signal-header">
-          <span class="signal-pair">WIF / USDT</span>
-          <span class="signal-type short">SHORT ▼</span>
-        </div>
-        <div class="signal-row"><span class="key">ENTRY ZONE</span><span class="val">$2.840 – $2.900</span></div>
-        <div class="signal-row"><span class="key">TARGET 1</span><span class="val up">$2.440 <small>-15.8%</small></span></div>
-        <div class="signal-row"><span class="key">STOP LOSS</span><span class="val dn">$3.080 <small>+8.2%</small></span></div>
-        <div class="signal-row"><span class="key">RISK/REWARD</span><span class="val">1 : 3.4</span></div>
-        <div class="signal-footer">
-          <div class="dot" style="background:var(--red);"></div>
-          SHORT SIGNAL — ROKITG CIRCLE CRYPTO GROUP
+          LIVE CALL — ROKITG · THE CIRCLE
         </div>
       </div>
     </div>
+    <div>
+      <div class="banger-wrap">
+        <div class="banger-glow" aria-hidden="true"></div>
+        <span class="banger-pill"><span class="dot"></span> $TON · LIVE TAPE</span>
+        <video
+          class="banger-video"
+          src="/brand/ton-edit.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          aria-label="$TON trade banger edit by RokitG"
+        ></video>
+      </div>
+      <div class="banger-caption">// real call · real chart · <strong>real result</strong></div>
+    </div>
   </div>
   
-  <!-- TESTIMONIALS -->
-  <div class="testimonials">
+  <!-- TESTIMONIALS — real reviews from whop.com/@rokitg/reviews -->
+  <div class="testimonials" data-va-section="testimonials">
     <div class="testimonials-inner">
-      <div class="section-tag">// MEMBER RESULTS</div>
-      <h2>PEOPLE ARE<br><span class="green">PRINTING</span></h2>
+      <div class="section-tag">__SECTION_TESTIMONIALS_TAG__</div>
+      <h2>__TESTIMONIALS_TITLE__<br><span class="green">__TESTIMONIALS_ACCENT__</span></h2>
       <div class="testimonials-grid">
         <div class="testi-card">
           <div class="stars">★★★★★</div>
-          <p class="testi-text">Hit <strong>+47%</strong> on the PEPE call last week. Rokit called the exact bottom. This group is different from all the others I've tried.</p>
+          <p class="testi-text">Met Rokit a while ago in the trenches, and I know he&apos;s for sure one to pay attention to. Which is why I had no hesitation joining when he launched this group. <strong>He&apos;s delivered since day one</strong> — and even better, sharp traders attract sharp traders, so the group has compounded into something genuinely high-signal.</p>
           <div class="testi-author">
-            <div class="testi-avatar">JK</div>
+            <img class="testi-avatar testi-avatar-img" src="https://avatar.vercel.sh/frejoshi" alt="frejoshi avatar" loading="lazy">
             <div>
-              <div class="testi-name">Jake K.</div>
-              <div class="testi-handle">@jakektrades</div>
+              <div class="testi-name">frejoshi</div>
+              <div class="testi-handle">@frejoshi · whop.com</div>
             </div>
           </div>
         </div>
         <div class="testi-card">
           <div class="stars">★★★★★</div>
-          <p class="testi-text">I was losing money every month. First week in the group I turned <strong>$800 into $2,100</strong>. The signals are incredibly clean.</p>
+          <p class="testi-text">New group, but if you want to join a group of people who want to <strong>WIN and are constantly online</strong>, give it a try. Also good calls from rokit whether its perps or onchain — always a good tail/confluence.</p>
           <div class="testi-author">
-            <div class="testi-avatar">MR</div>
+            <img class="testi-avatar testi-avatar-img" src="https://avatar.vercel.sh/zijox" alt="zijox avatar" loading="lazy">
             <div>
-              <div class="testi-name">Marco R.</div>
-              <div class="testi-handle">@marcoaltcoin</div>
+              <div class="testi-name">zijox</div>
+              <div class="testi-handle">@zijox · whop.com</div>
             </div>
           </div>
         </div>
         <div class="testi-card">
           <div class="stars">★★★★★</div>
-          <p class="testi-text">Best investment I made this year — and I mean the membership, not even the trades. Already made <strong>10x the cost</strong> back in week 2.</p>
+          <p class="testi-text">Nice new group. Owner eager to grow it. <strong>Can see this becoming big over time</strong> — but very early for now.</p>
           <div class="testi-author">
-            <div class="testi-avatar">SL</div>
+            <img class="testi-avatar testi-avatar-img" src="https://avatar.vercel.sh/kainmckain" alt="Kain Mckain avatar" loading="lazy">
             <div>
-              <div class="testi-name">Sam L.</div>
-              <div class="testi-handle">@samuellcrypto</div>
+              <div class="testi-name">Kain Mckain</div>
+              <div class="testi-handle">@kainmckain · whop.com</div>
             </div>
           </div>
         </div>
       </div>
       <div class="testimonials-cta-row">
-        <a href="/reviews">READ ALL REVIEWS →</a>
+        <a href="/reviews" onclick="window.rokitTrack && window.rokitTrack('cta-testimonials-reviews',{location:'testimonials',destination:'reviews'})">__TESTIMONIALS_CTA__</a>
       </div>
     </div>
   </div>
+
+  __NEWSLETTER_TEASER__
   
   <!-- PRICING -->
-  <div class="pricing-section" id="pricing">
-    <div class="section-tag">// JOIN TODAY</div>
-    <h2>CHOOSE YOUR<br><span class="green">ACCESS LEVEL</span></h2>
-    <p class="section-sub">All plans give you access to The Circle. Secure your spot and start receiving signals immediately.</p>
+  <div class="pricing-section" id="pricing" data-va-section="pricing">
+    <div class="section-tag">__SECTION_PRICING_TAG__</div>
+    <h2>__PRICING_TITLE__<br><span class="green">__PRICING_ACCENT__</span></h2>
+    <p class="section-sub">__PRICING_SUB__</p>
   
     <div class="pricing-cards">
       <!-- MONTHLY $29 -->
       <div class="price-card">
         <div class="price-tier">BASIC</div>
         <div class="price-amount"><span>$</span>29</div>
-        <div class="price-period">per month</div>
+        <div class="price-period">__BASIC_PERIOD__</div>
         <ul class="price-features">
-          <li>All live signals</li>
-          <li>Entry + stop loss levels</li>
-          <li>Community access</li>
-          <li>Weekly market recap</li>
+          <li>__BASIC_FEATURE_1__</li>
+          <li>__BASIC_FEATURE_2__</li>
+          <li>__BASIC_FEATURE_3__</li>
+          <li>__BASIC_FEATURE_4__</li>
         </ul>
-        <a href="https://whop.com/checkout/plan_W42reYbE8ViaR" target="_blank" class="btn-plan" onclick="va('event',{name:'CTA Click',data:{location:'pricing-basic'}})">FREE TRIAL →</a>
+        <a href="__PRICING_BASIC_CTA_URL__" __PRICING_BASIC_CTA_ATTRS__ class="btn-plan" onclick="window.rokitTrack && window.rokitTrack('cta-pricing-basic',{location:'pricing-basic',plan:'base'})">__BASIC_CTA__</a>
       </div>
   
       <!-- ANNUAL $99.99 - FEATURED -->
       <div class="price-card featured">
-        <div class="featured-badge">MOST POPULAR</div>
+        <div class="featured-badge">__FEATURED_BADGE__</div>
         <div class="price-tier">PRO</div>
         <div class="price-amount"><span>$</span>99<span style="font-size:20px;">.99</span></div>
-        <div class="price-period">per year</div>
+        <div class="price-period">__PRO_PERIOD__</div>
         <ul class="price-features">
-          <li>Everything in Basic</li>
-          <li>Full TP target levels</li>
-          <li>Early entry alerts</li>
-          <li>Memecoin deep dives</li>
-          <li>Portfolio guidance</li>
+          <li>__PRO_FEATURE_1__</li>
+          <li>__PRO_FEATURE_2__</li>
+          <li>__PRO_FEATURE_3__</li>
+          <li>__PRO_FEATURE_4__</li>
+          <li>__PRO_FEATURE_5__</li>
         </ul>
-        <a href="https://buy.stripe.com/eVq6oIg3m0O27eX2SR28800" target="_blank" class="btn-plan featured-btn" onclick="va('event',{name:'CTA Click',data:{location:'pricing-pro'}})">JOIN PRO →</a>
+        <a href="https://buy.stripe.com/eVq6oIg3m0O27eX2SR28800" target="_blank" class="btn-plan featured-btn" onclick="window.rokitTrack && window.rokitTrack('cta-pricing-pro',{location:'pricing-pro',plan:'pro',destination:'stripe'})">__PRO_CTA__</a>
       </div>
   
       <!-- FOUNDING MEMBER $500 -->
       <div class="price-card">
         <div class="price-tier">ELITE</div>
         <div class="price-amount"><span>$</span>500</div>
-        <div class="price-period">Limited Time Offer</div>
+        <div class="price-period">__ELITE_PERIOD__</div>
         <ul class="price-features">
-          <li>Everything in Pro</li>
-          <li>1-on-1 monthly call</li>
-          <li>Direct DM access</li>
-          <li>Personalized strategy</li>
-          <li>Private alpha group</li>
+          <li>__ELITE_FEATURE_1__</li>
+          <li>__ELITE_FEATURE_2__</li>
+          <li>__ELITE_FEATURE_3__</li>
+          <li>__ELITE_FEATURE_4__</li>
+          <li>__ELITE_FEATURE_5__</li>
         </ul>
-        <a href="https://whop.com/checkout/plan_QFUNiFOeal3xK" target="_blank" class="btn-plan" onclick="va('event',{name:'CTA Click',data:{location:'pricing-elite'}})">GO ELITE →</a>
+        <a href="__PRICING_ELITE_CTA_URL__" __PRICING_ELITE_CTA_ATTRS__ class="btn-plan" onclick="window.rokitTrack && window.rokitTrack('cta-pricing-elite',{location:'pricing-elite',plan:'elite'})">__ELITE_CTA__</a>
       </div>
     </div>
   </div>
   
   <!-- CTA -->
-  <div class="cta-section">
+  <div class="cta-section" data-va-section="final-cta">
     <div style="position:relative;z-index:2;">
-      <div class="section-tag" style="text-align:center;">// FINAL CALL</div>
-      <h2>STOP WATCHING.<br><span class="green">START WINNING.</span></h2>
-      <p>The next call drops when you least expect it. Be inside when it does.</p>
-      <a href="https://buy.stripe.com/test_8x24gy9sy0M67Ru6H6g3604" target="_blank" class="btn-primary" style="font-size:15px;padding:20px 48px;" onclick="va('event',{name:'CTA Click',data:{location:'final-cta'}})">
-        JOIN ROKITG NOW →
+      <div class="section-tag" style="text-align:center;">__FINAL_TAG__</div>
+      <h2>__FINAL_TITLE_BEFORE__<br><span class="green">__FINAL_TITLE_ACCENT__</span></h2>
+      <p>__FINAL_SUB__</p>
+      <a href="__FINAL_CTA_URL__" __FINAL_CTA_ATTRS__ class="btn-primary" style="font-size:15px;padding:20px 48px;" onclick="window.rokitTrack && window.rokitTrack('cta-final',{location:'final-cta',plan:'base'})">
+        __FINAL_CTA__
       </a>
     </div>
   </div>
@@ -286,32 +328,67 @@
   <footer>
     <div class="logo">ROKIT<span>G</span>.FUN</div>
     <div class="footer-links">
-      <a href="https://x.com/rokitdotgg" target="_blank">TWITTER / X</a>
-      <a href="#pricing">PRICING</a>
+      <a href="https://x.com/rokitdotgg" target="_blank" rel="noopener noreferrer">__FOOTER_X_LABEL__</a>
+      <a href="/links">ALL LINKS</a>
+      <a href="/whop">WHOP</a>
+      <a href="/newsletter">NEWSLETTER</a>
+      <a href="/kick">KICK</a>
+      <a href="/sponsors">SPONSORS</a>
       <a href="/reviews">REVIEWS</a>
     </div>
-    <div class="footer-copy">© 2026 ROKITG · NOT FINANCIAL ADVICE</div>
+    <div class="footer-copy">__FOOTER_DISCLAIMER__</div>
   </footer>
   
   <script>
-    // Cursor
-    const cursor = document.getElementById('cursor');
-    const trail = document.getElementById('cursorTrail');
-    let mx = 0, my = 0, tx = 0, ty = 0;
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      cursor.style.left = mx - 6 + 'px';
-      cursor.style.top = my - 6 + 'px';
+    window.rokitTrack = window.rokitTrack || ((name, data) => {
+      try {
+        if (typeof window.va === 'function') {
+          window.va('event', { name: name, data: data || {} });
+        }
+      } catch (e) {}
     });
-    function animTrail() {
-      tx += (mx - tx) * 0.15;
-      ty += (my - ty) * 0.15;
-      trail.style.left = tx - 16 + 'px';
-      trail.style.top = ty - 16 + 'px';
-      requestAnimationFrame(animTrail);
-    }
-    animTrail();
-  
+
+    // Promo banner — dismiss + remember state across sessions
+    (()=> {
+      var KEY = 'promoBanner:rokit-v1:dismissed';
+      var banner = document.getElementById('promoBanner');
+      var btn = document.getElementById('promoDismiss');
+      var body = document.body;
+      if (!banner || !btn) return;
+      try {
+        if (localStorage.getItem(KEY) === '1') {
+          banner.classList.add('promo-hidden');
+          body.classList.add('promo-dismissed');
+          return;
+        }
+      } catch(e){}
+      btn.addEventListener('click', ()=> {
+        body.classList.add('promo-dismissed');
+        banner.classList.add('promo-hidden');
+        try { localStorage.setItem(KEY, '1'); } catch(e){}
+        window.rokitTrack('promo-banner-dismiss', { location: 'promo-banner-dismiss' });
+      });
+    })();
+
+    // Section views — one event per section per page load
+    (() => {
+      const seen = new Set();
+      const sections = document.querySelectorAll('[data-va-section]');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const section = entry.target.getAttribute('data-va-section');
+          if (!section || seen.has(section)) return;
+          seen.add(section);
+          window.rokitTrack('section-view', { section });
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.35 });
+      sections.forEach((section) => {
+        observer.observe(section);
+      });
+    })();
+
     // Counter animation
     const counters = document.querySelectorAll('[data-target]');
     const io = new IntersectionObserver(entries => {
@@ -331,7 +408,7 @@
         io.unobserve(el);
       });
     }, { threshold: 0.5 });
-    counters.forEach(c => io.observe(c));
+    counters.forEach(c => { io.observe(c); });
   
     // Fade-in on scroll
     const fadeEls = document.querySelectorAll('.feature-card, .testi-card, .price-card, .signal-card');
