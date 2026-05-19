@@ -6,6 +6,7 @@ import Script from 'next/script';
 import { Suspense } from 'react';
 import { mainCtaFlag, whopCtaExperiment } from '@/flags';
 import { getFunnelLocale } from '@/lib/marketing-locale';
+import { getSiteUrl, SITE_ORIGIN } from '@/lib/site';
 import './globals.css';
 
 const assistLoopAgentId =
@@ -30,9 +31,33 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'RokitG — Crypto Signals That Print',
+  metadataBase: new URL(SITE_ORIGIN),
+  title: 'RokitG — Direct Lifetime Access To The Circle',
   description:
-    'Real-time memecoin & altcoin signals from @rokitdotgg. Stop guessing. Start following the chart.',
+    'Buy lifetime access to The Circle on-site. Skip recurring billing and get real-time memecoin and altcoin signals, private community access, and the live edge.',
+  openGraph: {
+    title: 'RokitG — Direct Lifetime Access To The Circle',
+    description:
+      'Skip recurring billing. Lock in lifetime access to The Circle with real-time signals, private community access, and a live edge.',
+    url: getSiteUrl('/'),
+    siteName: 'RokitG',
+    type: 'website',
+    images: [
+      {
+        url: getSiteUrl('/opengraph-image'),
+        width: 1200,
+        height: 630,
+        alt: 'RokitG lifetime access preview card for The Circle',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'RokitG — Direct Lifetime Access To The Circle',
+    description:
+      'Skip recurring billing. Lock in lifetime access to The Circle with real-time signals, private community access, and a live edge.',
+    images: [getSiteUrl('/opengraph-image')],
+  },
 };
 
 export default async function RootLayout({

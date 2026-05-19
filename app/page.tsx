@@ -151,6 +151,11 @@ export default async function HomePage() {
     '__PROMO_BANNER_CTA_ATTRS__',
     getWhopCtaAnchorAttrs('promo-banner', ctaVariant),
   );
+  body = body.replace('__DISCORD_PREVIEW_CTA_URL__', getWhopCtaHref('discord-preview', ctaVariant));
+  body = body.replace(
+    '__DISCORD_PREVIEW_CTA_ATTRS__',
+    getWhopCtaAnchorAttrs('discord-preview', ctaVariant),
+  );
   body = body.replace('__PRICING_SECTION__', getHomepagePricingHtml(copy, ctaVariant));
   body = body.replace('__FINAL_CTA_URL__', getWhopCtaHref('final-cta', ctaVariant));
   body = body.replace('__FINAL_CTA_ATTRS__', getWhopCtaAnchorAttrs('final-cta', ctaVariant));

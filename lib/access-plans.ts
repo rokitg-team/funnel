@@ -1,6 +1,6 @@
 export const WHOP_RETURN_URL = 'https://rokitg.fun/welcome';
-export const LIFETIME_JOIN_URL = '/join/lifetime';
-export const LIFETIME_RETURN_PATH = '/join/lifetime?status=paid';
+export const LIFETIME_JOIN_URL = '/lifetime';
+export const LIFETIME_RETURN_PATH = '/lifetime?status=paid';
 export const LIFETIME_CRYPTO_CHECKOUT_URL =
   process.env.NEXT_PUBLIC_LIFETIME_CRYPTO_CHECKOUT_URL ?? '';
 

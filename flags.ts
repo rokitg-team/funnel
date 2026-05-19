@@ -15,6 +15,7 @@ export type WhopCtaLocation =
   | 'hero'
   | 'promo-banner'
   | 'nav'
+  | 'discord-preview'
   | 'pricing-free_trial'
   | 'pricing-monthly'
   | 'pricing-lifetime'
@@ -58,6 +59,7 @@ export function getWhopCtaHref(location: WhopCtaLocation, variant: WhopCtaExperi
       return buildJoinUrl(location, variant, 'monthly');
     case 'pricing-lifetime':
       return getLifetimePrimaryHref({ cta: location, variant });
+    case 'discord-preview':
     case 'nav':
     case 'hero':
     case 'promo-banner':
@@ -75,6 +77,7 @@ export function getWhopCtaAnchorAttrs(
   if (
     location === 'hero' ||
     location === 'nav' ||
+    location === 'discord-preview' ||
     location === 'promo-banner' ||
     location === 'pricing-lifetime' ||
     location === 'final-cta'

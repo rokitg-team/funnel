@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 
-type LegacyJoinLifetimePageProps = {
+type LegacyLifetimeDealPageProps = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
@@ -22,8 +22,8 @@ function withQuery(path: string, params: Record<string, string | string[] | unde
   return `${url.pathname}${url.search}`;
 }
 
-export default async function LegacyJoinLifetimePage({
+export default async function LegacyLifetimeDealPage({
   searchParams,
-}: LegacyJoinLifetimePageProps) {
+}: LegacyLifetimeDealPageProps) {
   redirect(withQuery('/lifetime', (await searchParams) ?? {}));
 }

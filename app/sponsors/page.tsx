@@ -23,7 +23,7 @@ const BREAKOUT_URL = 'https://breakoutprop.com/?ref=ROKIT';
 const BREAKOUT_CODE = 'ROKIT';
 const FOMO_URL = 'https://fomo.family/r/rokitg';
 const POLYMARKET_PROFILE_URL = 'https://polymarket.com/@rokitg';
-const POLYMARKET_REFERRAL_URL = 'https://polymarket.com/?r=rokitgg';
+const POLYMARKET_REFERRAL_URL = 'https://polymarket.com/?r=rokitgfun';
 
 type Partner = {
   id: string;
