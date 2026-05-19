@@ -1,13 +1,12 @@
 'use client';
 
-import { Send, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 // import { useState } from 'react';
 import {
-  DISCORD_DISPLAY,
-  DISCORD_LABEL,
-  DISCORD_URL,
+  // DISCORD_DISPLAY,
+  // DISCORD_LABEL,
+  // DISCORD_URL,
   TELEGRAM_DISPLAY,
   TELEGRAM_URL,
   // WHATSAPP_DISPLAY,
@@ -114,37 +113,12 @@ export function WelcomeOnboarding() {
         </p>
 
         <div className="welcome-contact-list">
-          {DISCORD_URL ? (
-            <a
-              href={DISCORD_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="welcome-contact-link"
-            >
-              <div>
-                <strong>Discord</strong>
-                <span>
-                  {DISCORD_LABEL} · {DISCORD_DISPLAY}
-                </span>
-              </div>
-            </a>
-          ) : (
-            <div className="welcome-contact-link">
-              <ShieldCheck size={18} strokeWidth={2.2} />
-              <div>
-                <strong>Discord</strong>
-                <span>{DISCORD_DISPLAY}</span>
-              </div>
-            </div>
-          )}
-
           <a
             href={TELEGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="welcome-contact-link"
           >
-            <Send size={18} strokeWidth={2.2} />
             <div>
               <strong>Telegram</strong>
               <span>{TELEGRAM_DISPLAY}</span>

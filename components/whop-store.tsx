@@ -52,14 +52,10 @@ export function WhopStore() {
       <div className="checkout-copy">
         <div className="section-tag">{'// CHECK OUT WITHOUT LEAVING ROKITG.FUN'}</div>
         <h2 id="checkout-title">
-          STAY HERE.
+          FREE TRIAL
           <br />
-          <span className="green">CLOSE FAST.</span>
+          <span className="green">INSTANT ACCESS.</span>
         </h2>
-        <p className="section-sub">
-          Keep buyers on your domain, reduce drop-off, and let them pay the moment conviction hits.
-          Choose the best-fit offer, then complete checkout below.
-        </p>
         {ctaSource ? (
           <p className="checkout-intent-note">
             Use code <strong>ALPHA</strong> for 10% off on all plans.
