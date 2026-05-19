@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { getLifetimePrimaryHref } from '@/lib/access-plans';
 
 type SiteChromeProps = {
   active?: 'home' | 'reviews' | 'whop' | 'newsletter' | 'kick' | 'sponsors';
@@ -6,6 +7,8 @@ type SiteChromeProps = {
 
 export function SiteNav({ active }: SiteChromeProps) {
   const cls = (key: SiteChromeProps['active']) => (active === key ? 'nav-link-active' : undefined);
+  const lifetimeHref = getLifetimePrimaryHref({ cta: 'nav', variant: 'nav-direct' });
+  const isLifetimeExternal = lifetimeHref.startsWith('http');
 
   return (
     <nav>
@@ -23,26 +26,42 @@ export function SiteNav({ active }: SiteChromeProps) {
           Kick
         </Link>
         <Link href="/sponsors" className={cls('sponsors')}>
-          Sponsors
+          Reflinks
         </Link>
         <Link href="/reviews" className={cls('reviews')}>
           Reviews
         </Link>
-        <Link href="/#signals" className="nav-cta">
-          SIGNALS ↓
-        </Link>
+        <a
+          href={lifetimeHref}
+          className="nav-cta"
+          target={isLifetimeExternal ? '_blank' : undefined}
+          rel={isLifetimeExternal ? 'noopener noreferrer' : undefined}
+        >
+          BUY LIFETIME →
+        </a>
       </div>
     </nav>
   );
 }
 
 export function SiteFooter() {
+  const lifetimeHref = getLifetimePrimaryHref({ cta: 'footer', variant: 'footer-direct' });
+  const isLifetimeExternal = lifetimeHref.startsWith('http');
+
   return (
     <footer>
       <div className="logo">
         ROKIT<span>G</span>.FUN
       </div>
       <div className="footer-links">
+        <a
+          href={lifetimeHref}
+          target={isLifetimeExternal ? '_blank' : undefined}
+          rel={isLifetimeExternal ? 'noopener noreferrer' : undefined}
+        >
+          BUY LIFETIME
+        </a>
+        <Link href="/sponsors">REFLINKS</Link>
         <a href="https://x.com/rokitdotgg" target="_blank" rel="noopener noreferrer">
           X / @ROKITDOTGG
         </a>

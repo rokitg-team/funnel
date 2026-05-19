@@ -3,11 +3,12 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { SiteFooter, SiteNav } from '@/components/site-chrome';
 import { WhopStore } from '@/components/whop-store';
+import { getLifetimeJoinHref } from '@/lib/access-plans';
 
 export const metadata: Metadata = {
   title: 'Join The Circle — RokitG VIP',
   description:
-    'Paid VIP crypto signals from @rokitdotgg. 42 operators inside. 5.0★ average. Real-time entries, targets, and stops.',
+    'Whop checkout fallback for The Circle. Trial and monthly access for buyers who want flexibility, with direct lifetime crypto as the preferred route.',
 };
 
 export default function WhopPage() {
@@ -27,17 +28,23 @@ export default function WhopPage() {
             <span className="green">PRINT TOGETHER.</span>
           </h1>
           <p className="sub">
-            Real-time memecoin &amp; altcoin signals from <strong>@rokitdotgg</strong>. Entries,
-            targets, stops — every call delivered the moment it&apos;s live.
+            Use Whop if you want the lower-commitment route for trial or monthly access.
             <br />
-            <strong>$TON doubled after the call.</strong> And we&apos;re just getting started.
+            <strong>Direct lifetime via crypto is the top-value path.</strong> This page is the
+            fallback for buyers who still want the Whop convenience layer.
+            <br />
+            Real-time memecoin &amp; altcoin signals from <strong>@rokitdotgg</strong>, delivered
+            the moment the call is live.
           </p>
           <div className="platform-actions">
             <Link href="#checkout" className="btn-primary btn-cta-blue">
-              START CHECKOUT
+              USE WHOP CHECKOUT
             </Link>
-            <Link href="/#pricing" className="btn-ghost">
-              SEE PRICING ↓
+            <Link
+              href={getLifetimeJoinHref({ source: 'whop-hero', variant: 'direct-lifetime' })}
+              className="btn-ghost"
+            >
+              BUY LIFETIME DIRECT →
             </Link>
           </div>
         </section>
@@ -75,8 +82,8 @@ export default function WhopPage() {
             <span className="green">EVERY EDGE.</span>
           </h2>
           <p className="section-sub">
-            No noise. No BS. Just clean signals with entries, targets, and stops — delivered when it
-            matters.
+            Whop is here for flexibility. If you already know you&apos;re in, the direct lifetime
+            route is the better buy.
           </p>
 
           <div className="features-grid">
@@ -123,15 +130,15 @@ export default function WhopPage() {
               <span className="green">START WINNING.</span>
             </h2>
             <p>
-              The next call drops when you least expect it. Be inside when it does, without leaving
-              the page.
+              Want the strongest on-site offer instead? Skip recurring billing and take the direct
+              lifetime crypto path.
             </p>
             <Link
-              href="#checkout"
+              href={getLifetimeJoinHref({ source: 'whop-final', variant: 'direct-lifetime' })}
               className="btn-primary btn-cta-blue"
               style={{ fontSize: 15, padding: '20px 48px' }}
             >
-              GO TO CHECKOUT
+              GO DIRECT →
             </Link>
           </div>
         </section>

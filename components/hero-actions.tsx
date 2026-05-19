@@ -1,7 +1,9 @@
 import type { WhopCtaExperimentVariant } from '@/flags';
+import { getLifetimePrimaryAnchorAttrs, getLifetimePrimaryHref } from '@/lib/access-plans';
 
-export function getHeroActionsHtml(_variant: WhopCtaExperimentVariant): string {
-  const heroHref = 'https://rokitg.fun/whop?plan=base&cta=hero&variant=hero-embed-preview';
+export function getHeroActionsHtml(variant: WhopCtaExperimentVariant): string {
+  const lifetimeHref = getLifetimePrimaryHref({ cta: 'hero', variant });
+  const lifetimeAttrs = getLifetimePrimaryAnchorAttrs();
 
-  return `<a href="${heroHref}" class="btn-primary btn-cta-blue" onclick="va('event',{name:'cta-main',data:{location:'hero',destination:'whop',plan:'base',variant:'hero-embed-preview'}})">START FREE TRIAL →</a>`;
+  return `<a href="${lifetimeHref}" ${lifetimeAttrs} class="btn-primary btn-cta-blue" onclick="va('event',{name:'cta-main',data:{location:'hero',destination:'lifetime',plan:'lifetime',variant:'${variant}'}})">BUY LIFETIME DIRECT →</a>`;
 }

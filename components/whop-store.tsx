@@ -3,10 +3,18 @@
 import { useCheckoutEmbedControls, WhopCheckoutEmbed } from '@whop/checkout/react';
 import { ShieldCheck, Users } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import {
+  ACCESS_PLANS,
+  getAccessPlan,
+  getLifetimeJoinHref,
+  isWhopPlan,
+  type PlanKey,
+  WHOP_RETURN_URL,
+} from '@/lib/access-plans';
 import { DISCORD_LABEL, TELEGRAM_URL, WHATSAPP_DISPLAY, WHATSAPP_URL } from '@/lib/contact';
-import { type PlanKey, WHOP_PLANS, WHOP_RETURN_URL } from '@/lib/whop';
 
 function track(
   name: string,
@@ -24,7 +32,7 @@ function track(
 
 export function WhopStore() {
   const searchParams = useSearchParams();
-  const [selectedPlan, setSelectedPlan] = useState<PlanKey>('base');
+  const [selectedPlan, setSelectedPlan] = useState<PlanKey>('monthly');
   const [checkoutState, setCheckoutState] = useState<'loading' | 'ready' | 'disabled'>('loading');
   const [receiptId, setReceiptId] = useState<string | null>(searchParams.get('receipt_id'));
   const [identityEmail, setIdentityEmail] = useState(searchParams.get('email') ?? '');
@@ -40,35 +48,69 @@ export function WhopStore() {
 
   useEffect(() => {
     const planFromQuery = searchParams.get('plan');
-    if (planFromQuery === 'base' || planFromQuery === 'elite') {
+    if (planFromQuery === 'free_trial' || planFromQuery === 'monthly') {
       setSelectedPlan(planFromQuery);
+    } else {
+      setSelectedPlan('monthly');
     }
   }, [searchParams]);
 
-  const currentPlan = WHOP_PLANS.find((plan) => plan.key === selectedPlan) ?? WHOP_PLANS[0];
+  useEffect(() => {
+    track('lifetime-card-view', {
+      location: 'whop-plan-selector',
+      source: ctaSource ?? 'whop',
+      variant,
+    });
+  }, [ctaSource, variant]);
+
+  const currentPlan = getAccessPlan(selectedPlan);
+  const lifetimeHref = getLifetimeJoinHref({ source: ctaSource ?? 'whop', variant });
 
   return (
     <section className="checkout-shell" aria-labelledby="checkout-title">
       <div className="checkout-copy">
-        <div className="section-tag">{'// CHECK OUT WITHOUT LEAVING ROKITG.FUN'}</div>
+        <div className="section-tag">{'// WHOP CHECKOUT IS THE FALLBACK'}</div>
         <h2 id="checkout-title">
-          FREE TRIAL
+          WANT FLEXIBILITY?
           <br />
-          <span className="green">INSTANT ACCESS.</span>
+          <span className="green">USE WHOP.</span>
         </h2>
-        {ctaSource ? (
-          <p className="checkout-intent-note">
-            Use code <strong>ALPHA</strong> for 10% off on all plans.
-          </p>
-        ) : null}
+        <p className="checkout-intent-note">
+          Lifetime crypto is the stronger direct-buy path. Stay here only if you want trial or
+          monthly convenience through Whop.
+        </p>
+
+        <div className="checkout-lifetime-callout">
+          <div>
+            <span className="checkout-lifetime-eyebrow">Top recommendation</span>
+            <strong>Buy lifetime direct and bypass Whop fees.</strong>
+            <p>
+              One-time crypto payment, permanent access, and priority onboarding after purchase.
+            </p>
+          </div>
+          <Link
+            href={lifetimeHref}
+            className="btn-primary btn-cta-blue"
+            onClick={() =>
+              track('lifetime-cta', {
+                location: 'whop-callout',
+                source: ctaSource ?? 'whop',
+                variant,
+                plan: 'lifetime',
+              })
+            }
+          >
+            GO DIRECT →
+          </Link>
+        </div>
 
         <div className="checkout-plan-grid" role="tablist" aria-label="Choose a Whop plan">
-          {WHOP_PLANS.map((plan) => {
+          {ACCESS_PLANS.filter((plan) => plan.destination === 'whop').map((plan) => {
             const isActive = plan.key === selectedPlan;
 
             return (
               <button
-                key={plan.id}
+                key={plan.key}
                 type="button"
                 className={`checkout-plan-card${isActive ? ' is-active' : ''}`}
                 role="tab"
@@ -76,9 +118,10 @@ export function WhopStore() {
                 onClick={() => {
                   setSelectedPlan(plan.key);
                   setReceiptId(null);
-                  track(`whop-${plan.key}-plan`, {
+                  track('whop-fallback-select', {
                     location: 'whop-plan-selector',
                     plan: plan.key,
+                    source: ctaSource ?? 'whop',
                   });
                 }}
               >
@@ -86,7 +129,9 @@ export function WhopStore() {
                   <span className="checkout-plan-name">{plan.label}</span>
                   <span className="checkout-plan-badge">{plan.badge}</span>
                 </div>
-                <div className="checkout-plan-price">{plan.price}</div>
+                <div className="checkout-plan-price">
+                  {plan.price} <span className="checkout-plan-period-inline">{plan.period}</span>
+                </div>
                 <p>{plan.description}</p>
               </button>
             );
@@ -116,8 +161,8 @@ export function WhopStore() {
             <div className="checkout-proof-icon checkout-proof-icon-onsite" aria-hidden="true">
               <ShieldCheck size={20} strokeWidth={2.2} />
             </div>
-            <strong>On-site</strong>
-            <span>No off-domain redirect</span>
+            <strong>Direct</strong>
+            <span>Lifetime on-site route</span>
           </div>
         </div>
       </div>
@@ -219,7 +264,7 @@ export function WhopStore() {
               OPEN THE CIRCLE
             </a>
           </div>
-        ) : (
+        ) : isWhopPlan(currentPlan) ? (
           <>
             <div className="checkout-panel-head">
               <div>
@@ -240,10 +285,10 @@ export function WhopStore() {
             ) : null}
 
             <WhopCheckoutEmbed
-              key={`${currentPlan.id}-${stateId ?? 'fresh'}`}
+              key={`${currentPlan.whopPlanId}-${stateId ?? 'fresh'}`}
               ref={controlsRef}
               adaptivePricing
-              planId={currentPlan.id}
+              planId={currentPlan.whopPlanId}
               prefill={identityEmail ? { email: identityEmail } : undefined}
               returnUrl={WHOP_RETURN_URL}
               stateId={stateId}
@@ -314,7 +359,7 @@ export function WhopStore() {
               to <strong>rokitg.fun/welcome</strong> to finish.
             </p>
           </>
-        )}
+        ) : null}
       </div>
     </section>
   );

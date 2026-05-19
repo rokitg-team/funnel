@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { headers } from 'next/headers';
 import { getHeroActionsHtml } from '@/components/hero-actions';
 import { getWhopCtaAnchorAttrs, getWhopCtaHref, whopCtaExperiment } from '@/flags';
+import { ACCESS_PLANS } from '@/lib/access-plans';
 import { getFunnelLocale, marketingCopy } from '@/lib/marketing-locale';
 import { getHomepageSubstackTeaser } from '@/lib/substack';
 
@@ -29,6 +30,59 @@ function getNewsletterTeaserHtml(copy: (typeof marketingCopy)[keyof typeof marke
       </div>
     </div>
   </section>`;
+}
+
+function getHomepagePricingHtml(
+  copy: (typeof marketingCopy)[keyof typeof marketingCopy],
+  ctaVariant: Awaited<ReturnType<typeof whopCtaExperiment>>,
+) {
+  const ctaByPlan = {
+    free_trial: {
+      href: getWhopCtaHref('pricing-free_trial', ctaVariant),
+      attrs: getWhopCtaAnchorAttrs('pricing-free_trial', ctaVariant),
+      eventName: 'cta-pricing-free-trial',
+    },
+    monthly: {
+      href: getWhopCtaHref('pricing-monthly', ctaVariant),
+      attrs: getWhopCtaAnchorAttrs('pricing-monthly', ctaVariant),
+      eventName: 'cta-pricing-monthly',
+    },
+    lifetime: {
+      href: getWhopCtaHref('pricing-lifetime', ctaVariant),
+      attrs: getWhopCtaAnchorAttrs('pricing-lifetime', ctaVariant),
+      eventName: 'cta-pricing-lifetime',
+    },
+  } as const;
+
+  const cards = ACCESS_PLANS.map((plan) => {
+    const cta = ctaByPlan[plan.key];
+    const classes = `price-card${plan.featured ? ' featured price-card-lifetime' : ''}`;
+    const buttonClasses = `btn-plan${plan.featured ? ' featured-btn' : ''}`;
+
+    return `
+      <div class="${classes}">
+        ${plan.featured ? `<div class="featured-badge">${copy.featuredBadge}</div>` : ''}
+        <div class="price-tier">${plan.label}</div>
+        <div class="price-amount">${plan.price.replace('$', '<span>$</span>')}</div>
+        <div class="price-period">${plan.period}</div>
+        <p class="price-value-line">${plan.valueLine}</p>
+        <ul class="price-features">
+          ${plan.featureList.map((feature) => `<li>${feature}</li>`).join('')}
+        </ul>
+        <a href="${cta.href}" ${cta.attrs} class="${buttonClasses}" onclick="window.rokitTrack && window.rokitTrack('${cta.eventName}',{location:'pricing-${plan.key}',plan:'${plan.key}',destination:'${plan.destination}'})">${plan.ctaLabel}</a>
+      </div>
+    `;
+  }).join('');
+
+  return `
+  <div class="pricing-section" id="pricing" data-va-section="pricing">
+    <div class="section-tag">${copy.sectionPricingTag}</div>
+    <h2>${copy.pricingTitle}<br><span class="green">${copy.pricingAccent}</span></h2>
+    <p class="section-sub">${copy.pricingSub}</p>
+    <div class="pricing-cards">
+      ${cards}
+    </div>
+  </div>`;
 }
 
 export default async function HomePage() {
@@ -76,31 +130,6 @@ export default async function HomePage() {
     __TESTIMONIALS_TITLE__: copy.testimonialsTitle,
     __TESTIMONIALS_ACCENT__: copy.testimonialsAccent,
     __TESTIMONIALS_CTA__: copy.testimonialsCta,
-    __SECTION_PRICING_TAG__: copy.sectionPricingTag,
-    __PRICING_TITLE__: copy.pricingTitle,
-    __PRICING_ACCENT__: copy.pricingAccent,
-    __PRICING_SUB__: copy.pricingSub,
-    __BASIC_PERIOD__: copy.basicPeriod,
-    __BASIC_FEATURE_1__: copy.basicFeature1,
-    __BASIC_FEATURE_2__: copy.basicFeature2,
-    __BASIC_FEATURE_3__: copy.basicFeature3,
-    __BASIC_FEATURE_4__: copy.basicFeature4,
-    __BASIC_CTA__: copy.basicCta,
-    __FEATURED_BADGE__: copy.featuredBadge,
-    __PRO_PERIOD__: copy.proPeriod,
-    __PRO_FEATURE_1__: copy.proFeature1,
-    __PRO_FEATURE_2__: copy.proFeature2,
-    __PRO_FEATURE_3__: copy.proFeature3,
-    __PRO_FEATURE_4__: copy.proFeature4,
-    __PRO_FEATURE_5__: copy.proFeature5,
-    __PRO_CTA__: copy.proCta,
-    __ELITE_PERIOD__: copy.elitePeriod,
-    __ELITE_FEATURE_1__: copy.eliteFeature1,
-    __ELITE_FEATURE_2__: copy.eliteFeature2,
-    __ELITE_FEATURE_3__: copy.eliteFeature3,
-    __ELITE_FEATURE_4__: copy.eliteFeature4,
-    __ELITE_FEATURE_5__: copy.eliteFeature5,
-    __ELITE_CTA__: copy.eliteCta,
     __FINAL_TAG__: copy.finalTag,
     __FINAL_TITLE_BEFORE__: copy.finalTitleBefore,
     __FINAL_TITLE_ACCENT__: copy.finalTitleAccent,
@@ -115,23 +144,18 @@ export default async function HomePage() {
   }
 
   body = body.replace('__HERO_ACTIONS__', heroHtml);
+  body = body.replace('__NAV_CTA_URL__', getWhopCtaHref('nav', ctaVariant));
+  body = body.replace('__NAV_CTA_ATTRS__', getWhopCtaAnchorAttrs('nav', ctaVariant));
   body = body.replace('__PROMO_BANNER_CTA_URL__', getWhopCtaHref('promo-banner', ctaVariant));
   body = body.replace(
     '__PROMO_BANNER_CTA_ATTRS__',
     getWhopCtaAnchorAttrs('promo-banner', ctaVariant),
   );
-  body = body.replace('__PRICING_BASIC_CTA_URL__', getWhopCtaHref('pricing-basic', ctaVariant));
-  body = body.replace(
-    '__PRICING_BASIC_CTA_ATTRS__',
-    getWhopCtaAnchorAttrs('pricing-basic', ctaVariant),
-  );
-  body = body.replace('__PRICING_ELITE_CTA_URL__', getWhopCtaHref('pricing-elite', ctaVariant));
-  body = body.replace(
-    '__PRICING_ELITE_CTA_ATTRS__',
-    getWhopCtaAnchorAttrs('pricing-elite', ctaVariant),
-  );
+  body = body.replace('__PRICING_SECTION__', getHomepagePricingHtml(copy, ctaVariant));
   body = body.replace('__FINAL_CTA_URL__', getWhopCtaHref('final-cta', ctaVariant));
   body = body.replace('__FINAL_CTA_ATTRS__', getWhopCtaAnchorAttrs('final-cta', ctaVariant));
+  body = body.replace('__FOOTER_LIFETIME_URL__', getWhopCtaHref('nav', ctaVariant));
+  body = body.replace('__FOOTER_LIFETIME_ATTRS__', getWhopCtaAnchorAttrs('nav', ctaVariant));
   body = body.replace('__NEWSLETTER_TEASER__', getNewsletterTeaserHtml(copy));
 
   return <div style={{ display: 'contents' }} dangerouslySetInnerHTML={{ __html: body }} />;
