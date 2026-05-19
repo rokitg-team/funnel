@@ -1,7 +1,15 @@
+import { FlagValues } from 'flags/react';
 import type { Metadata } from 'next';
 import { Bebas_Neue, DM_Sans, Space_Mono } from 'next/font/google';
+import { headers } from 'next/headers';
 import Script from 'next/script';
+import { Suspense } from 'react';
+import { mainCtaFlag, whopCtaExperiment } from '@/flags';
+import { getFunnelLocale } from '@/lib/marketing-locale';
 import './globals.css';
+
+const assistLoopAgentId =
+  process.env.NEXT_PUBLIC_help_ASSISTLOOP_AGENT_ID ?? process.env.NEXT_PUBLIC_ASSISTLOOP_AGENT_ID;
 
 const spaceMono = Space_Mono({
   subsets: ['latin'],
@@ -27,19 +35,31 @@ export const metadata: Metadata = {
     'Real-time memecoin & altcoin signals from @rokitdotgg. Stop guessing. Start following the chart.',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = getFunnelLocale(await headers());
+  const [mainCta, ctaVariant] = await Promise.all([mainCtaFlag(), whopCtaExperiment()]);
+
   return (
     <html
-      lang="en"
+      lang={locale}
       className={`${spaceMono.variable} ${bebasNeue.variable} ${dmSans.variable}`}
     >
       <body>
         {children}
+        <Suspense fallback={null}>
+          <FlagValues values={{ 'main-cta': mainCta, 'whop-cta-experiment': ctaVariant }} />
+        </Suspense>
         <Script async src="https://tally.so/widgets/embed.js" />
+        <Script src="https://assistloop.ai/assistloop-widget.js" strategy="afterInteractive" />
+        {assistLoopAgentId ? (
+          <Script id="assistloop-init" strategy="afterInteractive">
+            {`(function(){var agentId=${JSON.stringify(assistLoopAgentId)};var tries=0;function init(){if(window.AssistLoopWidget&&typeof window.AssistLoopWidget.init==='function'){window.AssistLoopWidget.init({agentId:agentId});return;}if(tries<40){tries+=1;setTimeout(init,250);}}init();})();`}
+          </Script>
+        ) : null}
         <Script id="vercel-analytics" strategy="beforeInteractive">
           {`window.va = window.va || function() { (window.vaq = window.vaq || []).push(arguments); };`}
         </Script>
@@ -51,11 +71,7 @@ export default function RootLayout({
         <Script id="vercel-speed-insights-queue" strategy="beforeInteractive">
           {`window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };`}
         </Script>
-        <Script
-          defer
-          src="/_vercel/speed-insights/script.js"
-          strategy="afterInteractive"
-        />
+        <Script defer src="/_vercel/speed-insights/script.js" strategy="afterInteractive" />
       </body>
     </html>
   );

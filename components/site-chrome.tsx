@@ -1,30 +1,36 @@
 import Link from 'next/link';
 
 type SiteChromeProps = {
-  active?: 'home' | 'reviews';
+  active?: 'home' | 'reviews' | 'whop' | 'newsletter' | 'kick' | 'sponsors';
 };
 
 export function SiteNav({ active }: SiteChromeProps) {
+  const cls = (key: SiteChromeProps['active']) => (active === key ? 'nav-link-active' : undefined);
+
   return (
     <nav>
       <Link href="/" className="logo">
         ROKIT<span>G</span>
       </Link>
       <div className="links">
-        <Link href="/#signals">Signals</Link>
-        <Link href="/#features">Features</Link>
-        <Link href="/#pricing">Pricing</Link>
-        <Link href="/reviews" className={active === 'reviews' ? 'nav-link-active' : undefined}>
+        <Link href="/whop" className={cls('whop')}>
+          Whop
+        </Link>
+        <Link href="/newsletter" className={cls('newsletter')}>
+          Newsletter
+        </Link>
+        <Link href="/kick" className={cls('kick')}>
+          Kick
+        </Link>
+        <Link href="/sponsors" className={cls('sponsors')}>
+          Sponsors
+        </Link>
+        <Link href="/reviews" className={cls('reviews')}>
           Reviews
         </Link>
-        <a
-          href="https://whop.com/the-circle-vip"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="nav-cta"
-        >
-          JOIN NOW →
-        </a>
+        <Link href="/#signals" className="nav-cta">
+          SIGNALS ↓
+        </Link>
       </div>
     </nav>
   );
@@ -38,18 +44,14 @@ export function SiteFooter() {
       </div>
       <div className="footer-links">
         <a href="https://x.com/rokitdotgg" target="_blank" rel="noopener noreferrer">
-          TWITTER / X
+          X / @ROKITDOTGG
         </a>
-        <Link href="/#pricing">PRICING</Link>
+        <Link href="/links">ALL LINKS</Link>
+        <Link href="/whop">WHOP</Link>
+        <Link href="/newsletter">NEWSLETTER</Link>
+        <Link href="/kick">KICK</Link>
+        <Link href="/sponsors">SPONSORS</Link>
         <Link href="/reviews">REVIEWS</Link>
-        <a
-          href="/#pricing"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="nav-cta"
-        >
-          JOIN NOW →
-        </a>
       </div>
       <div className="footer-copy">© 2026 ROKITG · NOT FINANCIAL ADVICE</div>
     </footer>
