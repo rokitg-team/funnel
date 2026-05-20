@@ -428,20 +428,30 @@ export default function SponsorsPage() {
                 </div>
 
                 <div className="extended-cta">
-                  Connect wallet on Extended with code {EXTENDED_CODE} <span>→</span>
+                  LIMITED-TIME 2X POINTS BOOST WITH {EXTENDED_CODE} <span>→</span>
                 </div>
               </div>
 
               <div className="extended-panel" aria-hidden="true">
-                <div className="extended-panel-badge">invite active</div>
+                <div className="extended-panel-badge">
+                  <Image
+                    src="/brand/laser-pfp.jpg"
+                    alt=""
+                    className="extended-panel-avatar"
+                    width={48}
+                    height={48}
+                    unoptimized
+                  />
+                  <span className="extended-panel-badge-text">invite active</span>
+                </div>
                 <div className="extended-panel-title">
-                  Receive 10% points boost and 10% fees discount.
+                  Get the RokitG invite and stack the limited-time boost.
                 </div>
                 <p className="extended-panel-copy">
-                  You are invited to Extended with the referral code {EXTENDED_CODE}. Built for
-                  traders who want on-chain execution without the CEX drag.
+                  Use code {EXTENDED_CODE} for the current Extended campaign, built around bonus
+                  points, lower fees, and a cleaner on-chain perps setup.
                 </p>
-                <div className="extended-panel-button">Connect Wallet</div>
+                <div className="extended-panel-button">2X points boost live now</div>
               </div>
             </div>
           </a>
