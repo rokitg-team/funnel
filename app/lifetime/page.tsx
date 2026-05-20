@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { LifetimeCheckout } from '@/components/lifetime-checkout';
 import { WaitlistGate } from '@/components/waitlist-gate';
-import { closedDoorModeFlag, getEffectiveClosedDoorMode, groupClosedFlag } from '@/flags';
+import { groupClosedFlag } from '@/flags';
 import { getRokitEnsVerification } from '@/lib/ens';
 
 export const metadata: Metadata = {
@@ -11,13 +11,9 @@ export const metadata: Metadata = {
 };
 
 export default async function LifetimePage() {
-  const [groupClosed, closedDoorMode] = await Promise.all([
-    groupClosedFlag(),
-    closedDoorModeFlag(),
-  ]);
-  const effectiveClosedDoorMode = getEffectiveClosedDoorMode(closedDoorMode, groupClosed);
+  const groupClosed = await groupClosedFlag();
 
-  if (effectiveClosedDoorMode === 'hard-close') {
+  if (groupClosed) {
     return (
       <main className="lifetime-page">
         <WaitlistGate

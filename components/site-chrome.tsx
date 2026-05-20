@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { closedDoorModeFlag, getEffectiveClosedDoorMode, groupClosedFlag } from '@/flags';
+import { groupClosedFlag } from '@/flags';
 import { getLifetimePrimaryHref } from '@/lib/access-plans';
 import { getWaitlistHref } from '@/lib/waitlist';
 
@@ -9,17 +9,12 @@ type SiteChromeProps = {
 
 export async function SiteNav({ active }: SiteChromeProps) {
   const cls = (key: SiteChromeProps['active']) => (active === key ? 'nav-link-active' : undefined);
-  const [groupClosed, closedDoorMode] = await Promise.all([
-    groupClosedFlag(),
-    closedDoorModeFlag(),
-  ]);
-  const effectiveClosedDoorMode = getEffectiveClosedDoorMode(closedDoorMode, groupClosed);
-  const primaryHref =
-    effectiveClosedDoorMode === 'hard-close'
-      ? getWaitlistHref({ cta: 'nav', mode: 'closed' })
-      : getLifetimePrimaryHref({ cta: 'nav', variant: 'nav-direct' });
+  const groupClosed = await groupClosedFlag();
+  const primaryHref = groupClosed
+    ? getWaitlistHref({ cta: 'nav', mode: 'closed' })
+    : getLifetimePrimaryHref({ cta: 'nav', variant: 'nav-direct' });
   const isPrimaryExternal = primaryHref.startsWith('http');
-  const ctaLabel = effectiveClosedDoorMode === 'hard-close' ? 'JOIN WAITLIST →' : 'BUY LIFETIME →';
+  const ctaLabel = groupClosed ? 'JOIN WAITLIST →' : 'BUY LIFETIME →';
 
   return (
     <nav>
@@ -56,17 +51,12 @@ export async function SiteNav({ active }: SiteChromeProps) {
 }
 
 export async function SiteFooter() {
-  const [groupClosed, closedDoorMode] = await Promise.all([
-    groupClosedFlag(),
-    closedDoorModeFlag(),
-  ]);
-  const effectiveClosedDoorMode = getEffectiveClosedDoorMode(closedDoorMode, groupClosed);
-  const primaryHref =
-    effectiveClosedDoorMode === 'hard-close'
-      ? getWaitlistHref({ cta: 'footer', mode: 'closed' })
-      : getLifetimePrimaryHref({ cta: 'footer', variant: 'footer-direct' });
+  const groupClosed = await groupClosedFlag();
+  const primaryHref = groupClosed
+    ? getWaitlistHref({ cta: 'footer', mode: 'closed' })
+    : getLifetimePrimaryHref({ cta: 'footer', variant: 'footer-direct' });
   const isPrimaryExternal = primaryHref.startsWith('http');
-  const ctaLabel = effectiveClosedDoorMode === 'hard-close' ? 'JOIN WAITLIST' : 'BUY LIFETIME';
+  const ctaLabel = groupClosed ? 'JOIN WAITLIST' : 'BUY LIFETIME';
 
   return (
     <footer>

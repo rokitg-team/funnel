@@ -22,6 +22,8 @@ const PROPR_CODE = 'ROKIT';
 const BREAKOUT_URL = 'https://breakoutprop.com/?ref=ROKIT';
 const BREAKOUT_CODE = 'ROKIT';
 const FOMO_URL = 'https://fomo.family/r/rokitg';
+const EXTENDED_URL = 'https://app.extended.exchange/join/ROKITG';
+const EXTENDED_CODE = 'ROKITG';
 const POLYMARKET_PROFILE_URL = 'https://polymarket.com/@rokitg';
 const POLYMARKET_REFERRAL_URL = 'https://polymarket.com/?r=rokitgfun';
 
@@ -66,16 +68,6 @@ const partners: Partner[] = [
     primaryUrl: 'https://basedbot.app/r/rokitg',
     logoSrc: '/brand/sponsors/basedbot.png',
     logoAlt: 'BasedBot logo',
-  },
-  {
-    id: 'extended',
-    name: 'EXTENDED',
-    category: 'PERPS',
-    bonus: 'Fee rebate via /join/ROKITG',
-    desc: 'L2 perpetuals exchange. Deep liquidity, low overhead, where I run leveraged size with full self-custody.',
-    primaryUrl: 'https://app.extended.exchange/join/ROKITG',
-    logoSrc: '/brand/sponsors/extended.svg',
-    logoAlt: 'Extended logo',
   },
   {
     id: 'coinbase-advanced',
@@ -374,6 +366,82 @@ export default function SponsorsPage() {
                     height={460}
                   />
                 </div>
+              </div>
+            </div>
+          </a>
+        </section>
+
+        <section className="extended-feature" aria-labelledby="extended-title">
+          <a
+            href={EXTENDED_URL}
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            className="extended-card"
+            data-va-location="sponsor-extended-featured"
+            data-va-event="extended-ref-click"
+            aria-label="Join Extended with referral code ROKITG"
+          >
+            <div className="extended-aurora" aria-hidden="true" />
+            <div className="extended-content">
+              <div className="extended-copy">
+                <div className="extended-head">
+                  <span className="extended-pill">
+                    #4 Featured Sponsor · CEO-approved affiliate
+                  </span>
+                  <span className="extended-logo-wrap">
+                    <Image
+                      src="/brand/sponsors/extended.svg"
+                      alt=""
+                      className="extended-logo-mark"
+                      width={28}
+                      height={28}
+                    />
+                    <span className="extended-logo">EXTENDED</span>
+                  </span>
+                </div>
+
+                <h2 id="extended-title" className="extended-title">
+                  ON-CHAIN PERPS.
+                  <br />
+                  <span className="extended-cyan">DIRECT CEO INTRO.</span>
+                </h2>
+                <p className="extended-sub">
+                  Just got added as an official affiliate after speaking directly with the CEO. If
+                  you join through RokitG, you get the current referral push:{' '}
+                  <strong>10% points boost and 10% fee discount</strong>. This is now one of the
+                  cleanest on-chain perps routes on the page.
+                </p>
+
+                <div className="extended-perks">
+                  <div className="extended-perk">
+                    <div className="extended-perk-num">10%</div>
+                    <div className="extended-perk-label">Points boost</div>
+                  </div>
+                  <div className="extended-perk">
+                    <div className="extended-perk-num">10%</div>
+                    <div className="extended-perk-label">Fees discount</div>
+                  </div>
+                  <div className="extended-perk">
+                    <div className="extended-perk-num">CODE</div>
+                    <div className="extended-perk-label extended-code">{EXTENDED_CODE}</div>
+                  </div>
+                </div>
+
+                <div className="extended-cta">
+                  Connect wallet on Extended with code {EXTENDED_CODE} <span>→</span>
+                </div>
+              </div>
+
+              <div className="extended-panel" aria-hidden="true">
+                <div className="extended-panel-badge">invite active</div>
+                <div className="extended-panel-title">
+                  Receive 10% points boost and 10% fees discount.
+                </div>
+                <p className="extended-panel-copy">
+                  You are invited to Extended with the referral code {EXTENDED_CODE}. Built for
+                  traders who want on-chain execution without the CEX drag.
+                </p>
+                <div className="extended-panel-button">Connect Wallet</div>
               </div>
             </div>
           </a>

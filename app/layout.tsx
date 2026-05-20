@@ -1,13 +1,6 @@
 import { initBklit } from '@bklit/sdk';
 import { FlagValues } from 'flags/react';
-import {
-  closedDoorModeFlag,
-  groupClosedFlag,
-  homepagePrimaryOfferFlag,
-  mainCtaFlag,
-  proofBlockVariantFlag,
-  whopCtaExperiment,
-} from '@/flags';
+import { groupClosedFlag } from '@/flags';
 import { getFunnelLocale } from '@/lib/marketing-locale';
 import { getSiteUrl, SITE_ORIGIN } from '@/lib/site';
 import './globals.css';
@@ -75,21 +68,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const locale = getFunnelLocale(await headers());
-  const [
-    mainCta,
-    ctaVariant,
-    groupClosed,
-    homepagePrimaryOffer,
-    proofBlockVariant,
-    closedDoorMode,
-  ] = await Promise.all([
-    mainCtaFlag(),
-    whopCtaExperiment(),
-    groupClosedFlag(),
-    homepagePrimaryOfferFlag(),
-    proofBlockVariantFlag(),
-    closedDoorModeFlag(),
-  ]);
+  const groupClosed = await groupClosedFlag();
 
   initBklit({
     projectId: 'cmpcsft3k00014wdwkikgjapp',
@@ -112,12 +91,7 @@ export default async function RootLayout({
         <Suspense fallback={null}>
           <FlagValues
             values={{
-              'main-cta': mainCta,
-              'whop-cta-experiment': ctaVariant,
               'group-closed': groupClosed,
-              'homepage-primary-offer': homepagePrimaryOffer,
-              'proof-block-variant': proofBlockVariant,
-              'closed-door-mode': closedDoorMode,
             }}
           />
         </Suspense>

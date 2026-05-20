@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckCircle2, Copy, QrCode, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, Copy, ShieldCheck } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -222,26 +222,22 @@ export function LifetimeCheckout({ ens }: LifetimeCheckoutProps) {
 
             <div className="crypto-checkout-grid">
               <div className="crypto-qr-card">
-                <div className="crypto-qr-head">
-                  <div>
-                    <div className="checkout-panel-label">Scan to pay</div>
-                    <div className="checkout-panel-title">QR for {ens.ensName}</div>
+                <div className="crypto-qr-showcase">
+                  <div className="crypto-qr-showcase-head">
+                    <div className="crypto-qr-title">Receive</div>
+                    <div className="crypto-qr-ens">{ens.ensName}</div>
                   </div>
-                  <div className="crypto-preferred-pill">
-                    <QrCode size={14} strokeWidth={2.2} />
-                    {preferredStablecoin}
-                  </div>
-                </div>
 
-                <div className="crypto-qr-frame">
-                  <Image
-                    src="/brand/rokitg-wallet-qr.svg"
-                    alt="QR code for rokitg.eth receiving wallet"
-                    width={360}
-                    height={360}
-                    className="crypto-qr-image"
-                    priority
-                  />
+                  <div className="crypto-qr-frame crypto-qr-frame-showcase">
+                    <Image
+                      src="/brand/rokitg-wallet-qr.svg"
+                      alt="QR code for rokitg.eth receiving wallet"
+                      width={360}
+                      height={360}
+                      className="crypto-qr-image crypto-qr-image-showcase"
+                      priority
+                    />
+                  </div>
                 </div>
 
                 <div className="crypto-wallet-lines">

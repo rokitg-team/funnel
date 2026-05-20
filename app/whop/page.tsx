@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import { SiteFooter, SiteNav } from '@/components/site-chrome';
 import { WaitlistGate } from '@/components/waitlist-gate';
 import { WhopStore } from '@/components/whop-store';
-import { closedDoorModeFlag, getEffectiveClosedDoorMode, groupClosedFlag } from '@/flags';
+import { groupClosedFlag } from '@/flags';
 import { getLifetimeJoinHref } from '@/lib/access-plans';
 
 export const metadata: Metadata = {
@@ -14,13 +14,9 @@ export const metadata: Metadata = {
 };
 
 export default async function WhopPage() {
-  const [groupClosed, closedDoorMode] = await Promise.all([
-    groupClosedFlag(),
-    closedDoorModeFlag(),
-  ]);
-  const effectiveClosedDoorMode = getEffectiveClosedDoorMode(closedDoorMode, groupClosed);
+  const groupClosed = await groupClosedFlag();
 
-  if (effectiveClosedDoorMode === 'hard-close') {
+  if (groupClosed) {
     return (
       <>
         <SiteNav />

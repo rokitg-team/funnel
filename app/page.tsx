@@ -3,19 +3,13 @@ import { join } from 'node:path';
 import { headers } from 'next/headers';
 import { getHeroActionsHtml } from '@/components/hero-actions';
 import {
-  type ClosedDoorModeVariant,
-  closedDoorModeFlag,
-  getEffectiveClosedDoorMode,
+  DEFAULT_CTA_VARIANT,
+  DEFAULT_HOMEPAGE_PROOF,
   getMarketingCtaAnchorAttrs,
   getMarketingCtaHref,
   groupClosedFlag,
-  type HomepagePrimaryOfferVariant,
-  homepagePrimaryOfferFlag,
-  type ProofBlockVariant,
-  proofBlockVariantFlag,
-  whopCtaExperiment,
 } from '@/flags';
-import { ACCESS_PLANS, getJoinPlanHref } from '@/lib/access-plans';
+import { ACCESS_PLANS } from '@/lib/access-plans';
 import { getFunnelLocale, marketingCopy } from '@/lib/marketing-locale';
 import { getHomepageSubstackTeaser } from '@/lib/substack';
 import {
@@ -92,38 +86,10 @@ function getHomepageWaitlistHtml() {
   </section>`;
 }
 
-function getPrimaryOfferConfig(
-  offerVariant: HomepagePrimaryOfferVariant,
-  ctaVariant: Awaited<ReturnType<typeof whopCtaExperiment>>,
-  closedDoorMode: ClosedDoorModeVariant,
-) {
-  if (closedDoorMode === 'hard-close') {
+function getPrimaryOfferConfig(groupClosed: boolean) {
+  if (groupClosed) {
     return {
-      href: getWaitlistHref({ cta: 'global', variant: ctaVariant, offer: offerVariant }),
-      attrs: '',
-      label: 'JOIN THE WAITLIST →',
-      destination: 'waitlist',
-      plan: 'waitlist',
-    } as const;
-  }
-
-  if (offerVariant === 'free-trial') {
-    return {
-      href: getJoinPlanHref('free_trial', {
-        cta: 'global',
-        variant: ctaVariant,
-        offer: offerVariant,
-      }),
-      attrs: '',
-      label: 'START FREE TRIAL →',
-      destination: 'free_trial',
-      plan: 'free_trial',
-    } as const;
-  }
-
-  if (offerVariant === 'waitlist-apply') {
-    return {
-      href: getWaitlistHref({ cta: 'global', variant: ctaVariant, offer: offerVariant }),
+      href: getWaitlistHref({ cta: 'global', variant: DEFAULT_CTA_VARIANT, mode: 'closed' }),
       attrs: '',
       label: 'JOIN THE WAITLIST →',
       destination: 'waitlist',
@@ -132,8 +98,8 @@ function getPrimaryOfferConfig(
   }
 
   return {
-    href: getMarketingCtaHref('hero', ctaVariant, false),
-    attrs: getMarketingCtaAnchorAttrs('hero', ctaVariant, false),
+    href: getMarketingCtaHref('hero', false),
+    attrs: getMarketingCtaAnchorAttrs('hero', false),
     label: 'BUY LIFETIME DIRECT →',
     destination: 'lifetime',
     plan: 'lifetime',
@@ -142,68 +108,10 @@ function getPrimaryOfferConfig(
 
 function getProofBlockHtml(
   _copy: (typeof marketingCopy)[keyof typeof marketingCopy],
-  proofVariant: ProofBlockVariant,
   primaryOffer: ReturnType<typeof getPrimaryOfferConfig>,
 ) {
-  const ctaEventName =
-    primaryOffer.plan === 'lifetime'
-      ? 'lifetime-deal-init'
-      : primaryOffer.plan === 'free_trial'
-        ? 'free-trial-init'
-        : 'waitlist-cta';
-  const cta = `<a href="${primaryOffer.href}" ${primaryOffer.attrs} class="proof-block-cta" onclick="window.rokitTrack && window.rokitTrack('${ctaEventName}',{variant:'${proofVariant}',destination:'${primaryOffer.destination}',plan:'${primaryOffer.plan}',location:'proof-block'})">${primaryOffer.label}</a>`;
-
-  if (proofVariant === 'community-proof') {
-    return `
-    <section class="proof-block proof-block-community" data-va-section="proof-block-community">
-      <div class="proof-block-head">
-        <div class="section-tag">// PRO COMMUNITY</div>
-        <h2>SEE THE <span class="green">COMMUNITY</span><br>BEFORE YOU JOIN</h2>
-        <p class="section-sub">The value is not just the call. It&apos;s the pace, the rooms, the live reactions, and the traders inside with you when the tape starts moving.</p>
-      </div>
-      <div class="proof-block-grid">
-        <div class="proof-card">
-          <strong>Voice rooms when it matters</strong>
-          <p>War room, chart review, and after-hours voice channels for fast market conditions.</p>
-        </div>
-        <div class="proof-card">
-          <strong>Clean channel structure</strong>
-          <p>Live calls, entries, targets, stops, market watch, and winners all separated cleanly.</p>
-        </div>
-        <div class="proof-card">
-          <strong>Operators, not tourists</strong>
-          <p>Small serious circle energy instead of a huge noisy public server.</p>
-        </div>
-      </div>
-      <div class="proof-block-actions">${cta}</div>
-    </section>`;
-  }
-
-  if (proofVariant === 'results-proof') {
-    return `
-    <section class="proof-block proof-block-results" data-va-section="proof-block-results">
-      <div class="proof-block-head">
-        <div class="section-tag">// RESULTS PROOF</div>
-        <h2>REAL TAPE. <span class="green">REAL REVIEWS.</span><br>REAL REPEAT BUYERS.</h2>
-        <p class="section-sub">Cold traffic needs proof that this isn&apos;t generic signal fluff. These are the outcomes and operator reactions that make people stay.</p>
-      </div>
-      <div class="proof-block-grid">
-        <div class="proof-card">
-          <strong>$TON doubled after the call</strong>
-          <p>Banger edits help, but the point is simple: the call landed and the tape followed through.</p>
-        </div>
-        <div class="proof-card">
-          <strong>5.0 stars on Whop</strong>
-          <p>Public review proof from buyers who already paid and stepped inside the Circle.</p>
-        </div>
-        <div class="proof-card">
-          <strong>“He&apos;s delivered since day one”</strong>
-          <p>That kind of line matters more than aesthetic. It signals trust from the trenches.</p>
-        </div>
-      </div>
-      <div class="proof-block-actions">${cta}</div>
-    </section>`;
-  }
+  const ctaEventName = primaryOffer.plan === 'lifetime' ? 'lifetime-deal-init' : 'waitlist-cta';
+  const cta = `<a href="${primaryOffer.href}" ${primaryOffer.attrs} class="proof-block-cta" onclick="window.rokitTrack && window.rokitTrack('${ctaEventName}',{variant:'${DEFAULT_HOMEPAGE_PROOF}',destination:'${primaryOffer.destination}',plan:'${primaryOffer.plan}',location:'proof-block'})">${primaryOffer.label}</a>`;
 
   return `
   <section class="proof-block proof-block-platform" data-va-section="proof-block-platform">
@@ -230,36 +138,21 @@ function getProofBlockHtml(
   </section>`;
 }
 
-function getSoftCloseNoticeHtml(primaryOffer: ReturnType<typeof getPrimaryOfferConfig>) {
-  return `
-  <section class="soft-close-banner" data-va-section="soft-close-banner">
-    <div class="soft-close-copy">
-      <div class="section-tag">// ALMOST FULL</div>
-      <strong>Spots are tightening up.</strong>
-      <p>The group is still open right now, but intake is being throttled. If you&apos;re even half-serious, make your move before this flips fully into waitlist mode.</p>
-    </div>
-    <a href="${primaryOffer.href}" ${primaryOffer.attrs} class="soft-close-cta" onclick="window.rokitTrack && window.rokitTrack('${primaryOffer.plan === 'lifetime' ? 'lifetime-deal-init' : primaryOffer.plan === 'free_trial' ? 'free-trial-init' : 'waitlist-cta'}',{variant:'soft-close',destination:'${primaryOffer.destination}',plan:'${primaryOffer.plan}',location:'soft-close-banner'})">${primaryOffer.label}</a>
-  </section>`;
-}
-
-function getHomepagePricingHtml(
-  copy: (typeof marketingCopy)[keyof typeof marketingCopy],
-  ctaVariant: Awaited<ReturnType<typeof whopCtaExperiment>>,
-) {
+function getHomepagePricingHtml(copy: (typeof marketingCopy)[keyof typeof marketingCopy]) {
   const ctaByPlan = {
     free_trial: {
-      href: getMarketingCtaHref('pricing-free_trial', ctaVariant, false),
-      attrs: getMarketingCtaAnchorAttrs('pricing-free_trial', ctaVariant, false),
+      href: getMarketingCtaHref('pricing-free_trial', false),
+      attrs: getMarketingCtaAnchorAttrs('pricing-free_trial', false),
       eventName: 'free-trial-init',
     },
     monthly: {
-      href: getMarketingCtaHref('pricing-monthly', ctaVariant, false),
-      attrs: getMarketingCtaAnchorAttrs('pricing-monthly', ctaVariant, false),
+      href: getMarketingCtaHref('pricing-monthly', false),
+      attrs: getMarketingCtaAnchorAttrs('pricing-monthly', false),
       eventName: 'monthly-init',
     },
     lifetime: {
-      href: getMarketingCtaHref('pricing-lifetime', ctaVariant, false),
-      attrs: getMarketingCtaAnchorAttrs('pricing-lifetime', ctaVariant, false),
+      href: getMarketingCtaHref('pricing-lifetime', false),
+      attrs: getMarketingCtaAnchorAttrs('pricing-lifetime', false),
       eventName: 'lifetime-deal-init',
     },
   } as const;
@@ -299,26 +192,9 @@ export default async function HomePage() {
   const requestHeaders = await headers();
   const locale = getFunnelLocale(requestHeaders);
   const copy = marketingCopy[locale];
-  const [ctaVariant, groupClosed, homepagePrimaryOffer, proofBlockVariant, closedDoorMode] =
-    await Promise.all([
-      whopCtaExperiment(),
-      groupClosedFlag(),
-      homepagePrimaryOfferFlag(),
-      proofBlockVariantFlag(),
-      closedDoorModeFlag(),
-    ]);
-  const effectiveClosedDoorMode = getEffectiveClosedDoorMode(closedDoorMode, groupClosed);
-  const primaryOffer = getPrimaryOfferConfig(
-    homepagePrimaryOffer,
-    ctaVariant,
-    effectiveClosedDoorMode,
-  );
-  const heroHtml = getHeroActionsHtml(
-    ctaVariant,
-    homepagePrimaryOffer,
-    effectiveClosedDoorMode,
-    groupClosed,
-  );
+  const groupClosed = await groupClosedFlag();
+  const primaryOffer = getPrimaryOfferConfig(groupClosed);
+  const heroHtml = getHeroActionsHtml(groupClosed);
 
   let body = readFileSync(join(process.cwd(), 'content/page-body.html'), 'utf8');
   const replacements = {
@@ -327,8 +203,7 @@ export default async function HomePage() {
     __PROMO_CTA__: primaryOffer.label,
     __PROMO_TRACK_DESTINATION__: primaryOffer.destination,
     __NAV_SIGNALS__: copy.navSignals,
-    __NAV_CTA_LABEL__:
-      effectiveClosedDoorMode === 'hard-close' ? 'JOIN WAITLIST →' : primaryOffer.label,
+    __NAV_CTA_LABEL__: groupClosed ? 'JOIN WAITLIST →' : primaryOffer.label,
     __NAV_CTA_TRACK_DESTINATION__: primaryOffer.destination,
     __HERO_BADGE__: copy.heroBadge,
     __HERO_TITLE_DIM__: copy.heroTitleDim,
@@ -366,13 +241,9 @@ export default async function HomePage() {
     __FINAL_TITLE_BEFORE__: copy.finalTitleBefore,
     __FINAL_TITLE_ACCENT__: copy.finalTitleAccent,
     __FINAL_SUB__: copy.finalSub,
-    __FINAL_CTA__:
-      effectiveClosedDoorMode === 'hard-close' ? 'JOIN THE WAITLIST →' : primaryOffer.label,
+    __FINAL_CTA__: groupClosed ? 'JOIN THE WAITLIST →' : primaryOffer.label,
     __FINAL_CTA_TRACK_DESTINATION__: primaryOffer.destination,
-    __FOOTER_CTA_LABEL__:
-      effectiveClosedDoorMode === 'hard-close'
-        ? 'JOIN WAITLIST'
-        : primaryOffer.label.replace(' →', ''),
+    __FOOTER_CTA_LABEL__: groupClosed ? 'JOIN WAITLIST' : primaryOffer.label.replace(' →', ''),
     __FOOTER_X_LABEL__: copy.footerLinks,
     __FOOTER_DISCLAIMER__: copy.footerDisclaimer,
   } as const;
@@ -384,137 +255,45 @@ export default async function HomePage() {
   body = body.replace('__HERO_ACTIONS__', heroHtml);
   body = body.replace(
     '__NAV_CTA_URL__',
-    effectiveClosedDoorMode === 'hard-close'
-      ? getWaitlistHref({ cta: 'nav', variant: ctaVariant, offer: homepagePrimaryOffer })
-      : primaryOffer.destination === 'free_trial'
-        ? getJoinPlanHref('free_trial', {
-            cta: 'nav',
-            variant: ctaVariant,
-            offer: homepagePrimaryOffer,
-          })
-        : primaryOffer.destination === 'waitlist'
-          ? getWaitlistHref({ cta: 'nav', variant: ctaVariant, offer: homepagePrimaryOffer })
-          : primaryOffer.href,
+    groupClosed
+      ? getWaitlistHref({ cta: 'nav', variant: DEFAULT_CTA_VARIANT, mode: 'closed' })
+      : primaryOffer.href,
   );
-  body = body.replace(
-    '__NAV_CTA_ATTRS__',
-    effectiveClosedDoorMode === 'hard-close'
-      ? ''
-      : primaryOffer.destination === 'lifetime'
-        ? primaryOffer.attrs
-        : '',
-  );
+  body = body.replace('__NAV_CTA_ATTRS__', groupClosed ? '' : primaryOffer.attrs);
   body = body.replace(
     '__PROMO_BANNER_CTA_URL__',
-    effectiveClosedDoorMode === 'hard-close'
-      ? getWaitlistHref({ cta: 'promo-banner', variant: ctaVariant, offer: homepagePrimaryOffer })
-      : primaryOffer.destination === 'free_trial'
-        ? getJoinPlanHref('free_trial', {
-            cta: 'promo-banner',
-            variant: ctaVariant,
-            offer: homepagePrimaryOffer,
-          })
-        : primaryOffer.destination === 'waitlist'
-          ? getWaitlistHref({
-              cta: 'promo-banner',
-              variant: ctaVariant,
-              offer: homepagePrimaryOffer,
-            })
-          : primaryOffer.href,
+    groupClosed
+      ? getWaitlistHref({ cta: 'promo-banner', variant: DEFAULT_CTA_VARIANT, mode: 'closed' })
+      : primaryOffer.href,
   );
-  body = body.replace(
-    '__PROMO_BANNER_CTA_ATTRS__',
-    effectiveClosedDoorMode === 'hard-close'
-      ? ''
-      : primaryOffer.destination === 'lifetime'
-        ? primaryOffer.attrs
-        : '',
-  );
+  body = body.replace('__PROMO_BANNER_CTA_ATTRS__', groupClosed ? '' : primaryOffer.attrs);
   body = body.replace(
     '__DISCORD_PREVIEW_CTA_URL__',
-    effectiveClosedDoorMode === 'hard-close'
-      ? getWaitlistHref({
-          cta: 'discord-preview',
-          variant: ctaVariant,
-          offer: homepagePrimaryOffer,
-        })
-      : primaryOffer.destination === 'free_trial'
-        ? getJoinPlanHref('free_trial', {
-            cta: 'discord-preview',
-            variant: ctaVariant,
-            offer: homepagePrimaryOffer,
-          })
-        : primaryOffer.destination === 'waitlist'
-          ? getWaitlistHref({
-              cta: 'discord-preview',
-              variant: ctaVariant,
-              offer: homepagePrimaryOffer,
-            })
-          : primaryOffer.href,
+    groupClosed
+      ? getWaitlistHref({ cta: 'discord-preview', variant: DEFAULT_CTA_VARIANT, mode: 'closed' })
+      : primaryOffer.href,
   );
-  body = body.replace(
-    '__DISCORD_PREVIEW_CTA_ATTRS__',
-    effectiveClosedDoorMode === 'hard-close'
-      ? ''
-      : primaryOffer.destination === 'lifetime'
-        ? primaryOffer.attrs
-        : '',
-  );
-  body = body.replace('__PROOF_BLOCK__', getProofBlockHtml(copy, proofBlockVariant, primaryOffer));
-  body = body.replace(
-    '__SOFT_CLOSE_NOTICE__',
-    effectiveClosedDoorMode === 'soft-close' ? getSoftCloseNoticeHtml(primaryOffer) : '',
-  );
+  body = body.replace('__DISCORD_PREVIEW_CTA_ATTRS__', groupClosed ? '' : primaryOffer.attrs);
+  body = body.replace('__PROOF_BLOCK__', getProofBlockHtml(copy, primaryOffer));
+  body = body.replace('__SOFT_CLOSE_NOTICE__', '');
   body = body.replace(
     '__PRICING_SECTION__',
-    effectiveClosedDoorMode === 'hard-close'
-      ? getHomepageWaitlistHtml()
-      : getHomepagePricingHtml(copy, ctaVariant),
+    groupClosed ? getHomepageWaitlistHtml() : getHomepagePricingHtml(copy),
   );
   body = body.replace(
     '__FINAL_CTA_URL__',
-    effectiveClosedDoorMode === 'hard-close'
-      ? getWaitlistHref({ cta: 'final-cta', variant: ctaVariant, offer: homepagePrimaryOffer })
-      : primaryOffer.destination === 'free_trial'
-        ? getJoinPlanHref('free_trial', {
-            cta: 'final-cta',
-            variant: ctaVariant,
-            offer: homepagePrimaryOffer,
-          })
-        : primaryOffer.destination === 'waitlist'
-          ? getWaitlistHref({ cta: 'final-cta', variant: ctaVariant, offer: homepagePrimaryOffer })
-          : primaryOffer.href,
+    groupClosed
+      ? getWaitlistHref({ cta: 'final-cta', variant: DEFAULT_CTA_VARIANT, mode: 'closed' })
+      : primaryOffer.href,
   );
-  body = body.replace(
-    '__FINAL_CTA_ATTRS__',
-    effectiveClosedDoorMode === 'hard-close'
-      ? ''
-      : primaryOffer.destination === 'lifetime'
-        ? primaryOffer.attrs
-        : '',
-  );
+  body = body.replace('__FINAL_CTA_ATTRS__', groupClosed ? '' : primaryOffer.attrs);
   body = body.replace(
     '__FOOTER_LIFETIME_URL__',
-    effectiveClosedDoorMode === 'hard-close'
-      ? getWaitlistHref({ cta: 'footer', variant: ctaVariant, offer: homepagePrimaryOffer })
-      : primaryOffer.destination === 'free_trial'
-        ? getJoinPlanHref('free_trial', {
-            cta: 'footer',
-            variant: ctaVariant,
-            offer: homepagePrimaryOffer,
-          })
-        : primaryOffer.destination === 'waitlist'
-          ? getWaitlistHref({ cta: 'footer', variant: ctaVariant, offer: homepagePrimaryOffer })
-          : primaryOffer.href,
+    groupClosed
+      ? getWaitlistHref({ cta: 'footer', variant: DEFAULT_CTA_VARIANT, mode: 'closed' })
+      : primaryOffer.href,
   );
-  body = body.replace(
-    '__FOOTER_LIFETIME_ATTRS__',
-    effectiveClosedDoorMode === 'hard-close'
-      ? ''
-      : primaryOffer.destination === 'lifetime'
-        ? primaryOffer.attrs
-        : '',
-  );
+  body = body.replace('__FOOTER_LIFETIME_ATTRS__', groupClosed ? '' : primaryOffer.attrs);
   body = body.replace('__NEWSLETTER_TEASER__', getNewsletterTeaserHtml(copy));
 
   return <div style={{ display: 'contents' }} dangerouslySetInnerHTML={{ __html: body }} />;

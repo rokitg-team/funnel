@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { JoinCheckout } from '@/components/join-checkout';
 import { WaitlistGate } from '@/components/waitlist-gate';
-import { closedDoorModeFlag, getEffectiveClosedDoorMode, groupClosedFlag } from '@/flags';
+import { groupClosedFlag } from '@/flags';
 
 export const metadata: Metadata = {
   title: 'Join — The Circle',
@@ -10,15 +10,11 @@ export const metadata: Metadata = {
 };
 
 export default async function JoinPage() {
-  const [groupClosed, closedDoorMode] = await Promise.all([
-    groupClosedFlag(),
-    closedDoorModeFlag(),
-  ]);
-  const effectiveClosedDoorMode = getEffectiveClosedDoorMode(closedDoorMode, groupClosed);
+  const groupClosed = await groupClosedFlag();
 
   return (
     <main className="join-page whop-brand">
-      {effectiveClosedDoorMode === 'hard-close' ? (
+      {groupClosed ? (
         <WaitlistGate
           source="join"
           heading="CHECKOUT IS"
