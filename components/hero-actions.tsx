@@ -26,6 +26,7 @@ export function getHeroActionsHtml(
   let destination = 'lifetime';
   let plan = 'lifetime';
   let label = 'BUY LIFETIME DIRECT →';
+  let eventName = 'lifetime-deal-init';
 
   if (effectiveClosedDoorMode !== 'hard-close') {
     if (offerVariant === 'free-trial') {
@@ -34,18 +35,21 @@ export function getHeroActionsHtml(
       destination = 'free_trial';
       plan = 'free_trial';
       label = 'START FREE TRIAL →';
+      eventName = 'free-trial-init';
     } else if (offerVariant === 'waitlist-apply') {
       primaryHref = getWaitlistHref({ cta: 'hero', variant, offer: offerVariant });
       primaryAttrs = '';
       destination = 'waitlist';
       plan = 'waitlist';
       label = 'JOIN THE WAITLIST →';
+      eventName = 'waitlist-cta';
     }
   } else {
     destination = 'waitlist';
     plan = 'waitlist';
     label = 'JOIN THE WAITLIST →';
+    eventName = 'waitlist-cta';
   }
 
-  return `<a href="${primaryHref}" ${primaryAttrs} class="btn-primary btn-cta-blue" onclick="va('event',{name:'cta-main',data:{location:'hero',destination:'${destination}',plan:'${plan}',variant:'${variant}'}})">${label}</a>`;
+  return `<a href="${primaryHref}" ${primaryAttrs} class="btn-primary btn-cta-blue" onclick="va('event',{name:'${eventName}',data:{location:'hero',destination:'${destination}',plan:'${plan}',variant:'${variant}'}})">${label}</a>`;
 }

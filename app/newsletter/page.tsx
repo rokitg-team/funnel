@@ -47,7 +47,7 @@ export default async function NewsletterPage() {
               rel="noopener noreferrer"
               className="btn-primary btn-cta-blue"
               data-va-location="newsletter-subscribe"
-              data-va-event="newsletter-hero-subscribe"
+              data-va-event="newsletter-cta"
             >
               SUBSCRIBE FREE →
             </a>
@@ -77,7 +77,7 @@ export default async function NewsletterPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       data-va-location={`newsletter-embed-${embed.id}`}
-                      data-va-event="newsletter-embed-open"
+                      data-va-event="newsletter-cta"
                     >
                       Open on Substack ↗
                     </a>
@@ -111,7 +111,7 @@ export default async function NewsletterPage() {
                   rel="noopener noreferrer"
                   className="post-card"
                   data-va-location={`newsletter-post-${index}`}
-                  data-va-event={`newsletter-post-open-${index + 1}`}
+                  data-va-event="newsletter-cta"
                 >
                   <div className="post-meta">
                     <span className="post-date">{formatSubstackDate(post.pubDate)}</span>
@@ -181,7 +181,7 @@ export default async function NewsletterPage() {
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary btn-cta-blue"
-              data-va-event="newsletter-final-subscribe"
+              data-va-event="newsletter-cta"
               data-va-location="newsletter-subscribe"
             >
               SUBSCRIBE FREE →

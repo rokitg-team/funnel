@@ -140,7 +140,7 @@ export default function SponsorsPage() {
             rel="noopener noreferrer sponsored"
             className="breakout-card"
             data-va-location="sponsor-breakout-featured"
-            data-va-event="sponsor-breakout-featured"
+            data-va-event="breakout-ref-click"
             aria-label="Get a Breakout prop firm account with code ROKIT"
           >
             <div className="breakout-aurora" aria-hidden="true" />
@@ -231,7 +231,7 @@ export default function SponsorsPage() {
             rel="noopener noreferrer sponsored"
             className="propr-card"
             data-va-location="sponsor-propr-featured"
-            data-va-event="sponsor-propr-featured"
+            data-va-event="propr-ref-click"
             aria-label="Sign up to PROPR with code ROKIT"
           >
             <div className="propr-aurora" aria-hidden="true" />
@@ -287,7 +287,7 @@ export default function SponsorsPage() {
             rel="noopener noreferrer sponsored"
             className="fomo-card"
             data-va-location="sponsor-fomo-featured"
-            data-va-event="sponsor-fomo-featured"
+            data-va-event="fomo-ref-click"
             aria-label="Open FOMO with RokitG referral link"
           >
             <div className="fomo-aurora" aria-hidden="true" />
@@ -413,9 +413,7 @@ export default function SponsorsPage() {
                   data-va-location={
                     p.id === 'polymarket' ? 'polymarket-referral' : `sponsor-${p.id}`
                   }
-                  data-va-event={
-                    p.id === 'polymarket' ? 'polymarket-referral' : `sponsor-${p.id}-primary`
-                  }
+                  data-va-event={`${p.id}-ref-click`}
                 >
                   {p.primaryLabel ?? 'Sign up'} <span>→</span>
                 </a>
@@ -429,7 +427,7 @@ export default function SponsorsPage() {
                       p.id === 'polymarket' ? 'polymarket-profile' : `sponsor-${p.id}-secondary`
                     }
                     data-va-event={
-                      p.id === 'polymarket' ? 'polymarket-profile' : `sponsor-${p.id}-secondary`
+                      p.id === 'polymarket' ? 'polymarket-profile-click' : `${p.id}-secondary-click`
                     }
                   >
                     {p.secondaryLabel}

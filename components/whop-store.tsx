@@ -55,14 +55,6 @@ export function WhopStore() {
     }
   }, [searchParams]);
 
-  useEffect(() => {
-    track('lifetime-card-view', {
-      location: 'whop-plan-selector',
-      source: ctaSource ?? 'whop',
-      variant,
-    });
-  }, [ctaSource, variant]);
-
   const currentPlan = getAccessPlan(selectedPlan);
   const lifetimeHref = getLifetimeJoinHref({ source: ctaSource ?? 'whop', variant });
 
@@ -92,7 +84,7 @@ export function WhopStore() {
             href={lifetimeHref}
             className="btn-primary btn-cta-blue"
             onClick={() =>
-              track('lifetime-cta', {
+              track('lifetime-deal-init', {
                 location: 'whop-callout',
                 source: ctaSource ?? 'whop',
                 variant,
@@ -118,11 +110,6 @@ export function WhopStore() {
                 onClick={() => {
                   setSelectedPlan(plan.key);
                   setReceiptId(null);
-                  track('whop-fallback-select', {
-                    location: 'whop-plan-selector',
-                    plan: plan.key,
-                    source: ctaSource ?? 'whop',
-                  });
                 }}
               >
                 <div className="checkout-plan-topline">
@@ -211,9 +198,6 @@ export function WhopStore() {
                   className="btn-whatsapp-reveal"
                   onClick={() => {
                     setShowWhatsApp((value) => !value);
-                    track(showWhatsApp ? 'whop-hide-whatsapp' : 'whop-reveal-whatsapp', {
-                      location: 'whop-success',
-                    });
                   }}
                 >
                   {showWhatsApp ? 'HIDE WHATSAPP' : 'REVEAL WHATSAPP CONTACT'}
@@ -225,7 +209,6 @@ export function WhopStore() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="whatsapp-card"
-                      onClick={() => track('whop-open-whatsapp', { location: 'whop-success' })}
                     >
                       <span className="whatsapp-card-label">WhatsApp</span>
                       <strong>{WHATSAPP_DISPLAY}</strong>
@@ -242,12 +225,7 @@ export function WhopStore() {
               </div>
 
               <div className="success-links">
-                <a
-                  href="https://whop.com/the-circle-vip"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => track('whop-success-open-circle', { location: 'whop-success' })}
-                >
+                <a href="https://whop.com/the-circle-vip" target="_blank" rel="noopener noreferrer">
                   Open Whop
                 </a>
                 <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer">
@@ -256,11 +234,7 @@ export function WhopStore() {
                 <span>{DISCORD_LABEL}</span>
               </div>
             </div>
-            <a
-              href="https://whop.com/the-circle-vip"
-              className="btn-primary btn-cta-blue"
-              onClick={() => track('whop-success-enter', { location: 'whop-success' })}
-            >
+            <a href="https://whop.com/the-circle-vip" className="btn-primary btn-cta-blue">
               OPEN THE CIRCLE
             </a>
           </div>
@@ -302,7 +276,16 @@ export function WhopStore() {
                   setReceiptId('pending');
                 }
 
-                track('whop-checkout-complete', {
+                if (currentPlan.key === 'free_trial') {
+                  track('free-trial-success', {
+                    variant,
+                    source: ctaSource ?? 'direct',
+                    plan: currentPlan.key,
+                  });
+                  return;
+                }
+
+                track('monthly-success', {
                   variant,
                   source: ctaSource ?? 'direct',
                   plan: currentPlan.key,
@@ -313,38 +296,8 @@ export function WhopStore() {
                   setIdentityEmail(data.email);
                 }
               }}
-              onPromoCodeChanged={(promoCode) => {
-                if (promoCode) {
-                  track('whop-promo-applied', {
-                    variant,
-                    source: ctaSource ?? 'direct',
-                    plan: currentPlan.key,
-                  });
-                }
-              }}
               onStateChange={(state) => {
                 setCheckoutState(state);
-                if (state === 'loading') {
-                  track('init-whop-checkout', {
-                    variant,
-                    source: ctaSource ?? 'direct',
-                    plan: currentPlan.key,
-                  });
-                }
-                if (state === 'ready') {
-                  track('whop-checkout-ready', {
-                    variant,
-                    source: ctaSource ?? 'direct',
-                    plan: currentPlan.key,
-                  });
-                }
-                if (state === 'disabled') {
-                  track('whop-checkout-disabled', {
-                    variant,
-                    source: ctaSource ?? 'direct',
-                    plan: currentPlan.key,
-                  });
-                }
               }}
               fallback={
                 <div className="checkout-loading">

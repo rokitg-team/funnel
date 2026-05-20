@@ -49,14 +49,6 @@ export function JoinCheckout() {
     }
   }, [searchParams]);
 
-  useEffect(() => {
-    track('lifetime-card-view', {
-      location: 'join-plan-selector',
-      source: searchParams.get('cta') ?? 'join',
-      variant: searchParams.get('variant') ?? 'join-direct',
-    });
-  }, [searchParams]);
-
   const stateId = searchParams.get('state_id') ?? undefined;
   const variant = searchParams.get('variant') ?? 'join-direct';
   const source = searchParams.get('cta') ?? 'join';
@@ -107,12 +99,6 @@ export function JoinCheckout() {
                   aria-selected={isActive}
                   onClick={() => {
                     setSelectedPlan(plan.key);
-                    track(plan.key === 'lifetime' ? 'lifetime-select' : 'whop-fallback-select', {
-                      location: 'join-plan-switcher',
-                      source,
-                      variant,
-                      plan: plan.key,
-                    });
                   }}
                 >
                   <div>
@@ -176,7 +162,7 @@ export function JoinCheckout() {
                   rel={lifetimePrimaryHref.startsWith('http') ? 'noopener noreferrer' : undefined}
                   className="btn-primary btn-cta-blue"
                   onClick={() =>
-                    track('lifetime-cta', {
+                    track('lifetime-deal-init', {
                       location: 'join-panel',
                       source,
                       variant,
@@ -193,13 +179,6 @@ export function JoinCheckout() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-ghost"
-                  onClick={() =>
-                    track('manual-onboarding-open', {
-                      location: 'join-panel-contact',
-                      source,
-                      variant,
-                    })
-                  }
                 >
                   {WHATSAPP_URL ? 'ASK ON WHATSAPP' : 'ASK ON TELEGRAM'}
                 </a>
@@ -225,7 +204,7 @@ export function JoinCheckout() {
                 <Link
                   href={lifetimeHref}
                   onClick={() =>
-                    track('lifetime-cta', {
+                    track('lifetime-deal-init', {
                       location: 'join-fallback-banner',
                       source,
                       variant,
@@ -253,17 +232,16 @@ export function JoinCheckout() {
                     setIdentityEmail(data.email);
                   }
                 }}
-                onPromoCodeChanged={(promoCode) => {
-                  if (promoCode) {
-                    track('join-promo-applied', { source, variant, plan: currentPlan.key });
-                  }
-                }}
                 onComplete={() => {
-                  track('join-checkout-complete', { source, variant, plan: currentPlan.key });
+                  if (currentPlan.key === 'free_trial') {
+                    track('free-trial-success', { source, variant, plan: currentPlan.key });
+                    return;
+                  }
+
+                  track('monthly-success', { source, variant, plan: currentPlan.key });
                 }}
                 onStateChange={(state) => {
                   setCheckoutState(state);
-                  track(`join-checkout-${state}`, { source, variant, plan: currentPlan.key });
                 }}
                 fallback={
                   <div className="checkout-loading">

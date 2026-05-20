@@ -97,9 +97,8 @@ export function LifetimeCheckout({ ens }: LifetimeCheckoutProps) {
   const [copied, setCopied] = useState<'address' | 'ens' | 'packet' | null>(null);
 
   useEffect(() => {
-    track('lifetime-card-view', { location: 'lifetime-page', source, variant });
     if (showSuccess) {
-      track('manual-onboarding-open', { location: 'lifetime-success', source, variant });
+      track('lifetime-deal-success', { location: 'lifetime-success', source, variant });
     }
   }, [showSuccess, source, variant]);
 
@@ -146,7 +145,7 @@ export function LifetimeCheckout({ ens }: LifetimeCheckoutProps) {
 
     setError(null);
     setSubmittedPacket(approvalPacket);
-    track('manual-onboarding-open', {
+    track('lifetime-deal-success', {
       location: 'lifetime-approval-form',
       source,
       variant,
@@ -428,13 +427,6 @@ export function LifetimeCheckout({ ens }: LifetimeCheckoutProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn-primary btn-cta-blue"
-                    onClick={() =>
-                      track('manual-onboarding-open', {
-                        location: 'lifetime-success-contact',
-                        source,
-                        variant,
-                      })
-                    }
                   >
                     OPEN CONTACT
                   </a>
@@ -496,7 +488,7 @@ export function LifetimeCheckout({ ens }: LifetimeCheckoutProps) {
               href={getJoinPlanHref('monthly', { cta: 'lifetime-fallback', variant })}
               className="btn-ghost lifetime-whop-fallback"
               onClick={() =>
-                track('whop-fallback-select', {
+                track('monthly-init', {
                   location: 'lifetime-page-fallback',
                   source,
                   variant,

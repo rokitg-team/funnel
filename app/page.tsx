@@ -38,7 +38,7 @@ function getNewsletterTeaserHtml(copy: (typeof marketingCopy)[keyof typeof marke
         <div class="section-tag">${copy.newsletterTeaserTag}</div>
         <h2>${copy.newsletterTeaserTitle}<br><span class="green">${copy.newsletterTeaserAccent}</span></h2>
         <p class="section-sub">${copy.newsletterTeaserSub}</p>
-        <a href="/newsletter" class="newsletter-teaser-cta" onclick="window.rokitTrack && window.rokitTrack('cta-newsletter-teaser',{location:'newsletter-teaser',destination:'newsletter',kind:'${teaser.kind}'})">
+        <a href="/newsletter" class="newsletter-teaser-cta" onclick="window.rokitTrack && window.rokitTrack('newsletter-cta',{location:'newsletter-teaser',destination:'newsletter',kind:'${teaser.kind}'})">
           ${copy.newsletterTeaserCta}
         </a>
       </div>
@@ -145,7 +145,13 @@ function getProofBlockHtml(
   proofVariant: ProofBlockVariant,
   primaryOffer: ReturnType<typeof getPrimaryOfferConfig>,
 ) {
-  const cta = `<a href="${primaryOffer.href}" ${primaryOffer.attrs} class="proof-block-cta" onclick="window.rokitTrack && window.rokitTrack('proof-block-cta-click',{variant:'${proofVariant}',destination:'${primaryOffer.destination}',plan:'${primaryOffer.plan}',location:'proof-block'})">${primaryOffer.label}</a>`;
+  const ctaEventName =
+    primaryOffer.plan === 'lifetime'
+      ? 'lifetime-deal-init'
+      : primaryOffer.plan === 'free_trial'
+        ? 'free-trial-init'
+        : 'waitlist-cta';
+  const cta = `<a href="${primaryOffer.href}" ${primaryOffer.attrs} class="proof-block-cta" onclick="window.rokitTrack && window.rokitTrack('${ctaEventName}',{variant:'${proofVariant}',destination:'${primaryOffer.destination}',plan:'${primaryOffer.plan}',location:'proof-block'})">${primaryOffer.label}</a>`;
 
   if (proofVariant === 'community-proof') {
     return `
@@ -232,23 +238,8 @@ function getSoftCloseNoticeHtml(primaryOffer: ReturnType<typeof getPrimaryOfferC
       <strong>Spots are tightening up.</strong>
       <p>The group is still open right now, but intake is being throttled. If you&apos;re even half-serious, make your move before this flips fully into waitlist mode.</p>
     </div>
-    <a href="${primaryOffer.href}" ${primaryOffer.attrs} class="soft-close-cta" onclick="window.rokitTrack && window.rokitTrack('closed-door-click',{variant:'soft-close',destination:'${primaryOffer.destination}',plan:'${primaryOffer.plan}',location:'soft-close-banner'})">${primaryOffer.label}</a>
+    <a href="${primaryOffer.href}" ${primaryOffer.attrs} class="soft-close-cta" onclick="window.rokitTrack && window.rokitTrack('${primaryOffer.plan === 'lifetime' ? 'lifetime-deal-init' : primaryOffer.plan === 'free_trial' ? 'free-trial-init' : 'waitlist-cta'}',{variant:'soft-close',destination:'${primaryOffer.destination}',plan:'${primaryOffer.plan}',location:'soft-close-banner'})">${primaryOffer.label}</a>
   </section>`;
-}
-
-function getExperimentTrackingScript(
-  offerVariant: HomepagePrimaryOfferVariant,
-  proofVariant: ProofBlockVariant,
-  closedDoorMode: ClosedDoorModeVariant,
-) {
-  return `<script>
-    window.addEventListener('load', function () {
-      if (!window.rokitTrack) return;
-      window.rokitTrack('homepage-offer-impression', { variant: '${offerVariant}', location: 'homepage', closedDoorMode: '${closedDoorMode}' });
-      window.rokitTrack('proof-block-view', { variant: '${proofVariant}', location: 'homepage' });
-      window.rokitTrack('closed-door-impression', { variant: '${closedDoorMode}', location: 'homepage' });
-    });
-  </script>`;
 }
 
 function getHomepagePricingHtml(
@@ -259,17 +250,17 @@ function getHomepagePricingHtml(
     free_trial: {
       href: getMarketingCtaHref('pricing-free_trial', ctaVariant, false),
       attrs: getMarketingCtaAnchorAttrs('pricing-free_trial', ctaVariant, false),
-      eventName: 'cta-pricing-free-trial',
+      eventName: 'free-trial-init',
     },
     monthly: {
       href: getMarketingCtaHref('pricing-monthly', ctaVariant, false),
       attrs: getMarketingCtaAnchorAttrs('pricing-monthly', ctaVariant, false),
-      eventName: 'cta-pricing-monthly',
+      eventName: 'monthly-init',
     },
     lifetime: {
       href: getMarketingCtaHref('pricing-lifetime', ctaVariant, false),
       attrs: getMarketingCtaAnchorAttrs('pricing-lifetime', ctaVariant, false),
-      eventName: 'cta-pricing-lifetime',
+      eventName: 'lifetime-deal-init',
     },
   } as const;
 
@@ -525,11 +516,6 @@ export default async function HomePage() {
         : '',
   );
   body = body.replace('__NEWSLETTER_TEASER__', getNewsletterTeaserHtml(copy));
-  body += getExperimentTrackingScript(
-    homepagePrimaryOffer,
-    proofBlockVariant,
-    effectiveClosedDoorMode,
-  );
 
   return <div style={{ display: 'contents' }} dangerouslySetInnerHTML={{ __html: body }} />;
 }
