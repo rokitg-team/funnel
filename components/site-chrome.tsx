@@ -81,7 +81,7 @@ export async function SiteFooter() {
         >
           {ctaLabel}
         </a>
-        <Link href="/sponsors">REFLINKS</Link>
+        <Link href="/sponsors">SPONSORS</Link>
         <a href="https://x.com/rokitdotgg" target="_blank" rel="noopener noreferrer">
           X / @ROKITDOTGG
         </a>
