@@ -52,7 +52,7 @@ const partners: Partner[] = [
     primaryUrl: POLYMARKET_REFERRAL_URL,
     primaryLabel: 'Open referral',
     secondaryUrl: POLYMARKET_PROFILE_URL,
-    secondaryLabel: 'View profile',
+    secondaryLabel: 'rokitg.eth',
     logoSrc: '/brand/sponsors/polymarket-logo-white.png',
     logoAlt: 'Polymarket logo',
     logoWide: true,
