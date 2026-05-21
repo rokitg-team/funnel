@@ -64,10 +64,10 @@ export const ACCESS_PLANS: readonly AccessPlan[] = [
     key: 'lifetime',
     label: 'Lifetime',
     badge: 'Best value',
-    price: '$99',
-    period: 'one-time via crypto',
+    price: '$75',
+    period: 'limited-time via stablecoins',
     description:
-      'Buy direct, skip recurring billing, and lock permanent Circle access through the strongest on-site offer.',
+      'Buy direct with stablecoins, skip recurring billing, and lock permanent Circle access through the strongest limited-time on-site offer.',
     valueLine:
       'Top recommendation for serious buyers because direct crypto lets us bypass Whop fees.',
     ctaLabel: 'BUY LIFETIME DIRECT →',

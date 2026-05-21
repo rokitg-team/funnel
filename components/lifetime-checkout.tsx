@@ -28,6 +28,7 @@ const lifetimePlan = ACCESS_PLANS.find((plan) => plan.key === 'lifetime') ?? ACC
 const preferredStablecoin = 'USDC on Base';
 const acceptedStablecoins = ['USDC on Base', 'USDT', 'DAI'];
 const acceptedChains = ['Base preferred', 'Ethereum', 'Arbitrum', 'Optimism', 'Polygon', 'BSC'];
+const limitedTimeOfferLabel = 'Expires today';
 
 type ApprovalFormState = {
   stablecoin: string;
@@ -171,29 +172,32 @@ export function LifetimeCheckout({ ens }: LifetimeCheckoutProps) {
         <div className="lifetime-stage">
           <section className="lifetime-hero-card lifetime-deal-card">
             <div className="section-tag">{'// DIRECT CRYPTO CHECKOUT'}</div>
+            <div className="checkout-panel-label">{limitedTimeOfferLabel}</div>
             <h1>
               SEND STABLES.
               <br />
               <span className="green">LOCK LIFETIME.</span>
             </h1>
             <p className="join-subtitle lifetime-subtitle">
-              Prefer <strong>{preferredStablecoin}</strong>. We also accept{' '}
-              <strong>USDC / USDT / DAI</strong> across all major EVM chains. Send the payment, then
-              submit the TX below for manual approval by RokitG himself.
+              Limited-time offer: lock in lifetime access for <strong>{lifetimePlan.price}</strong>{' '}
+              paid in <strong>stablecoins</strong>. Prefer <strong>{preferredStablecoin}</strong>,
+              but we also accept <strong>USDC / USDT / DAI</strong> across all major EVM chains.
+              Send the payment today, then submit the TX below for manual approval by RokitG
+              himself.
             </p>
 
             <div className="lifetime-stat-row">
               <div className="lifetime-stat-card">
                 <strong>{lifetimePlan.price}</strong>
-                <span>one-time lifetime deal</span>
+                <span>today only lifetime deal</span>
               </div>
               <div className="lifetime-stat-card">
-                <strong>{preferredStablecoin}</strong>
-                <span>preferred rail</span>
+                <strong>Stablecoins</strong>
+                <span>USDC, USDT, or DAI</span>
               </div>
               <div className="lifetime-stat-card">
-                <strong>Manual</strong>
-                <span>RokitG approval</span>
+                <strong>{limitedTimeOfferLabel}</strong>
+                <span>price closes tonight</span>
               </div>
             </div>
 
@@ -341,7 +345,7 @@ export function LifetimeCheckout({ ens }: LifetimeCheckoutProps) {
                         onChange={(event) =>
                           setForm((current) => ({ ...current, amount: event.target.value }))
                         }
-                        placeholder="99 USDC"
+                        placeholder="75 USDC"
                       />
                     </label>
                   </div>
@@ -439,8 +443,9 @@ export function LifetimeCheckout({ ens }: LifetimeCheckoutProps) {
             <div className="checkout-panel-title">Crypto-native checkout.</div>
             <div className="lifetime-side-copy">
               <p>
-                This page is the direct on-site deal. We prefer stablecoins here because it keeps
-                the buyer flow fast and the sale on-domain.
+                This page is the direct on-site deal. Today&apos;s limited-time offer keeps
+                lifetime at <strong>{lifetimePlan.price}</strong> when paid in stablecoins so the
+                buyer flow stays fast and the sale stays on-domain.
               </p>
               <p>
                 Base is the recommended rail for USDC, but we can still process USDT and DAI across

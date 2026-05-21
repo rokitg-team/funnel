@@ -22,10 +22,12 @@ const PROPR_CODE = 'ROKIT';
 const BREAKOUT_URL = 'https://breakoutprop.com/?ref=ROKIT';
 const BREAKOUT_CODE = 'ROKIT';
 const FOMO_URL = 'https://fomo.family/r/rokitg';
+const BYBIT_URL = 'https://www.bybit.com/invite?ref=ROKITG';
 const EXTENDED_URL = 'https://app.extended.exchange/join/ROKITG';
 const EXTENDED_CODE = 'ROKITG';
 const POLYMARKET_PROFILE_URL = 'https://polymarket.com/@rokitg';
 const POLYMARKET_REFERRAL_URL = 'https://polymarket.com/?r=rokitgfun';
+const AXIOM_URL = 'https://axiom.pro/@rokitg';
 
 type Partner = {
   id: string;
@@ -45,6 +47,18 @@ type Partner = {
 // Real reflinks, ranked top → bottom by YTD earnings.
 // Codes and slugs are baked into the URLs.
 const partners: Partner[] = [
+  {
+    id: 'bybit',
+    name: 'BYBIT',
+    category: 'PERPS',
+    bonus: 'Recommended CEX route for perps',
+    desc: 'Best fit here as the straightforward centralized venue for perps. Added as a top-line recommendation, not a featured push.',
+    primaryUrl: BYBIT_URL,
+    primaryLabel: 'Trade perps',
+    logoSrc: '/brand/sponsors/bybit.svg',
+    logoAlt: 'Bybit wordmark',
+    logoWide: true,
+  },
   {
     id: 'polymarket',
     name: 'POLYMARKET',
@@ -99,6 +113,29 @@ const partners: Partner[] = [
     primaryUrl: 'https://hibachi.xyz/r/rokit',
     logoSrc: '/brand/sponsors/hibachi.ico',
     logoAlt: 'Hibachi logo',
+  },
+  {
+    id: 'fomo',
+    name: 'FOMO',
+    category: 'EXCHANGE',
+    bonus: 'Mobile-first referral flow',
+    desc: 'Social trading app with fast funding, leaderboard loops, and clean mobile UX. Still on the page, just not elevated as a featured card.',
+    primaryUrl: FOMO_URL,
+    logoSrc: '/brand/sponsors/fomo-family.svg',
+    logoAlt: 'Fomo logo',
+    logoWide: true,
+  },
+  {
+    id: 'axiom',
+    name: 'AXIOM.PRO',
+    category: 'TOOL',
+    bonus: 'Direct ref link',
+    desc: 'Browser-native trading workspace and research surface. Keeping this as the last outbound ref link in the stack.',
+    primaryUrl: AXIOM_URL,
+    primaryLabel: 'Open Axiom',
+    logoSrc: '/brand/sponsors/axiom.svg',
+    logoAlt: 'Axiom wordmark',
+    logoWide: true,
   },
 ];
 
@@ -272,105 +309,6 @@ export default function SponsorsPage() {
           </a>
         </section>
 
-        <section className="fomo-feature" aria-labelledby="fomo-title">
-          <a
-            href={FOMO_URL}
-            target="_blank"
-            rel="noopener noreferrer sponsored"
-            className="fomo-card"
-            data-va-location="sponsor-fomo-featured"
-            data-va-event="fomo-ref-click"
-            aria-label="Open FOMO with RokitG referral link"
-          >
-            <div className="fomo-aurora" aria-hidden="true" />
-            <div className="fomo-content">
-              <div className="fomo-copy">
-                <div className="fomo-head">
-                  <span className="fomo-logo-wrap">
-                    <Image
-                      src="/brand/sponsors/fomo-family.svg"
-                      alt=""
-                      className="fomo-logo-mark"
-                      width={28}
-                      height={28}
-                    />
-                    <span className="fomo-logo">fomo</span>
-                  </span>
-                </div>
-                <h2 id="fomo-title" className="fomo-title">
-                  WHERE TRADERS
-                  <br />
-                  <span className="fomo-violet">BECOME LEGENDS.</span>
-                </h2>
-                <p className="fomo-sub">
-                  Social-first trading app with clean mobile UX, leaderboard loops, and fast funding
-                  flow. This is the app-native pick on the page, so it deserves more than a generic
-                  tile. <strong>Priority partner after the prop firms.</strong>
-                </p>
-                <div className="fomo-perks">
-                  <div className="fomo-perk">
-                    <div className="fomo-perk-num">APPLE PAY</div>
-                    <div className="fomo-perk-label">Buy in one tap</div>
-                  </div>
-                  <div className="fomo-perk">
-                    <div className="fomo-perk-num">LEADERBOARD</div>
-                    <div className="fomo-perk-label">Top trader loops</div>
-                  </div>
-                  <div className="fomo-perk">
-                    <div className="fomo-perk-num">ROKITG</div>
-                    <div className="fomo-perk-label">Discount Code</div>
-                  </div>
-                </div>
-                <div className="fomo-cta">
-                  Open fomo.family/r/rokitg <span>→</span>
-                </div>
-              </div>
-
-              <div className="fomo-gallery" aria-hidden="true">
-                <div className="fomo-gallery-main">
-                  <Image
-                    src="/brand/sponsors/fomo-space-bg.webp"
-                    alt=""
-                    className="fomo-gallery-bg"
-                    width={1024}
-                    height={631}
-                  />
-                  <Image
-                    src="/brand/sponsors/fomo-astronaut.webp"
-                    alt=""
-                    className="fomo-gallery-astronaut"
-                    width={463}
-                    height={745}
-                  />
-                  <Image
-                    src="/brand/sponsors/fomo-mobile-app.webp"
-                    alt=""
-                    className="fomo-gallery-phone"
-                    width={552}
-                    height={782}
-                  />
-                </div>
-                <div className="fomo-gallery-strip">
-                  <Image
-                    src="/brand/sponsors/fomo-leaderboard.webp"
-                    alt=""
-                    className="fomo-gallery-shot"
-                    width={460}
-                    height={460}
-                  />
-                  <Image
-                    src="/brand/sponsors/fomo-apple-pay.webp"
-                    alt=""
-                    className="fomo-gallery-shot"
-                    width={460}
-                    height={460}
-                  />
-                </div>
-              </div>
-            </div>
-          </a>
-        </section>
-
         <section className="extended-feature" aria-labelledby="extended-title">
           <a
             href={EXTENDED_URL}
@@ -386,7 +324,7 @@ export default function SponsorsPage() {
               <div className="extended-copy">
                 <div className="extended-head">
                   <span className="extended-pill">
-                    #4 Featured Sponsor · CEO-approved affiliate
+                    #3 Featured Sponsor · CEO-approved affiliate
                   </span>
                   <span className="extended-logo-wrap">
                     <Image

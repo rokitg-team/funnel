@@ -32,7 +32,7 @@ export async function SiteNav({ active }: SiteChromeProps) {
           Kick
         </Link>
         <Link href="/sponsors" className={cls('sponsors')}>
-          Reflinks
+          Sponsors
         </Link>
         <Link href="/reviews" className={cls('reviews')}>
           Reviews
