@@ -443,9 +443,9 @@ export function LifetimeCheckout({ ens }: LifetimeCheckoutProps) {
             <div className="checkout-panel-title">Crypto-native checkout.</div>
             <div className="lifetime-side-copy">
               <p>
-                This page is the direct on-site deal. Today&apos;s limited-time offer keeps
-                lifetime at <strong>{lifetimePlan.price}</strong> when paid in stablecoins so the
-                buyer flow stays fast and the sale stays on-domain.
+                This page is the direct on-site deal. Today&apos;s limited-time offer keeps lifetime
+                at <strong>{lifetimePlan.price}</strong> when paid in stablecoins so the buyer flow
+                stays fast and the sale stays on-domain.
               </p>
               <p>
                 Base is the recommended rail for USDC, but we can still process USDT and DAI across
