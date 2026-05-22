@@ -25,6 +25,7 @@ export type MarketingCtaLocation =
 export const DEFAULT_CTA_VARIANT = 'control';
 export const DEFAULT_HOMEPAGE_PROOF = 'platform-proof';
 const GROWTHBOOK_CLIENT_KEY = process.env.GROWTHBOOK_CLIENT_KEY ?? 'sdk-hGRqknd0mPda8Lg';
+const FORCE_PRODUCTION_MARKETING_FLAGS = process.env.VERCEL_ENV === 'production';
 const growthbook = createGrowthbookAdapter({
   clientKey: GROWTHBOOK_CLIENT_KEY,
   apiHost: process.env.GROWTHBOOK_API_HOST,
@@ -34,7 +35,7 @@ const growthbook = createGrowthbookAdapter({
 export const groupClosedFlag = flag<boolean>({
   key: 'group-closed',
   description: 'Close the group and route funnel traffic into the waitlist flow',
-  defaultValue: false,
+  defaultValue: FORCE_PRODUCTION_MARKETING_FLAGS,
   options: [
     { value: false, label: 'Open' },
     { value: true, label: 'Closed / waitlist only' },
@@ -56,7 +57,7 @@ export const lifetimeDealHeroFlag = flag<boolean>({
 export const extendedInsiderLeakFlag = flag<boolean>({
   key: 'extended-insider-leak',
   description: 'Market Extended as a limited-time insider leak with a $5 unlock CTA',
-  defaultValue: false,
+  defaultValue: FORCE_PRODUCTION_MARKETING_FLAGS,
   options: [
     { value: false, label: 'Standard Extended sponsor card' },
     { value: true, label: 'Insider leak angle with $5 unlock CTA' },
