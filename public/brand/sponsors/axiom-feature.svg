@@ -1,0 +1,21 @@
+<svg width="720" height="360" viewBox="0 0 720 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="360" rx="28" fill="#06080E"/>
+  <rect x="1" y="1" width="718" height="358" rx="27" stroke="rgba(86,173,255,0.18)"/>
+  <circle cx="576" cy="82" r="128" fill="#57A5FF" fill-opacity="0.16"/>
+  <circle cx="640" cy="286" r="96" fill="#57A5FF" fill-opacity="0.08"/>
+  <rect x="36" y="36" width="174" height="36" rx="18" fill="#101722"/>
+  <text x="56" y="59" fill="#7CB8FF" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" letter-spacing="2">ONCHAIN TOOLSTACK</text>
+  <text x="36" y="144" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="60" font-weight="800" letter-spacing="1.5">AXIOM</text>
+  <text x="36" y="188" fill="#E8F2FF" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="600">Pulse, tracking, and fast</text>
+  <text x="36" y="220" fill="#7CB8FF" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">browser-native execution.</text>
+  <text x="36" y="278" fill="#8C9DB6" font-family="Arial, Helvetica, sans-serif" font-size="18">Built for speed when you are scanning and trading fast.</text>
+  <g opacity="0.96">
+    <rect x="446" y="110" width="238" height="144" rx="24" fill="#0D1420"/>
+    <rect x="462" y="128" width="206" height="18" rx="9" fill="#131D2A"/>
+    <circle cx="484" cy="137" r="4" fill="#7CB8FF"/>
+    <rect x="498" y="133" width="90" height="8" rx="4" fill="#456A98"/>
+    <rect x="462" y="164" width="206" height="74" rx="18" fill="#0B1018"/>
+    <path d="M472 223L505 196L536 204L562 172L593 185L620 157L654 171" stroke="#7CB8FF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="620" cy="157" r="8" fill="#7CB8FF"/>
+  </g>
+</svg>

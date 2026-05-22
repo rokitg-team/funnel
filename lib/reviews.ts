@@ -87,7 +87,7 @@ const fallbackReviews: Review[] = [
 
 const fallbackReviewStats: WhopReviewStats = {
   averageRating: 5,
-  memberCount: 45,
+  memberCount: +75,
   reviews: fallbackReviews,
   source: 'fallback',
   totalReviews: 7,

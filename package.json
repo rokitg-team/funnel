@@ -24,6 +24,7 @@
     "@flags-sdk/growthbook": "^0.2.0",
     "@vercel/analytics": "^2.0.1",
     "@whop/checkout": "^0.0.54",
+    "cmdk": "^1.1.1",
     "flags": "^4.0.6",
     "lucide-react": "^1.16.0",
     "next": "^15.5.18",

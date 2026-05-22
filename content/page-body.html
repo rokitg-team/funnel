@@ -10,7 +10,7 @@
         <span class="promo-code-code">ALPHA</span>
       </span>
     </span>
-    <a href="__PROMO_BANNER_CTA_URL__" __PROMO_BANNER_CTA_ATTRS__ class="promo-cta" onclick="window.rokitTrack && window.rokitTrack((('__PROMO_TRACK_DESTINATION__'==='lifetime')?'lifetime-deal-init':(('__PROMO_TRACK_DESTINATION__'==='free_trial')?'free-trial-init':'waitlist-cta')),{location:'promo-banner',destination:'__PROMO_TRACK_DESTINATION__',plan:'__PROMO_TRACK_DESTINATION__'})">
+    <a href="__PROMO_BANNER_CTA_URL__" __PROMO_BANNER_CTA_ATTRS__ class="promo-cta" onclick="window.rokitTrack && window.rokitTrack('__PROMO_TRACK_EVENT__',{location:'promo-banner',destination:'__PROMO_TRACK_DESTINATION__',plan:'__PROMO_TRACK_DESTINATION__'})">
       __PROMO_CTA__
     </a>
   </div>
@@ -128,9 +128,7 @@
   </div>
 
   __SOFT_CLOSE_NOTICE__
-  
-  __PROOF_BLOCK__
-  
+
   <!-- SIGNAL SHOWCASE — banger edit + format reference -->
   <div class="signal-section" id="signals" data-va-section="signals">
     <div class="signal-copy">
@@ -144,6 +142,16 @@
       <div class="banger-wrap">
         <div class="banger-glow" aria-hidden="true"></div>
         <span class="banger-pill"><span class="dot"></span> $TON · LIVE TAPE</span>
+        <button
+          type="button"
+          class="banger-sound-toggle"
+          data-rokit-signal-audio-toggle="true"
+          aria-pressed="false"
+          aria-label="Enable sound for the signal video"
+        >
+          <span class="banger-sound-toggle-icon" aria-hidden="true">🔊</span>
+          <span class="banger-sound-toggle-text">Sound off</span>
+        </button>
         <video
           class="banger-video"
           src="/brand/ton-edit.mp4"
@@ -152,12 +160,15 @@
           loop
           playsinline
           preload="metadata"
+          data-rokit-signal-video="true"
           aria-label="$TON trade banger edit by RokitG"
         ></video>
       </div>
       <div class="banger-caption">// real call · real chart · <strong>real result</strong></div>
     </div>
   </div>
+
+  __PROOF_BLOCK__
 
   <!-- DISCORD PREVIEW — stylized inside look without leaking the real server -->
   <section class="discord-preview" id="inside" data-va-section="discord-preview">
@@ -403,5 +414,102 @@
       el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
       fadeObserver.observe(el);
     });
+
+    // Signal video analytics — view, retention, and next step after watch
+    (() => {
+      const signalSection = document.querySelector('.signal-section');
+      const signalVideo = document.querySelector('[data-rokit-signal-video="true"]');
+      const audioToggle = document.querySelector('[data-rokit-signal-audio-toggle="true"]');
+      if (!signalSection || !signalVideo || typeof window.rokitTrack !== 'function') return;
+
+      let hasViewed = false;
+      let watchedSignalVideo = false;
+      let highestMilestone = 0;
+      const firedMilestones = new Set();
+
+      const signalObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (hasViewed || !entry.isIntersecting || entry.intersectionRatio < 0.6) return;
+          hasViewed = true;
+          watchedSignalVideo = true;
+          window.rokitTrack('signal-video-view', {
+            section: 'signals',
+            ratio: Number(entry.intersectionRatio.toFixed(2)),
+          });
+        });
+      }, { threshold: [0.6, 0.8] });
+
+      signalObserver.observe(signalSection);
+
+      signalVideo.addEventListener('timeupdate', () => {
+        const duration = signalVideo.duration;
+        if (!duration || !Number.isFinite(duration)) return;
+
+        const progress = Math.floor((signalVideo.currentTime / duration) * 100);
+        [25, 50, 75, 95].forEach((milestone) => {
+          if (progress < milestone || firedMilestones.has(milestone)) return;
+          firedMilestones.add(milestone);
+          watchedSignalVideo = true;
+          highestMilestone = Math.max(highestMilestone, milestone);
+          window.rokitTrack('signal-video-retention', {
+            section: 'signals',
+            milestone,
+            maxMilestone: highestMilestone,
+          });
+        });
+      });
+
+      if (audioToggle) {
+        const syncAudioToggle = () => {
+          const isMuted = signalVideo.muted;
+          audioToggle.setAttribute('aria-pressed', String(!isMuted));
+          audioToggle.setAttribute(
+            'aria-label',
+            isMuted ? 'Enable sound for the signal video' : 'Mute the signal video',
+          );
+          const label = audioToggle.querySelector('.banger-sound-toggle-text');
+          if (label) label.textContent = isMuted ? 'Sound off' : 'Sound on';
+        };
+
+        syncAudioToggle();
+
+        audioToggle.addEventListener('click', async () => {
+          signalVideo.muted = !signalVideo.muted;
+          if (signalVideo.paused) {
+            try { await signalVideo.play(); } catch (e) {}
+          }
+          watchedSignalVideo = true;
+          syncAudioToggle();
+          window.rokitTrack('signal-video-audio-toggle', {
+            section: 'signals',
+            muted: signalVideo.muted,
+          });
+        });
+      }
+
+      document.addEventListener('click', (event) => {
+        if (!watchedSignalVideo) return;
+        const target = event.target.closest('a,button');
+        if (!target) return;
+
+        let step = null;
+
+        if (target.closest('.proof-block')) step = 'proof-block';
+        else if (target.closest('.pricing-section')) step = 'pricing';
+        else if (target.closest('.discord-preview')) step = 'discord-preview';
+        else if (target.closest('.testimonials')) step = 'testimonials';
+        else if (target.closest('.cta-section')) step = 'final-cta';
+        else if (target.closest('.promo-banner')) step = 'promo-banner';
+        else if (target.closest('nav')) step = 'nav';
+
+        if (!step) return;
+
+        window.rokitTrack('signal-video-next-step', {
+          section: 'signals',
+          step,
+          maxMilestone: highestMilestone,
+        });
+      }, true);
+    })();
   </script>
   

@@ -1,17 +1,21 @@
 import type { Metadata } from 'next';
 import { LifetimeCheckout } from '@/components/lifetime-checkout';
 import { WaitlistGate } from '@/components/waitlist-gate';
-import { groupClosedFlag } from '@/flags';
+import { groupClosedFlag, lifetimeDealHeroFlag } from '@/flags';
 import { getRokitEnsVerification } from '@/lib/ens';
+import { getWhopReviewStats } from '@/lib/reviews';
 
 export const metadata: Metadata = {
   title: 'Lifetime Deal — The Circle',
   description:
-    'Limited-time lifetime offer: pay $75 in stablecoins for The Circle. Prefer USDC on Base, verify rokitg.eth onchain, and submit your TX for manual approval.',
+    'Limited-time lifetime offer: pay $99 in stablecoins for The Circle instead of $199. Prefer USDC on Base, verify rokitg.eth onchain, and submit your TX for manual approval.',
 };
 
 export default async function LifetimePage() {
-  const groupClosed = await groupClosedFlag();
+  const [groupClosed, showOfferHero] = await Promise.all([
+    groupClosedFlag(),
+    lifetimeDealHeroFlag(),
+  ]);
 
   if (groupClosed) {
     return (
@@ -26,7 +30,7 @@ export default async function LifetimePage() {
     );
   }
 
-  const ens = await getRokitEnsVerification();
+  const [ens, reviewStats] = await Promise.all([getRokitEnsVerification(), getWhopReviewStats()]);
 
-  return <LifetimeCheckout ens={ens} />;
+  return <LifetimeCheckout ens={ens} reviewStats={reviewStats} showOfferHero={showOfferHero} />;
 }

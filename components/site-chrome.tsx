@@ -4,7 +4,7 @@ import { getLifetimePrimaryHref } from '@/lib/access-plans';
 import { getWaitlistHref } from '@/lib/waitlist';
 
 type SiteChromeProps = {
-  active?: 'home' | 'reviews' | 'whop' | 'newsletter' | 'kick' | 'sponsors';
+  active?: 'home' | 'reviews' | 'whop' | 'newsletter' | 'kick' | 'sponsors' | 'transparency';
 };
 
 export async function SiteNav({ active }: SiteChromeProps) {
@@ -33,6 +33,9 @@ export async function SiteNav({ active }: SiteChromeProps) {
         </Link>
         <Link href="/sponsors" className={cls('sponsors')}>
           Sponsors
+        </Link>
+        <Link href="/transparency" className={cls('transparency')}>
+          Transparency
         </Link>
         <Link href="/reviews" className={cls('reviews')}>
           Reviews
@@ -79,6 +82,7 @@ export async function SiteFooter() {
         <Link href="/whop">WHOP</Link>
         <Link href="/newsletter">NEWSLETTER</Link>
         <Link href="/kick">KICK</Link>
+        <Link href="/transparency">TRANSPARENCY</Link>
         <Link href="/sponsors">SPONSORS</Link>
         <Link href="/reviews">REVIEWS</Link>
       </div>

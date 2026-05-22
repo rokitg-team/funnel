@@ -1,0 +1,20 @@
+<svg width="1440" height="720" viewBox="0 0 1440 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1440" height="720" rx="42" fill="#070B12"/>
+  <rect x="38" y="38" width="1364" height="644" rx="32" fill="url(#bg)"/>
+  <g opacity="0.8">
+    <path d="M186 192L304 360L186 528H312L430 360L312 192H186Z" fill="#8B5CF6"/>
+    <path d="M304 192L422 360L304 528H430L548 360L430 192H304Z" fill="#58E1FF"/>
+  </g>
+  <text x="650" y="286" fill="#8BA7D6" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="700" letter-spacing="8">ONCHAIN PERPS</text>
+  <text x="650" y="396" fill="#F5F8FF" font-family="Arial, Helvetica, sans-serif" font-size="84" font-weight="800" letter-spacing="6">HYPERLIQUID</text>
+  <text x="650" y="474" fill="#9CCBFF" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="600" letter-spacing="3">JOIN DIRECT WITH ROKIT • HIGH-LIQUIDITY EXECUTION</text>
+  <rect x="650" y="544" width="286" height="62" rx="31" fill="rgba(88,225,255,0.14)" stroke="rgba(88,225,255,0.32)"/>
+  <text x="694" y="583" fill="#EAF8FF" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" letter-spacing="4">CODE ROKIT</text>
+  <defs>
+    <linearGradient id="bg" x1="82" y1="74" x2="1294" y2="628" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1220"/>
+      <stop offset="0.52" stop-color="#0A111B"/>
+      <stop offset="1" stop-color="#070C13"/>
+    </linearGradient>
+  </defs>
+</svg>

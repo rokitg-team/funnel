@@ -64,7 +64,7 @@ export const ACCESS_PLANS: readonly AccessPlan[] = [
     key: 'lifetime',
     label: 'Lifetime',
     badge: 'Best value',
-    price: '$75',
+    price: '$99',
     period: 'limited-time via stablecoins',
     description:
       'Buy direct with stablecoins, skip recurring billing, and lock permanent Circle access through the strongest limited-time on-site offer.',

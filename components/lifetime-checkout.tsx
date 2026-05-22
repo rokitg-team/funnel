@@ -8,6 +8,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { ACCESS_PLANS, getJoinPlanHref, LIFETIME_RETURN_PATH } from '@/lib/access-plans';
 import { TELEGRAM_DISPLAY, TELEGRAM_URL, WHATSAPP_DISPLAY, WHATSAPP_URL } from '@/lib/contact';
 import type { EnsVerification } from '@/lib/ens';
+import { getReviewAvatarUrl, type WhopReviewStats } from '@/lib/reviews';
 import { getSiteUrl } from '@/lib/site';
 
 function track(
@@ -50,6 +51,21 @@ const initialApprovalForm: ApprovalFormState = {
   notes: '',
 };
 
+function getMsUntilMidnight() {
+  const now = new Date();
+  const midnight = new Date(now);
+  midnight.setHours(24, 0, 0, 0);
+  return Math.max(0, midnight.getTime() - now.getTime());
+}
+
+function formatCountdown(ms: number) {
+  const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+  const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+  const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+  const seconds = String(totalSeconds % 60).padStart(2, '0');
+  return { hours, minutes, seconds };
+}
+
 function truncateAddress(address: string) {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }
@@ -83,9 +99,11 @@ function buildApprovalPacket(form: ApprovalFormState, source: string) {
 
 type LifetimeCheckoutProps = {
   ens: EnsVerification;
+  reviewStats: WhopReviewStats;
+  showOfferHero: boolean;
 };
 
-export function LifetimeCheckout({ ens }: LifetimeCheckoutProps) {
+export function LifetimeCheckout({ ens, reviewStats, showOfferHero }: LifetimeCheckoutProps) {
   const searchParams = useSearchParams();
   const status = searchParams.get('status');
   const source = searchParams.get('source') ?? 'join';
@@ -96,6 +114,7 @@ export function LifetimeCheckout({ ens }: LifetimeCheckoutProps) {
   const [error, setError] = useState<string | null>(null);
   const [submittedPacket, setSubmittedPacket] = useState<string | null>(null);
   const [copied, setCopied] = useState<'address' | 'ens' | 'packet' | null>(null);
+  const [countdownMs, setCountdownMs] = useState(() => getMsUntilMidnight());
 
   useEffect(() => {
     if (showSuccess) {
@@ -103,9 +122,18 @@ export function LifetimeCheckout({ ens }: LifetimeCheckoutProps) {
     }
   }, [showSuccess, source, variant]);
 
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setCountdownMs(getMsUntilMidnight());
+    }, 1000);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
   const contactHref = WHATSAPP_URL || TELEGRAM_URL;
   const contactLabel = WHATSAPP_URL ? WHATSAPP_DISPLAY || 'WhatsApp' : TELEGRAM_DISPLAY;
   const approvalPacket = useMemo(() => buildApprovalPacket(form, source), [form, source]);
+  const countdown = useMemo(() => formatCountdown(countdownMs), [countdownMs]);
 
   async function copyValue(value: string, kind: 'address' | 'ens' | 'packet') {
     try {
@@ -157,6 +185,20 @@ export function LifetimeCheckout({ ens }: LifetimeCheckoutProps) {
     openContactAfterSubmit(approvalPacket);
   }
 
+  function handleClaimDiscount() {
+    track('lifetime-deal-init', {
+      location: 'lifetime-hero-claim',
+      source,
+      variant,
+      hero: 'offer-v2',
+    });
+
+    document.getElementById('claim-discount')?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  }
+
   return (
     <main className="lifetime-page whop-brand">
       <div className="join-shell lifetime-shell">
@@ -171,22 +213,89 @@ export function LifetimeCheckout({ ens }: LifetimeCheckoutProps) {
 
         <div className="lifetime-stage">
           <section className="lifetime-hero-card lifetime-deal-card">
+            {showOfferHero ? (
+              <div className="lifetime-offer-hero">
+                <div className="hero-badge lifetime-offer-hero-badge">
+                  <div className="badge-dot" />
+                  THE CIRCLE · EN VIVO · {reviewStats.memberCount} TRADERS DENTRO
+                </div>
+                <h1 className="lifetime-offer-hero-title">
+                  COMUNIDAD CRYPTO
+                  <br />
+                  <span className="gold">QUE DE VERDAD</span>
+                  <br />
+                  IMPRIME
+                </h1>
+                <p className="hero-sub lifetime-offer-hero-sub">
+                  Unete al verdadero circulo cerrado y reclama el descuento directo antes de que el
+                  precio vuelva arriba.
+                </p>
+                <div className="lifetime-deadline-alert" role="status" aria-live="polite">
+                  <span className="lifetime-deadline-label">Discount closes in</span>
+                  <div className="lifetime-deadline-time">
+                    <strong>{countdown.hours}</strong>
+                    <span>:</span>
+                    <strong>{countdown.minutes}</strong>
+                    <span>:</span>
+                    <strong>{countdown.seconds}</strong>
+                  </div>
+                  <p>After the timer hits zero, the direct lifetime price snaps back up.</p>
+                </div>
+                <div className="hero-cta-row lifetime-offer-hero-actions">
+                  <a
+                    href="https://x.com/rokitdotgg"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hero-handle-pill"
+                  >
+                    <span className="hero-handle-pill-logo">
+                      <Image
+                        src="/brand/laser-pfp.jpg"
+                        alt="RokitG profile"
+                        width={30}
+                        height={30}
+                        unoptimized
+                      />
+                    </span>
+                    <span className="hero-handle-pill-text">rokitg</span>
+                    <span className="hero-handle-pill-check" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <title>Verified profile</title>
+                        <path d="M22.25 12c0 .96-.54 1.79-1.33 2.2.1.96-.23 1.94-.96 2.63-.73.7-1.74.98-2.69.84-.46.74-1.29 1.23-2.22 1.23-.93 0-1.76-.49-2.22-1.23-.95.14-1.96-.14-2.69-.84-.73-.69-1.06-1.67-.96-2.63A2.48 2.48 0 0 1 5.75 12c0-.96.54-1.79 1.33-2.2-.1-.96.23-1.94.96-2.63.73-.7 1.74-.98 2.69-.84.46-.74 1.29-1.23 2.22-1.23.93 0 1.76.49 2.22 1.23.95-.14 1.96.14 2.69.84.73.69 1.06 1.67.96 2.63.79.41 1.33 1.24 1.33 2.2Zm-11.41 3.29 6.05-6.05-1.41-1.41-4.64 4.63-2.13-2.12-1.41 1.41 3.54 3.54Z" />
+                      </svg>
+                    </span>
+                  </a>
+                  <button
+                    type="button"
+                    className="btn-primary lifetime-claim-discount-btn"
+                    onClick={handleClaimDiscount}
+                  >
+                    CLAIM DISCOUNT →
+                  </button>
+                </div>
+              </div>
+            ) : null}
             <div className="section-tag">{'// DIRECT CRYPTO CHECKOUT'}</div>
             <div className="checkout-panel-label">{limitedTimeOfferLabel}</div>
             <h1>
-              SEND STABLES.
+              JOIN DIRECT.
               <br />
-              <span className="green">LOCK LIFETIME.</span>
+              <span className="gold">LOCK LIFETIME.</span>
             </h1>
             <p className="join-subtitle lifetime-subtitle">
-              Limited-time offer: lock in lifetime access for <strong>{lifetimePlan.price}</strong>{' '}
-              paid in <strong>stablecoins</strong>. Prefer <strong>{preferredStablecoin}</strong>,
-              but we also accept <strong>USDC / USDT / DAI</strong> across all major EVM chains.
-              Send the payment today, then submit the TX below for manual approval by RokitG
-              himself.
+              Direct-to-consumer lifetime is open today at <strong>{lifetimePlan.price}</strong>{' '}
+              instead of <span className="lifetime-previous-price">$199</span> when paid in{' '}
+              <strong>stablecoins</strong>. Prefer <strong>{preferredStablecoin}</strong>, but we
+              also accept <strong>USDC / USDT / DAI</strong> across all major EVM chains. Send the
+              payment today, then submit the TX below for manual approval by RokitG himself.
             </p>
 
             <div className="lifetime-stat-row">
+              <div className="lifetime-stat-card lifetime-stat-card-highlight">
+                <strong>{lifetimePlan.price}</strong>
+                <span className="lifetime-stat-strike">$199 old price</span>
+                <em>over 50% off for direct stablecoin checkout</em>
+              </div>
               <div className="lifetime-stat-card">
                 <strong>{lifetimePlan.price}</strong>
                 <span>today only lifetime deal</span>
@@ -199,6 +308,11 @@ export function LifetimeCheckout({ ens }: LifetimeCheckoutProps) {
                 <strong>{limitedTimeOfferLabel}</strong>
                 <span>price closes tonight</span>
               </div>
+            </div>
+
+            <div className="lifetime-offer-bar">
+              <span>Best direct offer on the site</span>
+              <strong>Buy direct, skip recurring bills, and lock founder-style pricing now.</strong>
             </div>
 
             <div className="crypto-proof-grid">
@@ -224,7 +338,56 @@ export function LifetimeCheckout({ ens }: LifetimeCheckoutProps) {
               </div>
             </div>
 
-            <div className="crypto-checkout-grid">
+            <section className="lifetime-reviews-block">
+              <div className="checkout-panel-label">Live buyer proof</div>
+              <div className="checkout-panel-title">The discount is backed by receipts.</div>
+              <div className="lifetime-reviews-stats">
+                <div className="reviews-stat-card lifetime-reviews-stat-card">
+                  <span className="reviews-stat-label">Whop rating</span>
+                  <strong>{reviewStats.averageRating.toFixed(2)}★</strong>
+                </div>
+                <div className="reviews-stat-card lifetime-reviews-stat-card">
+                  <span className="reviews-stat-label">Published reviews</span>
+                  <strong>{reviewStats.totalReviews}</strong>
+                </div>
+                <div className="reviews-stat-card lifetime-reviews-stat-card">
+                  <span className="reviews-stat-label">Members inside</span>
+                  <strong>{reviewStats.memberCount}</strong>
+                </div>
+              </div>
+              <div className="lifetime-review-grid">
+                {reviewStats.reviews.slice(0, 3).map((review) => (
+                  <article key={review.id} className="testi-card review-card lifetime-review-card">
+                    {review.highlight ? (
+                      <span className="review-plan">{review.highlight}</span>
+                    ) : null}
+                    <div
+                      className="stars"
+                      role="img"
+                      aria-label={`${review.rating} out of 5 stars`}
+                    >
+                      {'★'.repeat(review.rating)}
+                    </div>
+                    <p className="testi-text">{review.text}</p>
+                    <div className="testi-author">
+                      <Image
+                        src={getReviewAvatarUrl(review.avatarSeed)}
+                        alt={`${review.name} avatar`}
+                        className="testi-avatar testi-avatar-image"
+                        width={36}
+                        height={36}
+                      />
+                      <div>
+                        <div className="testi-name">{review.name}</div>
+                        <div className="testi-handle">{review.handle}</div>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <div id="claim-discount" className="crypto-checkout-grid">
               <div className="crypto-qr-card">
                 <div className="crypto-qr-showcase">
                   <div className="crypto-qr-showcase-head">
@@ -345,7 +508,7 @@ export function LifetimeCheckout({ ens }: LifetimeCheckoutProps) {
                         onChange={(event) =>
                           setForm((current) => ({ ...current, amount: event.target.value }))
                         }
-                        placeholder="75 USDC"
+                        placeholder="99 USDC"
                       />
                     </label>
                   </div>

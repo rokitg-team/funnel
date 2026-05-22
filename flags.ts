@@ -42,6 +42,28 @@ export const groupClosedFlag = flag<boolean>({
   adapter: growthbook.feature<boolean>(),
 });
 
+export const lifetimeDealHeroFlag = flag<boolean>({
+  key: 'lifetime-deal-hero-v2',
+  description: 'Use the landing-style hero with a claim discount CTA on the lifetime page',
+  defaultValue: true,
+  options: [
+    { value: false, label: 'Legacy lifetime checkout hero' },
+    { value: true, label: 'Offer hero with claim discount CTA' },
+  ],
+  adapter: growthbook.feature<boolean>(),
+});
+
+export const extendedInsiderLeakFlag = flag<boolean>({
+  key: 'extended-insider-leak',
+  description: 'Market Extended as a limited-time insider leak with a $5 unlock CTA',
+  defaultValue: false,
+  options: [
+    { value: false, label: 'Standard Extended sponsor card' },
+    { value: true, label: 'Insider leak angle with $5 unlock CTA' },
+  ],
+  adapter: growthbook.feature<boolean>(),
+});
+
 export function getMarketingCtaHref(location: MarketingCtaLocation, groupClosed: boolean) {
   if (groupClosed) {
     return getWaitlistHref({ cta: location, variant: DEFAULT_CTA_VARIANT, mode: 'closed' });
@@ -79,6 +101,12 @@ export function getMarketingCtaAnchorAttrs(location: MarketingCtaLocation, group
 
 export const flagDefinitions = {
   groupClosedFlag,
+  lifetimeDealHeroFlag,
+  extendedInsiderLeakFlag,
 } as const;
 
-export const marketingFlags = [groupClosedFlag] as const;
+export const marketingFlags = [
+  groupClosedFlag,
+  lifetimeDealHeroFlag,
+  extendedInsiderLeakFlag,
+] as const;
