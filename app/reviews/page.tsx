@@ -1,16 +1,21 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { SiteFooter, SiteNav } from '@/components/site-chrome';
-import { averageWhopRating, getReviewAvatarUrl, reviews, totalWhopReviews } from '@/lib/reviews';
+import { getReviewAvatarUrl, getWhopReviewStats } from '@/lib/reviews';
 
-export const metadata: Metadata = {
-  title: 'Reviews — RokitG',
-  description: `Real Whop reviews of The Circle. ${averageWhopRating.toFixed(1)}★ across ${totalWhopReviews} members. See what operators say.`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const stats = await getWhopReviewStats();
 
-const WHOP_URL = 'https://whop.com/the-circle-vip';
+  return {
+    title: 'Reviews — RokitG',
+    description: `Live Whop proof for ${stats.whopProductTitle}. ${stats.averageRating.toFixed(1)}★ across ${stats.totalReviews} reviews and ${stats.memberCount} members.`,
+  };
+}
 
-export default function ReviewsPage() {
+export default async function ReviewsPage() {
+  const stats = await getWhopReviewStats();
+  const hasLiveStats = stats.source === 'live';
+
   return (
     <>
       <SiteNav active="reviews" />
@@ -19,7 +24,8 @@ export default function ReviewsPage() {
         <section className="reviews-hero">
           <div className="hero-badge">
             <div className="badge-dot" />
-            VERIFIED ON WHOP · {averageWhopRating.toFixed(2)}★ · {totalWhopReviews} REVIEWS
+            {hasLiveStats ? 'LIVE FROM WHOP' : 'WHOP SNAPSHOT'} · {stats.averageRating.toFixed(2)}★
+            · {stats.totalReviews} REVIEWS · {stats.memberCount} MEMBERS
           </div>
           <h1>
             SHOW ME <span className="green">THE</span>
@@ -27,14 +33,31 @@ export default function ReviewsPage() {
             RECEIPTS.
           </h1>
           <p className="reviews-hero-sub">
-            Every review below is pulled from <strong>whop.com/@rokitg</strong>. <br />
-            <strong>No edits, no curation</strong> — just what members wrote after joining.
+            The rating, review count, and member count on this page are pulled live from{' '}
+            <strong>whop.com/@rokitg</strong>. <br />
+            Written cards stay as highlighted member quotes unless Whop exposes public review bodies
+            server-side.
           </p>
+
+          <div className="reviews-stat-strip">
+            <div className="reviews-stat-card">
+              <span className="reviews-stat-label">Whop rating</span>
+              <strong>{stats.averageRating.toFixed(2)}★</strong>
+            </div>
+            <div className="reviews-stat-card">
+              <span className="reviews-stat-label">Published reviews</span>
+              <strong>{stats.totalReviews}</strong>
+            </div>
+            <div className="reviews-stat-card">
+              <span className="reviews-stat-label">Community size</span>
+              <strong>{stats.memberCount}</strong>
+            </div>
+          </div>
         </section>
 
         <section className="reviews-grid-section">
           <div className="reviews-grid">
-            {reviews.map((r) => (
+            {stats.reviews.map((r) => (
               <article key={r.id} className="testi-card review-card">
                 {r.plan ? <span className="review-plan">{r.plan}</span> : null}
                 <div className="stars" role="img" aria-label={`${r.rating} out of 5 stars`}>
@@ -62,16 +85,19 @@ export default function ReviewsPage() {
         <section className="cta-section reviews-cta">
           <div style={{ position: 'relative', zIndex: 2 }}>
             <div className="section-tag" style={{ textAlign: 'center' }}>
-              {'// YOUR TURN'}
+              {'// LIVE WHOP PROOF'}
             </div>
             <h2>
-              READY TO JOIN
+              {stats.whopProductTitle.toUpperCase()}
               <br />
-              <span className="green">THE CIRCLE?</span>
+              <span className="green">ON WHOP</span>
             </h2>
-            <p>See the next signal the moment it drops.</p>
+            <p>
+              {stats.memberCount} members in, {stats.totalReviews} published reviews, and a{' '}
+              {stats.averageRating.toFixed(2)}★ average.
+            </p>
             <a
-              href={WHOP_URL}
+              href={stats.whopUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary btn-cta-blue"
@@ -79,7 +105,7 @@ export default function ReviewsPage() {
               data-va-location="reviews-final"
               data-va-event="reviews-final-whop"
             >
-              JOIN THE CIRCLE →
+              OPEN WHOP →
             </a>
           </div>
         </section>

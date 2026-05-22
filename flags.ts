@@ -1,17 +1,18 @@
-import { vercelAdapter } from '@flags-sdk/vercel';
 import { flag } from 'flags/next';
 import {
   getJoinPlanHref,
   getLifetimePrimaryAnchorAttrs,
   getLifetimePrimaryHref,
-  type PlanKey,
 } from '@/lib/access-plans';
+import { getWaitlistHref } from '@/lib/waitlist';
 
-export const WHOP_URL = 'https://whop.com/joined/the-circle-vip/products/the-circle-monthly/';
+process.env.GROWTHBOOK_CLIENT_KEY ??=
+  process.env.ROKITG_GROWTHBOOK_GROWTHBOOK_CLIENT_KEY ?? 'sdk-hGRqknd0mPda8Lg';
 
-export type WhopCtaExperimentVariant = 'control' | 'embed-base-scroll';
+const { createGrowthbookAdapter } =
+  require('@flags-sdk/growthbook') as typeof import('@flags-sdk/growthbook');
 
-export type WhopCtaLocation =
+export type MarketingCtaLocation =
   | 'hero'
   | 'promo-banner'
   | 'nav'
@@ -21,59 +22,46 @@ export type WhopCtaLocation =
   | 'pricing-lifetime'
   | 'final-cta';
 
-export const mainCtaFlag = flag<boolean>({
-  key: 'main-cta',
-  description: 'Join The Circle vs Navigation Links',
+export const DEFAULT_CTA_VARIANT = 'control';
+export const DEFAULT_HOMEPAGE_PROOF = 'platform-proof';
+const GROWTHBOOK_CLIENT_KEY = process.env.GROWTHBOOK_CLIENT_KEY ?? 'sdk-hGRqknd0mPda8Lg';
+const growthbook = createGrowthbookAdapter({
+  clientKey: GROWTHBOOK_CLIENT_KEY,
+  apiHost: process.env.GROWTHBOOK_API_HOST,
+  appOrigin: process.env.GROWTHBOOK_APP_ORIGIN,
+});
+
+export const groupClosedFlag = flag<boolean>({
+  key: 'group-closed',
+  description: 'Close the group and route funnel traffic into the waitlist flow',
   defaultValue: false,
   options: [
-    { value: false, label: 'Off' },
-    { value: true, label: 'On' },
+    { value: false, label: 'Open' },
+    { value: true, label: 'Closed / waitlist only' },
   ],
-  adapter: vercelAdapter(),
+  adapter: growthbook.feature<boolean>(),
 });
 
-export const whopCtaExperiment = flag<WhopCtaExperimentVariant>({
-  key: 'whop-cta-experiment',
-  description:
-    'A/B test CTA routing between direct Whop checkout and embedded base monthly checkout',
-  defaultValue: 'control',
-  options: [
-    { value: 'control', label: 'Current external checkout flow' },
-    {
-      value: 'embed-base-scroll',
-      label: 'Route scrolled CTA clicks to embedded base monthly checkout',
-    },
-  ],
-  adapter: vercelAdapter(),
-});
+export function getMarketingCtaHref(location: MarketingCtaLocation, groupClosed: boolean) {
+  if (groupClosed) {
+    return getWaitlistHref({ cta: location, variant: DEFAULT_CTA_VARIANT, mode: 'closed' });
+  }
 
-function buildJoinUrl(location: WhopCtaLocation, variant: WhopCtaExperimentVariant, plan: PlanKey) {
-  return getJoinPlanHref(plan, { cta: location, variant });
-}
-
-export function getWhopCtaHref(location: WhopCtaLocation, variant: WhopCtaExperimentVariant) {
   switch (location) {
     case 'pricing-free_trial':
-      return buildJoinUrl(location, variant, 'free_trial');
+      return getJoinPlanHref('free_trial', { cta: location, variant: DEFAULT_CTA_VARIANT });
     case 'pricing-monthly':
-      return buildJoinUrl(location, variant, 'monthly');
-    case 'pricing-lifetime':
-      return getLifetimePrimaryHref({ cta: location, variant });
-    case 'discord-preview':
-    case 'nav':
-    case 'hero':
-    case 'promo-banner':
-    case 'final-cta':
-      return getLifetimePrimaryHref({ cta: location, variant });
+      return getJoinPlanHref('monthly', { cta: location, variant: DEFAULT_CTA_VARIANT });
     default:
-      return getLifetimePrimaryHref({ cta: location, variant });
+      return getLifetimePrimaryHref({ cta: location, variant: DEFAULT_CTA_VARIANT });
   }
 }
 
-export function getWhopCtaAnchorAttrs(
-  location: WhopCtaLocation,
-  variant: WhopCtaExperimentVariant,
-) {
+export function getMarketingCtaAnchorAttrs(location: MarketingCtaLocation, groupClosed: boolean) {
+  if (groupClosed) {
+    return '';
+  }
+
   if (
     location === 'hero' ||
     location === 'nav' ||
@@ -85,13 +73,12 @@ export function getWhopCtaAnchorAttrs(
     return getLifetimePrimaryAnchorAttrs();
   }
 
-  const href = getWhopCtaHref(location, variant);
+  const href = getMarketingCtaHref(location, false);
   return href.startsWith('https://') ? 'target="_blank" rel="noopener noreferrer"' : '';
 }
 
 export const flagDefinitions = {
-  mainCtaFlag,
-  whopCtaExperiment,
+  groupClosedFlag,
 } as const;
 
-export const marketingFlags = [mainCtaFlag, whopCtaExperiment] as const;
+export const marketingFlags = [groupClosedFlag] as const;

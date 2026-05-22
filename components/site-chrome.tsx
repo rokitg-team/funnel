@@ -1,14 +1,20 @@
 import Link from 'next/link';
+import { groupClosedFlag } from '@/flags';
 import { getLifetimePrimaryHref } from '@/lib/access-plans';
+import { getWaitlistHref } from '@/lib/waitlist';
 
 type SiteChromeProps = {
   active?: 'home' | 'reviews' | 'whop' | 'newsletter' | 'kick' | 'sponsors';
 };
 
-export function SiteNav({ active }: SiteChromeProps) {
+export async function SiteNav({ active }: SiteChromeProps) {
   const cls = (key: SiteChromeProps['active']) => (active === key ? 'nav-link-active' : undefined);
-  const lifetimeHref = getLifetimePrimaryHref({ cta: 'nav', variant: 'nav-direct' });
-  const isLifetimeExternal = lifetimeHref.startsWith('http');
+  const groupClosed = await groupClosedFlag();
+  const primaryHref = groupClosed
+    ? getWaitlistHref({ cta: 'nav', mode: 'closed' })
+    : getLifetimePrimaryHref({ cta: 'nav', variant: 'nav-direct' });
+  const isPrimaryExternal = primaryHref.startsWith('http');
+  const ctaLabel = groupClosed ? 'JOIN WAITLIST →' : 'BUY LIFETIME →';
 
   return (
     <nav>
@@ -26,27 +32,31 @@ export function SiteNav({ active }: SiteChromeProps) {
           Kick
         </Link>
         <Link href="/sponsors" className={cls('sponsors')}>
-          Reflinks
+          Sponsors
         </Link>
         <Link href="/reviews" className={cls('reviews')}>
           Reviews
         </Link>
         <a
-          href={lifetimeHref}
+          href={primaryHref}
           className="nav-cta"
-          target={isLifetimeExternal ? '_blank' : undefined}
-          rel={isLifetimeExternal ? 'noopener noreferrer' : undefined}
+          target={isPrimaryExternal ? '_blank' : undefined}
+          rel={isPrimaryExternal ? 'noopener noreferrer' : undefined}
         >
-          BUY LIFETIME →
+          {ctaLabel}
         </a>
       </div>
     </nav>
   );
 }
 
-export function SiteFooter() {
-  const lifetimeHref = getLifetimePrimaryHref({ cta: 'footer', variant: 'footer-direct' });
-  const isLifetimeExternal = lifetimeHref.startsWith('http');
+export async function SiteFooter() {
+  const groupClosed = await groupClosedFlag();
+  const primaryHref = groupClosed
+    ? getWaitlistHref({ cta: 'footer', mode: 'closed' })
+    : getLifetimePrimaryHref({ cta: 'footer', variant: 'footer-direct' });
+  const isPrimaryExternal = primaryHref.startsWith('http');
+  const ctaLabel = groupClosed ? 'JOIN WAITLIST' : 'BUY LIFETIME';
 
   return (
     <footer>
@@ -55,13 +65,13 @@ export function SiteFooter() {
       </div>
       <div className="footer-links">
         <a
-          href={lifetimeHref}
-          target={isLifetimeExternal ? '_blank' : undefined}
-          rel={isLifetimeExternal ? 'noopener noreferrer' : undefined}
+          href={primaryHref}
+          target={isPrimaryExternal ? '_blank' : undefined}
+          rel={isPrimaryExternal ? 'noopener noreferrer' : undefined}
         >
-          BUY LIFETIME
+          {ctaLabel}
         </a>
-        <Link href="/sponsors">REFLINKS</Link>
+        <Link href="/sponsors">SPONSORS</Link>
         <a href="https://x.com/rokitdotgg" target="_blank" rel="noopener noreferrer">
           X / @ROKITDOTGG
         </a>

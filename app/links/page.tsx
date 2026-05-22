@@ -52,7 +52,7 @@ const links: LinkItem[] = [
     pill: 'MAIN OFFER',
     primary: true,
     vaLocation: 'links-whop',
-    vaEvent: 'links-whop',
+    vaEvent: 'free-trial-init',
   },
   {
     href: BREAKOUT_URL,
@@ -64,7 +64,7 @@ const links: LinkItem[] = [
     pill: '#1 LEAD SPONSOR',
     primary: true,
     vaLocation: 'links-breakout',
-    vaEvent: 'links-breakout',
+    vaEvent: 'breakout-ref-click',
   },
   {
     href: PROPR_URL,
@@ -76,7 +76,7 @@ const links: LinkItem[] = [
     pill: '#2 LEAD SPONSOR',
     primary: true,
     vaLocation: 'links-propr',
-    vaEvent: 'links-propr',
+    vaEvent: 'propr-ref-click',
   },
   {
     href: SPONSORS_URL,
@@ -86,7 +86,7 @@ const links: LinkItem[] = [
     title: 'ALL SPONSORS & PARTNERS',
     sub: 'Exchanges, perps, tools — the full stack',
     vaLocation: 'links-sponsors',
-    vaEvent: 'links-sponsors',
+    vaEvent: 'reflinks-cta',
   },
   {
     href: SUBSTACK_URL,
@@ -96,7 +96,7 @@ const links: LinkItem[] = [
     title: "ROKITG'S CIRCLE — SUBSTACK",
     sub: 'Free reads · refer friends, earn USDC',
     vaLocation: 'links-substack',
-    vaEvent: 'links-substack',
+    vaEvent: 'newsletter-cta',
   },
   {
     href: KICK_URL,
@@ -106,7 +106,7 @@ const links: LinkItem[] = [
     title: 'WATCH LIVE ON KICK',
     sub: 'Charts, calls, and trade reviews',
     vaLocation: 'links-kick',
-    vaEvent: 'links-kick',
+    vaEvent: 'kick-cta',
   },
   {
     href: X_URL,
@@ -116,7 +116,7 @@ const links: LinkItem[] = [
     title: 'FOLLOW @ROKITDOTGG',
     sub: '1,561 followers · Cryptocurrency',
     vaLocation: 'links-x',
-    vaEvent: 'links-x',
+    vaEvent: 'x-profile-click',
   },
   {
     href: FOMO_URL,
@@ -126,7 +126,7 @@ const links: LinkItem[] = [
     title: 'JOIN FOMO',
     sub: 'FOMO family · earn USDC',
     vaLocation: 'links-fomo-family',
-    vaEvent: 'links-fomo-family',
+    vaEvent: 'fomo-ref-click',
   },
   {
     href: REVIEWS_URL,
@@ -136,7 +136,7 @@ const links: LinkItem[] = [
     title: 'READ MEMBER REVIEWS',
     sub: '5.0 average across the group',
     vaLocation: 'links-reviews',
-    vaEvent: 'links-reviews',
+    vaEvent: 'reviews-cta',
   },
 ];
 

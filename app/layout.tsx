@@ -1,13 +1,15 @@
+import { initBklit } from '@bklit/sdk';
 import { FlagValues } from 'flags/react';
+import { groupClosedFlag } from '@/flags';
+import { getFunnelLocale } from '@/lib/marketing-locale';
+import { getSiteUrl, SITE_ORIGIN } from '@/lib/site';
+import './globals.css';
+import { BklitComponent } from '@bklit/sdk/nextjs';
 import type { Metadata } from 'next';
 import { Bebas_Neue, DM_Sans, Space_Mono } from 'next/font/google';
 import { headers } from 'next/headers';
 import Script from 'next/script';
 import { Suspense } from 'react';
-import { mainCtaFlag, whopCtaExperiment } from '@/flags';
-import { getFunnelLocale } from '@/lib/marketing-locale';
-import { getSiteUrl, SITE_ORIGIN } from '@/lib/site';
-import './globals.css';
 
 const assistLoopAgentId =
   process.env.NEXT_PUBLIC_help_ASSISTLOOP_AGENT_ID ?? process.env.NEXT_PUBLIC_ASSISTLOOP_AGENT_ID;
@@ -66,7 +68,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const locale = getFunnelLocale(await headers());
-  const [mainCta, ctaVariant] = await Promise.all([mainCtaFlag(), whopCtaExperiment()]);
+  const groupClosed = await groupClosedFlag();
+
+  initBklit({
+    projectId: 'cmpcsft3k00014wdwkikgjapp',
+    apiKey: 'bk_live_1efb1116007d24135050f11525c0931c1ff5dec6db9e75406bc69e6d29ee1719',
+    // Optional: defaults to wss://bklit.ws in production
+    // wsHost: "wss://bklit.ws",
+  });
 
   return (
     <html
@@ -74,9 +83,17 @@ export default async function RootLayout({
       className={`${spaceMono.variable} ${bebasNeue.variable} ${dmSans.variable}`}
     >
       <body>
+        <BklitComponent
+          apiKey={process.env.BKLIT_API_KEY ?? ''}
+          projectId={process.env.BKLIT_PROJECT_ID ?? ''}
+        />
         {children}
         <Suspense fallback={null}>
-          <FlagValues values={{ 'main-cta': mainCta, 'whop-cta-experiment': ctaVariant }} />
+          <FlagValues
+            values={{
+              'group-closed': groupClosed,
+            }}
+          />
         </Suspense>
         <Script async src="https://tally.so/widgets/embed.js" />
         <Script src="https://assistloop.ai/assistloop-widget.js" strategy="afterInteractive" />

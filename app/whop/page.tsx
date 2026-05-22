@@ -2,7 +2,9 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { SiteFooter, SiteNav } from '@/components/site-chrome';
+import { WaitlistGate } from '@/components/waitlist-gate';
 import { WhopStore } from '@/components/whop-store';
+import { groupClosedFlag } from '@/flags';
 import { getLifetimeJoinHref } from '@/lib/access-plans';
 
 export const metadata: Metadata = {
@@ -11,7 +13,26 @@ export const metadata: Metadata = {
     'Whop checkout fallback for The Circle. Trial and monthly access for buyers who want flexibility, with direct lifetime crypto as the preferred route.',
 };
 
-export default function WhopPage() {
+export default async function WhopPage() {
+  const groupClosed = await groupClosedFlag();
+
+  if (groupClosed) {
+    return (
+      <>
+        <SiteNav />
+        <main className="platform-page whop-bg whop-brand waitlist-page-shell">
+          <WaitlistGate
+            source="whop"
+            heading="WHOP ACCESS IS"
+            accent="CURRENTLY CLOSED."
+            subtitle="Trial and monthly are paused for now. Join the waitlist and you’ll be first to know when the next intake or fallback checkout window opens."
+          />
+        </main>
+        <SiteFooter />
+      </>
+    );
+  }
+
   return (
     <>
       <SiteNav />

@@ -36,7 +36,7 @@ export default function KickPage() {
               rel="noopener noreferrer"
               className="btn-primary btn-cta-blue"
               data-va-location="kick-hero"
-              data-va-event="kick-hero-follow"
+              data-va-event="kick-cta"
             >
               FOLLOW ON KICK →
             </a>
@@ -46,7 +46,7 @@ export default function KickPage() {
               rel="noopener noreferrer"
               className="btn-ghost"
               data-va-location="kick-watch"
-              data-va-event="kick-hero-watch"
+              data-va-event="kick-cta"
             >
               WATCH NOW ↗
             </a>
@@ -111,7 +111,7 @@ export default function KickPage() {
               className="btn-primary btn-cta-blue"
               style={{ fontSize: 15, padding: '20px 48px' }}
               data-va-location="kick-final"
-              data-va-event="kick-final-follow"
+              data-va-event="kick-cta"
             >
               FOLLOW NOW →
             </a>
