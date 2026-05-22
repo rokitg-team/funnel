@@ -1,6 +1,10 @@
 import { initBklit } from '@bklit/sdk';
 import { FlagValues } from 'flags/react';
-import { extendedInsiderLeakFlag, groupClosedFlag, lifetimeDealHeroFlag } from '@/flags';
+import {
+  getExtendedInsiderLeakEnabled,
+  getGroupClosedEnabled,
+  getLifetimeDealHeroEnabled,
+} from '@/flags';
 import { getFunnelLocale } from '@/lib/marketing-locale';
 import { getSiteUrl, SITE_ORIGIN } from '@/lib/site';
 import './globals.css';
@@ -69,9 +73,9 @@ export default async function RootLayout({
 }>) {
   const locale = getFunnelLocale(await headers());
   const [groupClosed, lifetimeDealHero, extendedInsiderLeak] = await Promise.all([
-    groupClosedFlag(),
-    lifetimeDealHeroFlag(),
-    extendedInsiderLeakFlag(),
+    getGroupClosedEnabled(),
+    getLifetimeDealHeroEnabled(),
+    getExtendedInsiderLeakEnabled(),
   ]);
 
   initBklit({

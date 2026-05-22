@@ -111,3 +111,27 @@ export const marketingFlags = [
   lifetimeDealHeroFlag,
   extendedInsiderLeakFlag,
 ] as const;
+
+export async function getGroupClosedEnabled() {
+  if (FORCE_PRODUCTION_MARKETING_FLAGS) {
+    return true;
+  }
+
+  return groupClosedFlag();
+}
+
+export async function getLifetimeDealHeroEnabled() {
+  if (FORCE_PRODUCTION_MARKETING_FLAGS) {
+    return true;
+  }
+
+  return lifetimeDealHeroFlag();
+}
+
+export async function getExtendedInsiderLeakEnabled() {
+  if (FORCE_PRODUCTION_MARKETING_FLAGS) {
+    return true;
+  }
+
+  return extendedInsiderLeakFlag();
+}

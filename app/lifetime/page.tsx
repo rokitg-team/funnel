@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { LifetimeCheckout } from '@/components/lifetime-checkout';
 import { WaitlistGate } from '@/components/waitlist-gate';
-import { groupClosedFlag, lifetimeDealHeroFlag } from '@/flags';
+import { getGroupClosedEnabled, getLifetimeDealHeroEnabled } from '@/flags';
 import { getRokitEnsVerification } from '@/lib/ens';
 import { getWhopReviewStats } from '@/lib/reviews';
 
@@ -13,8 +13,8 @@ export const metadata: Metadata = {
 
 export default async function LifetimePage() {
   const [groupClosed, showOfferHero] = await Promise.all([
-    groupClosedFlag(),
-    lifetimeDealHeroFlag(),
+    getGroupClosedEnabled(),
+    getLifetimeDealHeroEnabled(),
   ]);
 
   if (groupClosed) {

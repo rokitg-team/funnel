@@ -6,10 +6,10 @@ import { getHeroActionsHtml } from '@/components/hero-actions';
 import {
   DEFAULT_CTA_VARIANT,
   DEFAULT_HOMEPAGE_PROOF,
-  extendedInsiderLeakFlag,
+  getExtendedInsiderLeakEnabled,
+  getGroupClosedEnabled,
   getMarketingCtaAnchorAttrs,
   getMarketingCtaHref,
-  groupClosedFlag,
 } from '@/flags';
 import { ACCESS_PLANS } from '@/lib/access-plans';
 import { getFunnelLocale, marketingCopy } from '@/lib/marketing-locale';
@@ -198,8 +198,8 @@ export default async function HomePage() {
   const locale = getFunnelLocale(requestHeaders);
   const copy = marketingCopy[locale];
   const [groupClosed, showExtendedInsiderLeak] = await Promise.all([
-    groupClosedFlag(),
-    extendedInsiderLeakFlag(),
+    getGroupClosedEnabled(),
+    getExtendedInsiderLeakEnabled(),
   ]);
   const primaryOffer = getPrimaryOfferConfig(groupClosed);
   const heroHtml = getHeroActionsHtml(groupClosed);

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { groupClosedFlag } from '@/flags';
+import { getGroupClosedEnabled } from '@/flags';
 import { getLifetimePrimaryHref } from '@/lib/access-plans';
 import { getWaitlistHref } from '@/lib/waitlist';
 
@@ -9,7 +9,7 @@ type SiteChromeProps = {
 
 export async function SiteNav({ active }: SiteChromeProps) {
   const cls = (key: SiteChromeProps['active']) => (active === key ? 'nav-link-active' : undefined);
-  const groupClosed = await groupClosedFlag();
+  const groupClosed = await getGroupClosedEnabled();
   const primaryHref = groupClosed
     ? getWaitlistHref({ cta: 'nav', mode: 'closed' })
     : getLifetimePrimaryHref({ cta: 'nav', variant: 'nav-direct' });
@@ -54,7 +54,7 @@ export async function SiteNav({ active }: SiteChromeProps) {
 }
 
 export async function SiteFooter() {
-  const groupClosed = await groupClosedFlag();
+  const groupClosed = await getGroupClosedEnabled();
   const primaryHref = groupClosed
     ? getWaitlistHref({ cta: 'footer', mode: 'closed' })
     : getLifetimePrimaryHref({ cta: 'footer', variant: 'footer-direct' });

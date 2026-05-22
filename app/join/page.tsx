@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { JoinCheckout } from '@/components/join-checkout';
 import { WaitlistGate } from '@/components/waitlist-gate';
-import { groupClosedFlag } from '@/flags';
+import { getGroupClosedEnabled } from '@/flags';
 
 export const metadata: Metadata = {
   title: 'Join — The Circle',
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function JoinPage() {
-  const groupClosed = await groupClosedFlag();
+  const groupClosed = await getGroupClosedEnabled();
 
   return (
     <main className="join-page whop-brand">

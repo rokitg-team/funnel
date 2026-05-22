@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { ExtendedSponsorFeature } from '@/components/extended-sponsor-feature';
 import { SiteFooter, SiteNav } from '@/components/site-chrome';
 import { type SponsorCatalogItem, SponsorsCatalog } from '@/components/sponsors-catalog';
-import { extendedInsiderLeakFlag } from '@/flags';
+import { getExtendedInsiderLeakEnabled } from '@/flags';
 
 export const metadata: Metadata = {
   title: 'Sponsors & Partners — RokitG',
@@ -167,7 +167,7 @@ const partners: Partner[] = [
 ];
 
 export default async function SponsorsPage() {
-  const showExtendedInsiderLeak = await extendedInsiderLeakFlag();
+  const showExtendedInsiderLeak = await getExtendedInsiderLeakEnabled();
 
   return (
     <>

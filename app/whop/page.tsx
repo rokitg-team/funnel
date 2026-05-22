@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import { SiteFooter, SiteNav } from '@/components/site-chrome';
 import { WaitlistGate } from '@/components/waitlist-gate';
 import { WhopStore } from '@/components/whop-store';
-import { groupClosedFlag } from '@/flags';
+import { getGroupClosedEnabled } from '@/flags';
 import { getLifetimeJoinHref } from '@/lib/access-plans';
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function WhopPage() {
-  const groupClosed = await groupClosedFlag();
+  const groupClosed = await getGroupClosedEnabled();
 
   if (groupClosed) {
     return (
