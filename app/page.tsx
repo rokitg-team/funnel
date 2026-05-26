@@ -10,6 +10,7 @@ import {
   getMarketingCtaHref,
 } from '@/flags';
 import { ACCESS_PLANS } from '@/lib/access-plans';
+import { BLINK_NAV_CTA_LABEL, BLINK_TOKEN_URL } from '@/lib/blink';
 import { getFunnelLocale, marketingCopy } from '@/lib/marketing-locale';
 import { getHomepageSubstackTeaser } from '@/lib/substack';
 import {
@@ -287,7 +288,7 @@ export default async function HomePage() {
     __PROMO_TRACK_DESTINATION__: promoTrackDestination,
     __PROMO_TRACK_EVENT__: promoTrackEvent,
     __NAV_SIGNALS__: copy.navSignals,
-    __NAV_CTA_LABEL__: groupClosed ? 'JOIN WAITLIST →' : primaryOffer.label,
+    __NAV_CTA_LABEL__: BLINK_NAV_CTA_LABEL,
     __NAV_CTA_TRACK_DESTINATION__: primaryOffer.destination,
     __HERO_BADGE__: copy.heroBadge,
     __HERO_TITLE_DIM__: copy.heroTitleDim,
@@ -337,13 +338,8 @@ export default async function HomePage() {
   }
 
   body = body.replace('__HERO_ACTIONS__', heroHtml);
-  body = body.replace(
-    '__NAV_CTA_URL__',
-    groupClosed
-      ? getWaitlistHref({ cta: 'nav', variant: DEFAULT_CTA_VARIANT, mode: 'closed' })
-      : primaryOffer.href,
-  );
-  body = body.replace('__NAV_CTA_ATTRS__', groupClosed ? '' : primaryOffer.attrs);
+  body = body.replace('__NAV_CTA_URL__', BLINK_TOKEN_URL);
+  body = body.replace('__NAV_CTA_ATTRS__', 'target="_blank" rel="noopener noreferrer"');
   body = body.replace('__PROMO_BANNER_CTA_URL__', promoHref);
   body = body.replace('__PROMO_BANNER_CTA_ATTRS__', promoAttrs);
   body = body.replace(

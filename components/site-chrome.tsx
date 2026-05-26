@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getGroupClosedEnabled } from '@/flags';
 import { getLifetimePrimaryHref } from '@/lib/access-plans';
+import { BLINK_NAV_CTA_LABEL, BLINK_TOKEN_URL } from '@/lib/blink';
 import { getWaitlistHref } from '@/lib/waitlist';
 
 type SiteChromeProps = {
@@ -9,12 +10,9 @@ type SiteChromeProps = {
 
 export async function SiteNav({ active }: SiteChromeProps) {
   const cls = (key: SiteChromeProps['active']) => (active === key ? 'nav-link-active' : undefined);
-  const groupClosed = await getGroupClosedEnabled();
-  const primaryHref = groupClosed
-    ? getWaitlistHref({ cta: 'nav', mode: 'closed' })
-    : getLifetimePrimaryHref({ cta: 'nav', variant: 'nav-direct' });
-  const isPrimaryExternal = primaryHref.startsWith('http');
-  const ctaLabel = groupClosed ? 'JOIN WAITLIST →' : 'BUY LIFETIME →';
+  const primaryHref = BLINK_TOKEN_URL;
+  const isPrimaryExternal = true;
+  const ctaLabel = BLINK_NAV_CTA_LABEL;
 
   return (
     <nav>
