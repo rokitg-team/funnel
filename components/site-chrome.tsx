@@ -1,8 +1,5 @@
 import Link from 'next/link';
-import { getGroupClosedEnabled } from '@/flags';
-import { getLifetimePrimaryHref } from '@/lib/access-plans';
-import { BLINK_NAV_CTA_LABEL, BLINK_TOKEN_URL } from '@/lib/blink';
-import { getWaitlistHref } from '@/lib/waitlist';
+import { BLINK_NAV_CTA_LABEL, BLINK_PRIMARY_CTA_LABEL, BLINK_TOKEN_URL } from '@/lib/blink';
 
 type SiteChromeProps = {
   active?: 'home' | 'reviews' | 'whop' | 'newsletter' | 'kick' | 'sponsors' | 'transparency';
@@ -52,12 +49,9 @@ export async function SiteNav({ active }: SiteChromeProps) {
 }
 
 export async function SiteFooter() {
-  const groupClosed = await getGroupClosedEnabled();
-  const primaryHref = groupClosed
-    ? getWaitlistHref({ cta: 'footer', mode: 'closed' })
-    : getLifetimePrimaryHref({ cta: 'footer', variant: 'footer-direct' });
-  const isPrimaryExternal = primaryHref.startsWith('http');
-  const ctaLabel = groupClosed ? 'JOIN WAITLIST' : 'BUY LIFETIME';
+  const primaryHref = BLINK_TOKEN_URL;
+  const isPrimaryExternal = true;
+  const ctaLabel = BLINK_PRIMARY_CTA_LABEL.replace(' →', '');
 
   return (
     <footer>

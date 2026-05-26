@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { SiteFooter, SiteNav } from '@/components/site-chrome';
 import { TrustedEmbed } from '@/components/trusted-embed';
+import { BLINK_PRIMARY_CTA_LABEL, BLINK_TOKEN_URL } from '@/lib/blink';
 import {
   curatedSubstackEmbeds,
   fetchSubstackPosts,
@@ -42,10 +43,20 @@ export default async function NewsletterPage() {
           </p>
           <div className="platform-actions">
             <a
-              href={`${SUBSTACK_URL}/subscribe`}
+              href={BLINK_TOKEN_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary btn-cta-blue"
+              data-va-location="newsletter-blink-hero"
+              data-va-event="blink-token-click"
+            >
+              {BLINK_PRIMARY_CTA_LABEL}
+            </a>
+            <a
+              href={`${SUBSTACK_URL}/subscribe`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-ghost"
               data-va-location="newsletter-subscribe"
               data-va-event="newsletter-cta"
             >
@@ -177,14 +188,14 @@ export default async function NewsletterPage() {
             </h2>
             <p>Free posts. Paid tier coming. Always direct to your inbox.</p>
             <a
-              href={`${SUBSTACK_URL}/subscribe`}
+              href={BLINK_TOKEN_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary btn-cta-blue"
-              data-va-event="newsletter-cta"
-              data-va-location="newsletter-subscribe"
+              data-va-event="blink-token-click"
+              data-va-location="newsletter-blink-final"
             >
-              SUBSCRIBE FREE →
+              {BLINK_PRIMARY_CTA_LABEL}
             </a>
           </div>
         </section>

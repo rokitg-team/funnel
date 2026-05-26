@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { BLINK_PRIMARY_CTA_LABEL, BLINK_TOKEN_URL } from '@/lib/blink';
 import { getWaitlistEmbedUrl, getWaitlistHref, hasEmbeddedWaitlistForm } from '@/lib/waitlist';
 
 type WaitlistGateProps = {
@@ -36,6 +37,19 @@ export function WaitlistGate({
           <span className="green">{accent}</span>
         </h2>
         <p className="section-sub">{subtitle}</p>
+        <div className="platform-actions">
+          <a
+            href={BLINK_TOKEN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary btn-cta-blue"
+          >
+            {BLINK_PRIMARY_CTA_LABEL}
+          </a>
+          <Link href={waitlistHref} className="btn-ghost">
+            JOIN WAITLIST →
+          </Link>
+        </div>
 
         <div className="waitlist-proof-row">
           <div className="waitlist-proof-card">

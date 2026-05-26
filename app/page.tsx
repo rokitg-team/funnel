@@ -3,19 +3,17 @@ import { join } from 'node:path';
 import { headers } from 'next/headers';
 import { getHeroActionsHtml } from '@/components/hero-actions';
 import {
-  DEFAULT_CTA_VARIANT,
   DEFAULT_HOMEPAGE_PROOF,
   getGroupClosedEnabled,
   getMarketingCtaAnchorAttrs,
   getMarketingCtaHref,
 } from '@/flags';
 import { ACCESS_PLANS } from '@/lib/access-plans';
-import { BLINK_NAV_CTA_LABEL, BLINK_TOKEN_URL } from '@/lib/blink';
+import { BLINK_NAV_CTA_LABEL, BLINK_PRIMARY_CTA_LABEL, BLINK_TOKEN_URL } from '@/lib/blink';
 import { getFunnelLocale, marketingCopy } from '@/lib/marketing-locale';
 import { getHomepageSubstackTeaser } from '@/lib/substack';
 import {
   getWaitlistEmbedUrl,
-  getWaitlistHref,
   hasEmbeddedWaitlistForm,
   WAITLIST_TALLY_FORM_URL,
 } from '@/lib/waitlist';
@@ -130,6 +128,11 @@ function getHomepageWaitlistHtml() {
       <div class="section-tag">// CLOSED DOOR FUNNEL</div>
       <h2>THE GROUP IS<br><span class="green">CURRENTLY FULL.</span></h2>
       <p class="section-sub">Traffic is hitting hard and access is being throttled. Join the embedded waitlist below and you’ll be first in line when the next intake opens.</p>
+      <div class="platform-actions">
+        <a href="${BLINK_TOKEN_URL}" target="_blank" rel="noopener noreferrer" class="btn-primary btn-cta-blue" onclick="window.rokitTrack && window.rokitTrack('blink-token-click',{location:'waitlist-gate',destination:'blink',plan:'blink'})">
+          ${BLINK_PRIMARY_CTA_LABEL}
+        </a>
+      </div>
       <div class="waitlist-proof-row">
         <div class="waitlist-proof-card">
           <strong>Organic only</strong>
@@ -162,23 +165,14 @@ function getHomepageWaitlistHtml() {
   </section>`;
 }
 
-function getPrimaryOfferConfig(groupClosed: boolean) {
-  if (groupClosed) {
-    return {
-      href: getWaitlistHref({ cta: 'global', variant: DEFAULT_CTA_VARIANT, mode: 'closed' }),
-      attrs: '',
-      label: 'JOIN THE WAITLIST →',
-      destination: 'waitlist',
-      plan: 'waitlist',
-    } as const;
-  }
-
+function getPrimaryOfferConfig(_groupClosed: boolean) {
   return {
-    href: getMarketingCtaHref('hero', false),
-    attrs: getMarketingCtaAnchorAttrs('hero', false),
-    label: 'BUY LIFETIME DIRECT →',
-    destination: 'lifetime',
-    plan: 'lifetime',
+    href: BLINK_TOKEN_URL,
+    attrs: 'target="_blank" rel="noopener noreferrer"',
+    label: BLINK_PRIMARY_CTA_LABEL,
+    destination: 'blink',
+    plan: 'blink',
+    eventName: 'blink-token-click',
   } as const;
 }
 
@@ -186,8 +180,7 @@ function getProofBlockHtml(
   _copy: (typeof marketingCopy)[keyof typeof marketingCopy],
   primaryOffer: ReturnType<typeof getPrimaryOfferConfig>,
 ) {
-  const ctaEventName = primaryOffer.plan === 'lifetime' ? 'lifetime-deal-init' : 'waitlist-cta';
-  const cta = `<a href="${primaryOffer.href}" ${primaryOffer.attrs} class="proof-block-cta" onclick="window.rokitTrack && window.rokitTrack('${ctaEventName}',{variant:'${DEFAULT_HOMEPAGE_PROOF}',destination:'${primaryOffer.destination}',plan:'${primaryOffer.plan}',location:'proof-block'})">${primaryOffer.label}</a>`;
+  const cta = `<a href="${primaryOffer.href}" ${primaryOffer.attrs} class="proof-block-cta" onclick="window.rokitTrack && window.rokitTrack('${primaryOffer.eventName}',{variant:'${DEFAULT_HOMEPAGE_PROOF}',destination:'${primaryOffer.destination}',plan:'${primaryOffer.plan}',location:'proof-block'})">${primaryOffer.label}</a>`;
 
   return `
   <section class="proof-block proof-block-platform" data-va-section="proof-block-platform">
@@ -229,7 +222,7 @@ function getHomepagePricingHtml(copy: (typeof marketingCopy)[keyof typeof market
     lifetime: {
       href: getMarketingCtaHref('pricing-lifetime', false),
       attrs: getMarketingCtaAnchorAttrs('pricing-lifetime', false),
-      eventName: 'lifetime-deal-init',
+      eventName: 'blink-token-click',
     },
   } as const;
 
@@ -271,14 +264,10 @@ export default async function HomePage() {
   const groupClosed = await getGroupClosedEnabled();
   const primaryOffer = getPrimaryOfferConfig(groupClosed);
   const heroHtml = getHeroActionsHtml(groupClosed);
-  const promoHref = getWaitlistHref({
-    cta: 'promo-banner',
-    variant: DEFAULT_CTA_VARIANT,
-    mode: 'closed',
-  });
-  const promoAttrs = '';
-  const promoTrackEvent = 'waitlist-cta';
-  const promoTrackDestination = primaryOffer.destination;
+  const promoHref = BLINK_TOKEN_URL;
+  const promoAttrs = 'target="_blank" rel="noopener noreferrer"';
+  const promoTrackEvent = 'blink-token-click';
+  const promoTrackDestination = 'blink';
 
   let body = readFileSync(join(process.cwd(), 'content/page-body.html'), 'utf8');
   const replacements = {
@@ -326,9 +315,9 @@ export default async function HomePage() {
     __FINAL_TITLE_BEFORE__: copy.finalTitleBefore,
     __FINAL_TITLE_ACCENT__: copy.finalTitleAccent,
     __FINAL_SUB__: copy.finalSub,
-    __FINAL_CTA__: groupClosed ? 'JOIN THE WAITLIST →' : primaryOffer.label,
+    __FINAL_CTA__: primaryOffer.label,
     __FINAL_CTA_TRACK_DESTINATION__: primaryOffer.destination,
-    __FOOTER_CTA_LABEL__: groupClosed ? 'JOIN WAITLIST' : primaryOffer.label.replace(' →', ''),
+    __FOOTER_CTA_LABEL__: primaryOffer.label.replace(' →', ''),
     __FOOTER_X_LABEL__: copy.footerLinks,
     __FOOTER_DISCLAIMER__: copy.footerDisclaimer,
   } as const;
@@ -342,33 +331,18 @@ export default async function HomePage() {
   body = body.replace('__NAV_CTA_ATTRS__', 'target="_blank" rel="noopener noreferrer"');
   body = body.replace('__PROMO_BANNER_CTA_URL__', promoHref);
   body = body.replace('__PROMO_BANNER_CTA_ATTRS__', promoAttrs);
-  body = body.replace(
-    '__DISCORD_PREVIEW_CTA_URL__',
-    groupClosed
-      ? getWaitlistHref({ cta: 'discord-preview', variant: DEFAULT_CTA_VARIANT, mode: 'closed' })
-      : primaryOffer.href,
-  );
-  body = body.replace('__DISCORD_PREVIEW_CTA_ATTRS__', groupClosed ? '' : primaryOffer.attrs);
+  body = body.replace('__DISCORD_PREVIEW_CTA_URL__', primaryOffer.href);
+  body = body.replace('__DISCORD_PREVIEW_CTA_ATTRS__', primaryOffer.attrs);
   body = body.replace('__PROOF_BLOCK__', getProofBlockHtml(copy, primaryOffer));
   body = body.replace('__SOFT_CLOSE_NOTICE__', '');
   body = body.replace(
     '__PRICING_SECTION__',
     groupClosed ? getHomepageWaitlistHtml() : getHomepagePricingHtml(copy),
   );
-  body = body.replace(
-    '__FINAL_CTA_URL__',
-    groupClosed
-      ? getWaitlistHref({ cta: 'final-cta', variant: DEFAULT_CTA_VARIANT, mode: 'closed' })
-      : primaryOffer.href,
-  );
-  body = body.replace('__FINAL_CTA_ATTRS__', groupClosed ? '' : primaryOffer.attrs);
-  body = body.replace(
-    '__FOOTER_LIFETIME_URL__',
-    groupClosed
-      ? getWaitlistHref({ cta: 'footer', variant: DEFAULT_CTA_VARIANT, mode: 'closed' })
-      : primaryOffer.href,
-  );
-  body = body.replace('__FOOTER_LIFETIME_ATTRS__', groupClosed ? '' : primaryOffer.attrs);
+  body = body.replace('__FINAL_CTA_URL__', primaryOffer.href);
+  body = body.replace('__FINAL_CTA_ATTRS__', primaryOffer.attrs);
+  body = body.replace('__FOOTER_LIFETIME_URL__', primaryOffer.href);
+  body = body.replace('__FOOTER_LIFETIME_ATTRS__', primaryOffer.attrs);
   body = body.replace('__NEWSLETTER_TEASER__', getNewsletterTeaserHtml(copy));
   body = body.replace('__INSTAGRAM_REEL__', getInstagramReelHtml());
 

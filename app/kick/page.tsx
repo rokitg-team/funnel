@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { SiteFooter, SiteNav } from '@/components/site-chrome';
+import { BLINK_PRIMARY_CTA_LABEL, BLINK_TOKEN_URL } from '@/lib/blink';
 
 export const metadata: Metadata = {
   title: 'Watch RokitG Live on Kick',
@@ -31,14 +32,14 @@ export default function KickPage() {
           </p>
           <div className="platform-actions">
             <a
-              href={KICK_URL}
+              href={BLINK_TOKEN_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary btn-cta-blue"
-              data-va-location="kick-hero"
-              data-va-event="kick-cta"
+              data-va-location="kick-blink-hero"
+              data-va-event="blink-token-click"
             >
-              FOLLOW ON KICK →
+              {BLINK_PRIMARY_CTA_LABEL}
             </a>
             <a
               href={KICK_URL}
@@ -105,15 +106,15 @@ export default function KickPage() {
             </h2>
             <p>Get notified the moment the stream goes live.</p>
             <a
-              href={KICK_URL}
+              href={BLINK_TOKEN_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary btn-cta-blue"
               style={{ fontSize: 15, padding: '20px 48px' }}
-              data-va-location="kick-final"
-              data-va-event="kick-cta"
+              data-va-location="kick-blink-final"
+              data-va-event="blink-token-click"
             >
-              FOLLOW NOW →
+              {BLINK_PRIMARY_CTA_LABEL}
             </a>
           </div>
         </section>

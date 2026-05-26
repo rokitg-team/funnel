@@ -1,9 +1,6 @@
 import { flag } from 'flags/next';
-import {
-  getJoinPlanHref,
-  getLifetimePrimaryAnchorAttrs,
-  getLifetimePrimaryHref,
-} from '@/lib/access-plans';
+import { getJoinPlanHref } from '@/lib/access-plans';
+import { BLINK_TOKEN_URL } from '@/lib/blink';
 import { getWaitlistHref } from '@/lib/waitlist';
 
 process.env.GROWTHBOOK_CLIENT_KEY ??=
@@ -76,7 +73,7 @@ export function getMarketingCtaHref(location: MarketingCtaLocation, groupClosed:
     case 'pricing-monthly':
       return getJoinPlanHref('monthly', { cta: location, variant: DEFAULT_CTA_VARIANT });
     default:
-      return getLifetimePrimaryHref({ cta: location, variant: DEFAULT_CTA_VARIANT });
+      return BLINK_TOKEN_URL;
   }
 }
 
@@ -93,7 +90,7 @@ export function getMarketingCtaAnchorAttrs(location: MarketingCtaLocation, group
     location === 'pricing-lifetime' ||
     location === 'final-cta'
   ) {
-    return getLifetimePrimaryAnchorAttrs();
+    return 'target="_blank" rel="noopener noreferrer"';
   }
 
   const href = getMarketingCtaHref(location, false);

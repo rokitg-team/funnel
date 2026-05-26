@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { SiteFooter, SiteNav } from '@/components/site-chrome';
+import { BLINK_PRIMARY_CTA_LABEL, BLINK_TOKEN_URL } from '@/lib/blink';
 import { getReviewAvatarUrl, getWhopReviewStats } from '@/lib/reviews';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -97,15 +98,15 @@ export default async function ReviewsPage() {
               {stats.averageRating.toFixed(2)}★ average.
             </p>
             <a
-              href={stats.whopUrl}
+              href={BLINK_TOKEN_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary btn-cta-blue"
               style={{ fontSize: 15, padding: '20px 48px' }}
-              data-va-location="reviews-final"
-              data-va-event="reviews-final-whop"
+              data-va-location="reviews-blink-final"
+              data-va-event="blink-token-click"
             >
-              OPEN WHOP →
+              {BLINK_PRIMARY_CTA_LABEL}
             </a>
           </div>
         </section>

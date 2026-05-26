@@ -5,7 +5,7 @@ import { SiteFooter, SiteNav } from '@/components/site-chrome';
 import { WaitlistGate } from '@/components/waitlist-gate';
 import { WhopStore } from '@/components/whop-store';
 import { getGroupClosedEnabled } from '@/flags';
-import { getLifetimeJoinHref } from '@/lib/access-plans';
+import { BLINK_PRIMARY_CTA_LABEL, BLINK_TOKEN_URL } from '@/lib/blink';
 
 export const metadata: Metadata = {
   title: 'Join The Circle — RokitG VIP',
@@ -58,14 +58,14 @@ export default async function WhopPage() {
             the moment the call is live.
           </p>
           <div className="platform-actions">
-            <Link href="#checkout" className="btn-primary btn-cta-blue">
-              USE WHOP CHECKOUT
-            </Link>
+            <a href={BLINK_TOKEN_URL} target="_blank" rel="noopener noreferrer" className="btn-primary btn-cta-blue">
+              {BLINK_PRIMARY_CTA_LABEL}
+            </a>
             <Link
-              href={getLifetimeJoinHref({ source: 'whop-hero', variant: 'direct-lifetime' })}
+              href="#checkout"
               className="btn-ghost"
             >
-              BUY LIFETIME DIRECT →
+              USE WHOP CHECKOUT
             </Link>
           </div>
         </section>
@@ -154,13 +154,15 @@ export default async function WhopPage() {
               Want the strongest on-site offer instead? Skip recurring billing and take the direct
               lifetime crypto path.
             </p>
-            <Link
-              href={getLifetimeJoinHref({ source: 'whop-final', variant: 'direct-lifetime' })}
+            <a
+              href={BLINK_TOKEN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-primary btn-cta-blue"
               style={{ fontSize: 15, padding: '20px 48px' }}
             >
-              GO DIRECT →
-            </Link>
+              {BLINK_PRIMARY_CTA_LABEL}
+            </a>
           </div>
         </section>
       </main>
