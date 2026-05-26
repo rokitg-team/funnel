@@ -1920,6 +1920,123 @@
       justify-content: center;
       flex-wrap: wrap;
     }
+    .airdrop-page {
+      background:
+        radial-gradient(circle at top center, rgba(91,169,255,0.08), transparent 36%),
+        linear-gradient(180deg, rgba(7,11,17,1) 0%, rgba(9,12,19,1) 100%);
+    }
+    .airdrop-hero {
+      max-width: 980px;
+    }
+    .airdrop-proof-row {
+      margin-top: 0;
+    }
+    .airdrop-offer-shell {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 24px 24px 64px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+      gap: 20px;
+      align-items: start;
+    }
+    .airdrop-offer-card,
+    .airdrop-disclaimer-card,
+    .airdrop-combo-card {
+      border-radius: 22px;
+      border: 1px solid rgba(91,169,255,0.14);
+      background:
+        radial-gradient(circle at top left, rgba(91,169,255,0.12), transparent 38%),
+        linear-gradient(180deg, rgba(10,15,24,0.95), rgba(7,11,17,0.98));
+      box-shadow: 0 24px 80px rgba(0,0,0,0.28);
+    }
+    .airdrop-offer-card,
+    .airdrop-disclaimer-card {
+      padding: 28px;
+    }
+    .airdrop-offer-grid {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .airdrop-offer-stat {
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.03);
+    }
+    .airdrop-offer-stat strong {
+      display: block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 42px;
+      line-height: 1;
+      letter-spacing: 1px;
+      color: #fff;
+    }
+    .airdrop-offer-stat span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .airdrop-disclaimer-card h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 40px;
+      line-height: 1;
+      letter-spacing: 1px;
+      margin-top: 14px;
+      margin-bottom: 14px;
+    }
+    .airdrop-disclaimer-card p,
+    .airdrop-combo-card p {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    .airdrop-steps-grid {
+      max-width: 1200px;
+      margin: 40px auto 0;
+    }
+    .airdrop-combo-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px 56px;
+    }
+    .airdrop-combo-grid {
+      margin-top: 34px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .airdrop-combo-card {
+      padding: 24px;
+    }
+    .airdrop-combo-card span {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(91,169,255,0.22);
+      background: rgba(91,169,255,0.08);
+      color: #dce8ff;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .airdrop-combo-card strong {
+      display: block;
+      margin-top: 16px;
+      margin-bottom: 12px;
+      font-size: 22px;
+      line-height: 1.3;
+      color: #fff;
+    }
+    .airdrop-final-cta .platform-actions {
+      margin-top: 0;
+    }
 
     .proof-row {
       max-width: 960px;
@@ -5429,6 +5546,16 @@
       .reviews-hero { padding: 60px 20px 32px; }
       .platform-hero { padding: 56px 20px 32px; }
       .proof-row { grid-template-columns: repeat(2, 1fr); margin: 0 20px; }
+      .airdrop-offer-shell,
+      .airdrop-combo-section {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .airdrop-offer-shell,
+      .airdrop-combo-grid,
+      .airdrop-offer-grid {
+        grid-template-columns: 1fr;
+      }
       .checkout-section { padding: 8px 20px 56px; }
       .checkout-shell { grid-template-columns: 1fr; }
       .checkout-copy {

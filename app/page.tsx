@@ -10,6 +10,7 @@ import {
 } from '@/flags';
 import { ACCESS_PLANS } from '@/lib/access-plans';
 import { BLINK_NAV_CTA_LABEL, BLINK_PRIMARY_CTA_LABEL, BLINK_TOKEN_URL } from '@/lib/blink';
+import { WHOP_PROMO_CTA_LABEL, WHOP_PROMO_LEAD } from '@/lib/campaign-links';
 import { getFunnelLocale, marketingCopy } from '@/lib/marketing-locale';
 import { getHomepageSubstackTeaser } from '@/lib/substack';
 import {
@@ -272,8 +273,8 @@ export default async function HomePage() {
   let body = readFileSync(join(process.cwd(), 'content/page-body.html'), 'utf8');
   const replacements = {
     __PROMO_ARIA__: copy.promoAria,
-    __PROMO_LEAD__: copy.promoLead,
-    __PROMO_CTA__: primaryOffer.label,
+    __PROMO_LEAD__: WHOP_PROMO_LEAD,
+    __PROMO_CTA__: WHOP_PROMO_CTA_LABEL,
     __PROMO_TRACK_DESTINATION__: promoTrackDestination,
     __PROMO_TRACK_EVENT__: promoTrackEvent,
     __NAV_SIGNALS__: copy.navSignals,

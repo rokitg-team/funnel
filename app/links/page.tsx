@@ -1,6 +1,12 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import {
+  AIRDROP_PAGE_PATH,
+  BLINK_PUBLIC_URL,
+  WHOP_PROMO_CODE,
+  WHOP_PROMO_DISCOUNT,
+} from '@/lib/campaign-links';
 
 export const metadata: Metadata = {
   title: 'RokitG — All Links',
@@ -43,6 +49,18 @@ type LinkItem = {
 
 const links: LinkItem[] = [
   {
+    href: AIRDROP_PAGE_PATH,
+    external: false,
+    iconClass: 'link-icon-refs',
+    iconLabel: 'A',
+    title: '$BLINK × WHOP AIRDROP',
+    sub: `Code ${WHOP_PROMO_CODE} · ${WHOP_PROMO_DISCOUNT} off all products`,
+    pill: 'LIVE PUSH',
+    primary: true,
+    vaLocation: 'links-airdrop',
+    vaEvent: 'airdrop-page-cta',
+  },
+  {
     href: WHOP_URL,
     external: true,
     iconClass: 'link-icon-whop',
@@ -53,6 +71,16 @@ const links: LinkItem[] = [
     primary: true,
     vaLocation: 'links-whop',
     vaEvent: 'free-trial-init',
+  },
+  {
+    href: BLINK_PUBLIC_URL,
+    external: true,
+    iconClass: 'link-icon-fomo',
+    iconLabel: '$',
+    title: 'OPEN $BLINK',
+    sub: 'Public token page · campaign side',
+    vaLocation: 'links-blink-token',
+    vaEvent: 'blink-token-click',
   },
   {
     href: BREAKOUT_URL,

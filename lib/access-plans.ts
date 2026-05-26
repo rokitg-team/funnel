@@ -70,7 +70,7 @@ export const ACCESS_PLANS: readonly AccessPlan[] = [
       'Buy direct with stablecoins, skip recurring billing, and lock permanent Circle access through the strongest limited-time on-site offer.',
     valueLine:
       'Top recommendation for serious buyers because direct crypto lets us bypass Whop fees.',
-    ctaLabel: 'BUY $BLINK →',
+    ctaLabel: 'CLAIM 80% OFF →',
     destination: 'direct-crypto',
     featured: true,
     featureList: [
