@@ -58,13 +58,15 @@ export default async function WhopPage() {
             the moment the call is live.
           </p>
           <div className="platform-actions">
-            <a href={BLINK_TOKEN_URL} target="_blank" rel="noopener noreferrer" className="btn-primary btn-cta-blue">
+            <a
+              href={BLINK_TOKEN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary btn-cta-blue"
+            >
               {BLINK_PRIMARY_CTA_LABEL}
             </a>
-            <Link
-              href="#checkout"
-              className="btn-ghost"
-            >
+            <Link href="#checkout" className="btn-ghost">
               USE WHOP CHECKOUT
             </Link>
           </div>
