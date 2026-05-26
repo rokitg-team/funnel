@@ -16,6 +16,8 @@ import {
 } from '@/lib/access-plans';
 import { DISCORD_LABEL, TELEGRAM_URL, WHATSAPP_DISPLAY, WHATSAPP_URL } from '@/lib/contact';
 
+const LINKS_PRIORITY_URL = 'https://www.rokitg.fun/links';
+
 function track(
   name: string,
   data: Record<string, string | number | boolean | null | undefined> = {},
@@ -171,6 +173,13 @@ export function WhopStore() {
               </div>
               <ol className="success-steps">
                 <li>
+                  <strong>Open the links hub first.</strong> With $BLINK now live,{' '}
+                  <a href={LINKS_PRIORITY_URL} target="_blank" rel="noopener noreferrer">
+                    rokitg.fun/links
+                  </a>{' '}
+                  is the priority hub for The Circle, content, and fast follow-up paths.
+                </li>
+                <li>
                   <strong>Open The Circle on Whop.</strong> This is where access is activated right
                   away after payment.
                 </li>
@@ -225,6 +234,9 @@ export function WhopStore() {
               </div>
 
               <div className="success-links">
+                <a href={LINKS_PRIORITY_URL} target="_blank" rel="noopener noreferrer">
+                  Links Hub
+                </a>
                 <a href="https://whop.com/the-circle-vip" target="_blank" rel="noopener noreferrer">
                   Open Whop
                 </a>
@@ -234,9 +246,22 @@ export function WhopStore() {
                 <span>{DISCORD_LABEL}</span>
               </div>
             </div>
-            <a href="https://whop.com/the-circle-vip" className="btn-primary btn-cta-blue">
-              OPEN THE CIRCLE
-            </a>
+            <div className="success-links">
+              <a
+                href={LINKS_PRIORITY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary btn-cta-blue"
+                onClick={() =>
+                  track('whop-success-open-links', { location: 'whop-success', priority: true })
+                }
+              >
+                OPEN LINKS HUB
+              </a>
+              <a href="https://whop.com/the-circle-vip" className="btn-ghost">
+                OPEN THE CIRCLE
+              </a>
+            </div>
           </div>
         ) : isWhopPlan(currentPlan) ? (
           <>

@@ -1,12 +1,10 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { headers } from 'next/headers';
-import { ExtendedSponsorFeature } from '@/components/extended-sponsor-feature';
 import { getHeroActionsHtml } from '@/components/hero-actions';
 import {
   DEFAULT_CTA_VARIANT,
   DEFAULT_HOMEPAGE_PROOF,
-  getExtendedInsiderLeakEnabled,
   getGroupClosedEnabled,
   getMarketingCtaAnchorAttrs,
   getMarketingCtaHref,
@@ -20,9 +18,6 @@ import {
   hasEmbeddedWaitlistForm,
   WAITLIST_TALLY_FORM_URL,
 } from '@/lib/waitlist';
-
-const EXTENDED_LEAK_URL =
-  'https://whop.com/experiences/exp_jAAK8ZxX89dh7g/post_1CbFmbVSgPkb9TXrM19GVr?a=rokitg';
 
 function getNewsletterTeaserHtml(copy: (typeof marketingCopy)[keyof typeof marketingCopy]): string {
   const teaser = getHomepageSubstackTeaser();
@@ -44,6 +39,81 @@ function getNewsletterTeaserHtml(copy: (typeof marketingCopy)[keyof typeof marke
       <div class="newsletter-teaser-card">
         <div class="newsletter-teaser-kicker">${teaser.kind === 'note' ? 'SUBSTACK NOTE' : 'SUBSTACK POST'}</div>
         <div class="newsletter-teaser-title">${teaser.title}</div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function getInstagramReelHtml() {
+  return `
+  <section class="instagram-cta-section" data-va-section="instagram-cta">
+    <div class="instagram-cta-shell">
+      <div class="instagram-cta-copy">
+        <div class="section-tag">// EXTRA SOCIAL DISTRIBUTION</div>
+        <h3>More RokitG outside the funnel</h3>
+        <p class="section-sub">
+          Pure extra distribution. If someone wants the IRL brand layer, send them to Instagram
+          first. TikTok and YouTube Shorts can slot into this same lane next without disturbing the
+          main conversion flow.
+        </p>
+        <div class="instagram-cta-actions">
+          <a
+            href="https://www.instagram.com/rokittgg/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="instagram-cta-button"
+            onclick="window.rokitTrack && window.rokitTrack('instagram-cta',{location:'instagram-section',destination:'instagram-profile',handle:'rokittgg'})"
+          >
+            FOLLOW @ROKITTGG ON INSTAGRAM →
+          </a>
+          <a
+            href="https://www.tiktok.com/@rokitg"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-lane-pill social-lane-link"
+            onclick="window.rokitTrack && window.rokitTrack('tiktok-cta',{location:'instagram-section',destination:'tiktok-profile',handle:'rokitg'})"
+          >
+            OPEN TIKTOK @ROKITG
+          </a>
+          <a
+            href="https://youtube.com/shorts/SnjnpTnCnpg?feature=share"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-lane-pill social-lane-link"
+            onclick="window.rokitTrack && window.rokitTrack('youtube-shorts-cta',{location:'instagram-section',destination:'youtube-short',content:'SnjnpTnCnpg'})"
+          >
+            WATCH YOUTUBE SHORT
+          </a>
+        </div>
+      </div>
+      <div class="instagram-embed-card">
+        <a
+          href="https://www.instagram.com/reel/DYsS-MsOrZR/?utm_source=ig_embed&amp;utm_campaign=loading"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="instagram-preview-card"
+          onclick="window.rokitTrack && window.rokitTrack('instagram-reel-cta',{location:'instagram-preview-card',destination:'instagram-reel',content:'DYsS-MsOrZR'})"
+        >
+          <div class="instagram-preview-top">
+            <div class="instagram-preview-handle">
+              <img src="/brand/laser-pfp.jpg" alt="" loading="lazy">
+              <div>
+                <strong>@rokittgg</strong>
+                <span>main IRL reel</span>
+              </div>
+            </div>
+            <div class="instagram-preview-chip">reel live</div>
+          </div>
+          <div class="instagram-preview-stage">
+            <div class="instagram-preview-play">▶</div>
+            <div class="instagram-preview-gradient"></div>
+            <div class="instagram-preview-wordmark">Instagram</div>
+          </div>
+          <div class="instagram-preview-meta">
+            <strong>Open the reel</strong>
+            <span>Tap through to the real post and bounce into the profile from there.</span>
+          </div>
+        </a>
       </div>
     </div>
   </section>`;
@@ -197,38 +267,23 @@ export default async function HomePage() {
   const requestHeaders = await headers();
   const locale = getFunnelLocale(requestHeaders);
   const copy = marketingCopy[locale];
-  const [groupClosed, showExtendedInsiderLeak] = await Promise.all([
-    getGroupClosedEnabled(),
-    getExtendedInsiderLeakEnabled(),
-  ]);
+  const groupClosed = await getGroupClosedEnabled();
   const primaryOffer = getPrimaryOfferConfig(groupClosed);
   const heroHtml = getHeroActionsHtml(groupClosed);
-  const promoHref = showExtendedInsiderLeak
-    ? EXTENDED_LEAK_URL
-    : groupClosed
-      ? getWaitlistHref({ cta: 'promo-banner', variant: DEFAULT_CTA_VARIANT, mode: 'closed' })
-      : primaryOffer.href;
-  const promoAttrs = showExtendedInsiderLeak
-    ? 'target="_blank" rel="noopener noreferrer sponsored"'
-    : groupClosed
-      ? ''
-      : primaryOffer.attrs;
-  const promoTrackEvent = showExtendedInsiderLeak
-    ? 'extended-insider-leak-init'
-    : primaryOffer.destination === 'lifetime'
-      ? 'lifetime-deal-init'
-      : 'waitlist-cta';
-  const promoTrackDestination = showExtendedInsiderLeak
-    ? 'extended-leak'
-    : primaryOffer.destination;
+  const promoHref = getWaitlistHref({
+    cta: 'promo-banner',
+    variant: DEFAULT_CTA_VARIANT,
+    mode: 'closed',
+  });
+  const promoAttrs = '';
+  const promoTrackEvent = 'waitlist-cta';
+  const promoTrackDestination = primaryOffer.destination;
 
   let body = readFileSync(join(process.cwd(), 'content/page-body.html'), 'utf8');
   const replacements = {
     __PROMO_ARIA__: copy.promoAria,
-    __PROMO_LEAD__: showExtendedInsiderLeak
-      ? 'LIMITED-TIME EXTENDED TGE LEAK · one-time $5 unlock on Whop'
-      : copy.promoLead,
-    __PROMO_CTA__: showExtendedInsiderLeak ? 'UNLOCK THE $5 LEAK →' : primaryOffer.label,
+    __PROMO_LEAD__: copy.promoLead,
+    __PROMO_CTA__: primaryOffer.label,
     __PROMO_TRACK_DESTINATION__: promoTrackDestination,
     __PROMO_TRACK_EVENT__: promoTrackEvent,
     __NAV_SIGNALS__: copy.navSignals,
@@ -319,19 +374,7 @@ export default async function HomePage() {
   );
   body = body.replace('__FOOTER_LIFETIME_ATTRS__', groupClosed ? '' : primaryOffer.attrs);
   body = body.replace('__NEWSLETTER_TEASER__', getNewsletterTeaserHtml(copy));
+  body = body.replace('__INSTAGRAM_REEL__', getInstagramReelHtml());
 
-  return (
-    <>
-      {showExtendedInsiderLeak ? (
-        <div className="home-arrival-leak">
-          <ExtendedSponsorFeature showInsiderLeak />
-        </div>
-      ) : null}
-      <div
-        className={showExtendedInsiderLeak ? 'home-leak-active' : undefined}
-        style={{ display: 'contents' }}
-        dangerouslySetInnerHTML={{ __html: body }}
-      />
-    </>
-  );
+  return <div style={{ display: 'contents' }} dangerouslySetInnerHTML={{ __html: body }} />;
 }

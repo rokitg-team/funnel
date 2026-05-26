@@ -13,6 +13,8 @@ import {
   // WHATSAPP_URL,
 } from '@/lib/contact';
 
+const LINKS_PRIORITY_URL = 'https://www.rokitg.fun/links';
+
 function track(
   name: string,
   data: Record<string, string | number | boolean | null | undefined> = {},
@@ -71,6 +73,13 @@ export function WelcomeOnboarding() {
               </div>
               <ol className="success-steps">
                 <li>
+                  <strong>Open the links hub first.</strong> With $BLINK now live,{' '}
+                  <a href={LINKS_PRIORITY_URL} target="_blank" rel="noopener noreferrer">
+                    rokitg.fun/links
+                  </a>{' '}
+                  is the priority path for the community.
+                </li>
+                <li>
                   <strong>Open your Whop purchase.</strong> Whop should already show your access and
                   next actions after payment.
                 </li>
@@ -91,10 +100,19 @@ export function WelcomeOnboarding() {
 
             <div className="welcome-direct-actions">
               <a
-                href="https://whop.com/the-circle-vip"
+                href={LINKS_PRIORITY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary btn-cta-blue"
+                onClick={() => track('welcome-open-links', { location: 'welcome', priority: true })}
+              >
+                OPEN LINKS HUB
+              </a>
+              <a
+                href="https://whop.com/the-circle-vip"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-ghost"
                 onClick={() => track('welcome-open-whop', { location: 'welcome' })}
               >
                 OPEN THE CIRCLE

@@ -1,10 +1,6 @@
 import { initBklit } from '@bklit/sdk';
 import { FlagValues } from 'flags/react';
-import {
-  getExtendedInsiderLeakEnabled,
-  getGroupClosedEnabled,
-  getLifetimeDealHeroEnabled,
-} from '@/flags';
+import { getGroupClosedEnabled, getLifetimeDealHeroEnabled } from '@/flags';
 import { getFunnelLocale } from '@/lib/marketing-locale';
 import { getSiteUrl, SITE_ORIGIN } from '@/lib/site';
 import './globals.css';
@@ -72,10 +68,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const locale = getFunnelLocale(await headers());
-  const [groupClosed, lifetimeDealHero, extendedInsiderLeak] = await Promise.all([
+  const [groupClosed, lifetimeDealHero] = await Promise.all([
     getGroupClosedEnabled(),
     getLifetimeDealHeroEnabled(),
-    getExtendedInsiderLeakEnabled(),
   ]);
 
   initBklit({
@@ -99,13 +94,13 @@ export default async function RootLayout({
         <Suspense fallback={null}>
           <FlagValues
             values={{
-              'extended-insider-leak': extendedInsiderLeak,
               'group-closed': groupClosed,
               'lifetime-deal-hero-v2': lifetimeDealHero,
             }}
           />
         </Suspense>
         <Script async src="https://tally.so/widgets/embed.js" />
+        <Script async src="https://www.instagram.com/embed.js" strategy="afterInteractive" />
         <Script src="https://assistloop.ai/assistloop-widget.js" strategy="afterInteractive" />
         {assistLoopAgentId ? (
           <Script id="assistloop-init" strategy="afterInteractive">
