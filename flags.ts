@@ -110,7 +110,7 @@ export const marketingFlags = [
 ] as const;
 
 export async function getGroupClosedEnabled() {
-  return true;
+  return false;
 }
 
 export async function getLifetimeDealHeroEnabled() {
